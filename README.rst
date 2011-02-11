@@ -24,12 +24,16 @@ Installation
 General
 --------
 
-The easiest way to get abandi is if you have setuptools_ installed::
+ * install Xvfb_ and Xephyr_.
+ * install setuptools_ or pip_
+ * install the program:
+
+if you have setuptools_ installed::
 
     # as root
     easy_install PyVirtualDisplay
 
-or if you have pip_ installed::
+if you have pip_ installed::
 
     # as root
     pip install PyVirtualDisplay
