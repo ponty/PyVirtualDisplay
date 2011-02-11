@@ -34,11 +34,6 @@ or if you have pip_ installed::
     # as root
     pip install PyVirtualDisplay
 
-Uninstall::
-
-    # as root
-    pip uninstall PyVirtualDisplay
-
 Ubuntu
 ----------
 ::
@@ -47,6 +42,14 @@ Ubuntu
     sudo apt-get install xvfb
     sudo apt-get install xephyr
     sudo easy_install PyVirtualDisplay
+
+Uninstall
+----------
+::
+
+    # as root
+    pip uninstall PyVirtualDisplay
+
 
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
