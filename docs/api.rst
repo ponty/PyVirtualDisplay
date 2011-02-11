@@ -1,0 +1,4 @@
+API
+===
+
+.. autofunction:: pyvirtualdisplay.Display
