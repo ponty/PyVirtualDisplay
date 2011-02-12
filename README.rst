@@ -44,7 +44,7 @@ Ubuntu
 
     sudo apt-get install python-setuptools
     sudo apt-get install xvfb
-    sudo apt-get install xephyr
+    sudo apt-get install xserver-xephyr
     sudo easy_install PyVirtualDisplay
 
 Uninstall
