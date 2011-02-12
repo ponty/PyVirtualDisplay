@@ -4,7 +4,6 @@ include setup.py
 include setup.cfg
 include pavement.py
 include paver-minilib.zip
-include bootstrap.py
 
 recursive-include docs *
 prune docs/_build

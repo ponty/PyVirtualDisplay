@@ -18,7 +18,7 @@ class Test(TestCase):
     def test_disp(self):
         vd = Display().start()
 
-        d = Display(visible=1).start().stop()
+        d = Display(visible=1).start().sleep(2).stop()
         self.assertEquals(d.return_code, 0)
 
         d = Display(visible=0).start().stop()

@@ -18,7 +18,7 @@ except ImportError, e:
 NAME = 'PyVirtualDisplay'
 PACKAGE = 'pyvirtualdisplay'
 URL = 'https://github.com/ponty/pyvirtualdisplay'
-DESCRIPTION = '???'
+DESCRIPTION = 'python wrapper for Xvfb and Xephyr'
 
 try:
     sys.path.insert(0, path('.').abspath())
@@ -113,7 +113,40 @@ def findimports():
 
 @task
 def pyflakes():
-    sh('pyflakes {package}' + PACKAGE)
+    sh('pyflakes {package}'.format(package=PACKAGE))
 
+@task
+def nose():
+    sh('nosetests --with-xunit --verbose')
+
+@task
+def sloccount():
+    sh('sloccount --wide --details {package} tests > sloccount.sc'.format(package=PACKAGE))
+
+@task
+def clean():
+    root=path(__file__).dirname().abspath()
+    ls=[]
+    dls=[]
+    ls+=root.walkfiles('*.pyc')
+    ls+=root.walkfiles('*.html')
+    ls+=root.walkfiles('*.zip')
+    ls+=root.walkfiles('*.css')
+    ls+=root.walkfiles('*.png')
+    ls+=root.walkfiles('*.doctree')
+    ls+=root.walkfiles('*.pickle')
+
+    dls+=[root / 'dist']
+    dls+=root.listdir('*.egg-info')
+
+    for x in ls:
+        x.remove()
+    for x in dls:
+        x.rmtree()
+
+@task
+@needs('sloccount', 'html', 'sdist', 'nose')
+def hudson():
+    pass
 
 
