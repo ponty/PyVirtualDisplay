@@ -16,12 +16,11 @@ Testing ``abiword`` on low resolution:
 Screenshot
 -----------
 
-Create screenshot of ``xmessage`` in background,
-pyscreenshot_ and PIL_ should be installed:
+Create screenshot of ``xmessage`` in background:
 
-.. literalinclude:: ../pyvirtualdisplay/examples/screenshot.py
+.. literalinclude:: ../pyvirtualdisplay/examples/screenshot1.py
 
-.. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot
+.. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot1
     :prompt:
 
 
@@ -33,5 +32,3 @@ The same with wrap() function:
     :prompt:
 
 
-.. _pyscreenshot: https://github.com/ponty/pyscreenshot
-.. _PIL: http://www.pythonware.com/library/pil/

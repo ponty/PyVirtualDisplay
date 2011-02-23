@@ -1,4 +1,6 @@
 API
 ===
 
-.. autofunction:: pyvirtualdisplay.Display
+.. autoclass:: pyvirtualdisplay.Display
+    :members: start, stop, wrap
+   

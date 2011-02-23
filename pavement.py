@@ -20,13 +20,14 @@ PACKAGE = 'pyvirtualdisplay'
 URL = 'https://github.com/ponty/pyvirtualdisplay'
 DESCRIPTION = 'python wrapper for Xvfb and Xephyr'
 
-try:
-    sys.path.insert(0, path('.').abspath())
-    version = None
-    exec 'from %s import __version__; version = __version__' % PACKAGE
-    open('.version', 'w').write(version)
-except ImportError, e:
-    version = open('.version', 'r').read()
+__version__ = None
+py = path('.') / PACKAGE / '__init__.py'
+for line in open(py).readlines():
+    if '__version__' in line:
+        exec line
+        break
+assert __version__    
+version = __version__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers

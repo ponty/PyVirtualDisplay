@@ -20,14 +20,14 @@ class AbstractDisplay(EasyProcess):
         raise NotImplementedError()
 
     def search_for_display(self):
-        if not self.display:
-            # search for free display
-            ls = path('/tmp').files('.X*-lock')
-            ls = map(lambda x:int(x.split('X')[1].split('-')[0]), ls)
-            if len(ls):
-                self.display = max(ls) + 1
-            else:
-                self.display = 100
+        # search for free display
+        ls = path('/tmp').files('.X*-lock')
+        ls = map(lambda x:int(x.split('X')[1].split('-')[0]), ls)
+        if len(ls):
+            display = max(ls) + 1
+        else:
+            display = 100
+        return display
                 
     def redirect_display(self, on):
         '''
@@ -47,7 +47,7 @@ class AbstractDisplay(EasyProcess):
         
         :rtype: self
         '''
-        self.search_for_display()
+        self.display=self.search_for_display()
         EasyProcess.__init__(self,self.cmd)
         EasyProcess.start(self)
         self.old_display_var = os.environ['DISPLAY']

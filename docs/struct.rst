@@ -1,4 +1,4 @@
-Structure
+Hierarchy
 ==================================
 
 .. graphviz::
@@ -21,11 +21,15 @@ Structure
         }
         Display -> XvfbDisplay;
         Display -> XephyrDisplay;
+        SmartDisplay -> Display
     }
     XvfbDisplay -> Xvfb;
     XephyrDisplay -> Xephyr;
 
     application -> Display;
+    application -> SmartDisplay;
 
-
+	SmartDisplay -> pyscreenshot;
+	SmartDisplay -> PIL;
+	
     }

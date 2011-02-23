@@ -8,9 +8,15 @@ import sys
 project='PyVirtualDisplay'
 author='ponty'
 copyright = '2011, ponty'
+PACKAGE = 'pyvirtualdisplay'
 
-sys.path.insert(0, (path(__file__).dirname().dirname() ).abspath())
-from pyvirtualdisplay import __version__
+__version__ = None
+py = path('..') / PACKAGE / '__init__.py'
+for line in open(py).readlines():
+    if '__version__' in line:
+        exec line
+        break
+assert __version__    
 release = __version__
 
 #logging.basicConfig(level=logging.DEBUG)

@@ -1,10 +1,7 @@
 from easyprocess import EasyProcess
-from pyscreenshot import grab
-from pyvirtualdisplay import Display
- 
-img = Display(visible=0).wrap(
-                EasyProcess('xmessage screenshot2').wrap(
-                                    grab, delay=1))()
-img = img.crop(img.getbbox())
-img.show()
+from pyvirtualdisplay.smartdisplay import SmartDisplay
 
+disp = SmartDisplay(visible=0, bgcolor='black')
+func = disp.wrap(EasyProcess('xmessage screenshot').wrap(disp.waitgrab))
+img=func()
+img.show()
