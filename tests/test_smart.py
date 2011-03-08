@@ -1,6 +1,6 @@
 from easyprocess import EasyProcess
 from nose.tools import eq_
-from pyvirtualdisplay.smartdisplay import SmartDisplay, DisplayError
+from pyvirtualdisplay.smartdisplay import SmartDisplay, DisplayTimeoutError
 from unipath.path import Path
 from unittest import TestCase
 
@@ -44,5 +44,5 @@ class Test(TestCase):
         py = Path(__file__).parent.child('slowgui.py')
         proc = EasyProcess('python ' + py)
         f = disp.wrap(proc.wrap(lambda : disp.waitgrab(timeout=1)))
-        self.assertRaises(DisplayError, f)
+        self.assertRaises(DisplayTimeoutError, f)
         

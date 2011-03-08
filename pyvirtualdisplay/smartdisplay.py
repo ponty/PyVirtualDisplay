@@ -9,9 +9,11 @@ import time
 log = logging.getLogger(__name__)
 
 
-class DisplayError(Exception):
-    pass
+#class DisplayError(Exception):
+#    pass
 
+class DisplayTimeoutError(Exception):
+    pass
 
 class SmartDisplay(Display):
     def autocrop(self, im):
@@ -59,7 +61,7 @@ class SmartDisplay(Display):
             repeat_time += 1 # progressive 
             if t > timeout:
                 msg = 'Timeout! elapsed time:%s timeout:%s ' % (t, timeout)
-                raise DisplayError(msg)    
+                raise DisplayTimeoutError(msg)    
                 break
     
             log.debug('screenshot is empty, next try..')
