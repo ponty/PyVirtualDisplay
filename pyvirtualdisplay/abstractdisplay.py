@@ -6,6 +6,15 @@ import time
 
 log = logging.getLogger(__name__)
 
+# TODO: not perfect
+# randomize to avoid possible conflicts
+RANDOMIZE_DISPLAY_NR=True
+if RANDOMIZE_DISPLAY_NR:
+    import random
+    random.seed()
+
+MIN_DISPLAY_NR=1000
+        
 class AbstractDisplay(EasyProcess):
     '''
     Common parent for Xvfb and Xephyr
@@ -24,9 +33,12 @@ class AbstractDisplay(EasyProcess):
         ls = path('/tmp').files('.X*-lock')
         ls = map(lambda x:int(x.split('X')[1].split('-')[0]), ls)
         if len(ls):
-            display = max(ls) + 1
+            display = max( MIN_DISPLAY_NR, max(ls) + 1)
         else:
-            display = 100
+            display = MIN_DISPLAY_NR
+        
+        if RANDOMIZE_DISPLAY_NR:    
+            display+=random.randint(0, 100)        
         return display
                 
     def redirect_display(self, on):
