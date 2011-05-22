@@ -9,7 +9,7 @@ Hierarchy
     fontsize=8;
 
     subgraph cluster_0 {
-        label = "PyVirtualDisplay";
+        label = "pyvirtualdisplay";
         style=filled;
         subgraph cluster_2 {
             style=filled;

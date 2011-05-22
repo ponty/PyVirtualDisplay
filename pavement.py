@@ -32,7 +32,7 @@ def read_project_version(py=None, where='.', exclude=['bootstrap', 'pavement', '
             break
     return __version__
 
-NAME = 'PyVirtualDisplay'
+NAME = 'pyvirtualdisplay'
 URL = 'https://github.com/ponty/pyvirtualdisplay'
 DESCRIPTION = 'python wrapper for Xvfb and Xephyr'
 VERSION = read_project_version()
@@ -86,14 +86,22 @@ options(
 
 if ALL_TASKS_LOADED:
     
-    options.paved.clean.patterns += ['*.pickle', '*.doctree', '*.gz' , 'nosetests.xml', 'sloccount.sc']
+    options.paved.clean.patterns += ['*.pickle', 
+                                     '*.doctree', 
+                                     '*.gz' , 
+                                     'nosetests.xml', 
+                                     'sloccount.sc', 
+                                     '*.pdf','*.tex', 
+                                     '*.png',
+                                     ]
     
     options.paved.dist.manifest.include.remove('distribute_setup.py')
     
     
     @task
-    @needs('sloccount', 'html', 'sdist', 'nose')
-    def hudson():
+    @needs('sloccount', 'html', 'pdf', 'sdist', 'nose')
+    def alltest():
+        'all tasks to check'
         pass
     
     @task
@@ -101,3 +109,10 @@ if ALL_TASKS_LOADED:
     def html():
         pass
 
+    @task
+    @needs('sphinxcontrib.paverutils.pdf')
+    def pdf():
+        fpdf = list(path('docs/_build/latex').walkfiles('*.pdf'))[0]
+        d=path('docs/_build/html')
+        d.makedirs()
+        fpdf.copy(d)

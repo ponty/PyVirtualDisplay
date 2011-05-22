@@ -23,12 +23,6 @@ pip-log.txt
 .version
 nosetests.xml
 
-#pdf
-!/docs
-!/docs/_build
-!/docs/_build/latex
-!*.pdf
-
 !.gitignore
 /distribute_setup.py
 

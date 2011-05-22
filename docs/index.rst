@@ -1,4 +1,7 @@
-Python wrapper for Xvfb_ and Xephyr_
+**pyvirtualdisplay**
+
+:Date: |today|
+:PDF: `pyvirtualdisplay.pdf <pyvirtualdisplay.pdf>`_
 
 Contents:
 
@@ -9,7 +12,7 @@ Contents:
     usage
     api
     struct
-    changes
+    dev
 
 Indices and tables
 ==================

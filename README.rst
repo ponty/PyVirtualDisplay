@@ -1,8 +1,8 @@
-PyVirtualDisplay is a python wrapper for Xvfb_ and Xephyr_
+pyvirtualdisplay is a python wrapper for Xvfb_ and Xephyr_
 
-home: https://github.com/ponty/PyVirtualDisplay
+home: https://github.com/ponty/pyvirtualdisplay
 
-documentation: http://ponty.github.com/PyVirtualDisplay
+documentation: http://ponty.github.com/pyvirtualdisplay
 
 Possible applications:
  * GUI testing
@@ -41,12 +41,12 @@ General
 if you have setuptools_ installed::
 
     # as root
-    easy_install PyVirtualDisplay
+    easy_install pyvirtualdisplay
 
 if you have pip_ installed::
 
     # as root
-    pip install PyVirtualDisplay
+    pip install pyvirtualdisplay
 
 Ubuntu
 ----------
@@ -55,7 +55,7 @@ Ubuntu
     sudo apt-get install python-setuptools
     sudo apt-get install xvfb
     sudo apt-get install xserver-xephyr
-    sudo easy_install PyVirtualDisplay
+    sudo easy_install pyvirtualdisplay
     # optional
     sudo apt-get install python-imaging
     sudo apt-get install scrot
@@ -67,7 +67,7 @@ Uninstall
 ::
 
     # as root
-    pip uninstall PyVirtualDisplay
+    pip uninstall pyvirtualdisplay
 
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall

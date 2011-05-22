@@ -19,7 +19,7 @@ def read_project_version(py=None, where='.', exclude=['bootstrap', 'pavement', '
 
 release = read_project_version(where='..')
 
-project = 'PyVirtualDisplay'
+project = 'pyvirtualdisplay'
 author = 'ponty'
 copyright = '2011, ponty'
 
