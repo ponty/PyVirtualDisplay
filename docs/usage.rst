@@ -31,4 +31,9 @@ The same with wrap() function:
 .. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot2
     :prompt:
 
+The same using :keyword:`with` statement:
 
+.. literalinclude:: ../pyvirtualdisplay/examples/screenshot3.py
+
+.. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot3
+    :prompt:

@@ -26,6 +26,11 @@ class Test(TestCase):
         
         vd.stop()
         
+    def test_with(self):
+        with Display(visible=0, size=(800, 600)) as vd:
+            self.assertTrue(vd.is_alive())
+        self.assertEquals(vd.return_code, 0)
+        self.assertFalse(vd.is_alive())
         
         
         

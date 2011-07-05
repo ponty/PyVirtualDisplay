@@ -33,6 +33,7 @@ extensions = [
      'sphinxcontrib.programscreenshot',
      'sphinx.ext.graphviz',
      #'sphinx.ext.autosummary',
+     'sphinx.ext.intersphinx',
     ]
 intersphinx_mapping = {'http://docs.python.org/': None}
 
