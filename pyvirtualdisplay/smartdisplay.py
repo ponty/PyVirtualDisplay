@@ -40,12 +40,13 @@ class SmartDisplay(Display):
             img = self.autocrop(img)
         return img
         
-    def waitgrab(self, timeout=10, autocrop=True):
+    def waitgrab(self, timeout=10, autocrop=True, cb_imgcheck=None):
         '''start process and create screenshot.
         Repeat screenshot until it is not empty.
     
         :param autocrop: True -> crop screenshot 
         :param timeout: int 
+        :param cb_imgcheck: callback for testing img, True=accept img, False = reject img
         '''
         t = 0
         sleep_time = 0.3 # for fast windows
@@ -56,7 +57,10 @@ class SmartDisplay(Display):
             t += sleep_time
             img = self.grab(autocrop=autocrop)
             if img:
-                break
+                if not cb_imgcheck:
+                    break
+                if cb_imgcheck(img):
+                    break
             sleep_time = repeat_time
             repeat_time += 1 # progressive 
             if t > timeout:
@@ -65,9 +69,9 @@ class SmartDisplay(Display):
                 break
     
             log.debug('screenshot is empty, next try..')
-    
-        if not img:
-            log.debug('screenshot is empty!')
+        assert img
+#        if not img:
+#            log.debug('screenshot is empty!')
         return img
             
             
