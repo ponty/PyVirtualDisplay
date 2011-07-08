@@ -35,7 +35,7 @@ General
 
  * install Xvfb_ and Xephyr_.
  * install setuptools_ or pip_
- * optional: pyscreenshot_ and PIL_ should be installed for :mod:`pyvirtualdisplay.smartdisplay`
+ * optional: pyscreenshot_ and PIL_ should be installed for ``smartdisplay`` submodule
  * install the program:
 
 if you have setuptools_ installed::
