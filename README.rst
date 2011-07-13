@@ -1,8 +1,8 @@
 pyvirtualdisplay is a python wrapper for Xvfb_ and Xephyr_
 
-home: https://github.com/ponty/PyVirtualDisplay
-
-documentation: http://ponty.github.com/PyVirtualDisplay
+Links:
+ * home: https://github.com/ponty/PyVirtualDisplay
+ * documentation: http://ponty.github.com/PyVirtualDisplay
 
 Possible applications:
  * GUI testing

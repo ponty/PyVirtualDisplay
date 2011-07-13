@@ -62,7 +62,10 @@ class AbstractDisplay(EasyProcess):
         self.display=self.search_for_display()
         EasyProcess.__init__(self,self.cmd)
         EasyProcess.start(self)
-        self.old_display_var = os.environ['DISPLAY']
+        
+        # https://github.com/ponty/PyVirtualDisplay/issues/2
+        self.old_display_var = os.environ['DISPLAY'] if 'DISPLAY' in os.environ else ':0'
+        
         self.redirect_display(True)
         # wait until X server is active
         # TODO: better method
