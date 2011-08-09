@@ -22,11 +22,9 @@ Create screenshot of xmessage with Xvfb::
 
     from easyprocess import EasyProcess
     from pyvirtualdisplay.smartdisplay import SmartDisplay
-    disp = SmartDisplay(visible=0, bgcolor='black').start()
-    xmessage = EasyProcess('xmessage hello').start()
-    img = disp.waitgrab()
-    xmessage.stop()
-    disp.stop()
+    with SmartDisplay(visible=0, bgcolor='black') as disp:
+        with EasyProcess('xmessage hello'):
+            img = disp.waitgrab()
     img.show()
 
 Installation
@@ -36,19 +34,12 @@ General
 --------
 
  * install Xvfb_ and Xephyr_.
- * install setuptools_ or pip_
+ * install setuptools_
  * optional: pyscreenshot_ and PIL_ should be installed for ``smartdisplay`` submodule
- * install the program:
-
-if you have setuptools_ installed::
+ * install the program::
 
     # as root
     easy_install pyvirtualdisplay
-
-if you have pip_ installed::
-
-    # as root
-    pip install pyvirtualdisplay
 
 Ubuntu
 ----------
@@ -66,7 +57,8 @@ Ubuntu
 
 Uninstall
 ----------
-::
+
+install pip_::
 
     # as root
     pip uninstall pyvirtualdisplay
