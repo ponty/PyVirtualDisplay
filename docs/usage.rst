@@ -10,7 +10,7 @@ Testing ``abiword`` on low resolution:
 
 .. program-screenshot:: python -m pyvirtualdisplay.examples.lowres
     :prompt:
-    :wait: 3
+    :wait: 10
 
 
 Screenshot
@@ -37,3 +37,13 @@ The same using :keyword:`with` statement:
 
 .. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot3
     :prompt:
+
+    
+    
+vncserver
+-----------
+
+examples/vncserver.py
+
+.. literalinclude:: ../pyvirtualdisplay/examples/vncserver.py
+

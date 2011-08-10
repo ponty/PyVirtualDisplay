@@ -5,8 +5,6 @@ PROGRAM = 'Xephyr'
 URL = None
 PACKAGE = 'xephyr'
 
-EasyProcess([PROGRAM, '-help'], url=URL, ubuntu_package=PACKAGE).check_installed()
-
 class XephyrDisplay(AbstractDisplay):
     '''
     Xephyr wrapper
@@ -24,6 +22,9 @@ class XephyrDisplay(AbstractDisplay):
         self.process = None
         self.display = None
 
+    @classmethod
+    def check_installed(cls):
+        EasyProcess([PROGRAM, '-help'], url=URL, ubuntu_package=PACKAGE).check_installed()
 
     @property
     def cmd(self):

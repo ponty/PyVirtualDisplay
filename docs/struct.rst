@@ -21,10 +21,12 @@ Hierarchy
         }
         Display -> XvfbDisplay;
         Display -> XephyrDisplay;
+        Display -> XvncDisplay;
         SmartDisplay -> Display
     }
     XvfbDisplay -> Xvfb;
     XephyrDisplay -> Xephyr;
+    XvncDisplay -> Xvnc;
 
     application -> Display;
     application -> SmartDisplay;

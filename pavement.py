@@ -51,6 +51,7 @@ install_requires = [
     'setuptools',
     'path.py',
     'EasyProcess',
+    'entrypoint2',
     ]
 
 # compatible with distutils of python 2.3+ or later
