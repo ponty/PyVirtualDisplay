@@ -18,6 +18,7 @@ Hierarchy
 
             XvfbDisplay;
             XephyrDisplay;
+            XvncDisplay;
         }
         Display -> XvfbDisplay;
         Display -> XephyrDisplay;
