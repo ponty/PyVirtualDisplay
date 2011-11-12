@@ -19,10 +19,10 @@ class SmartDisplay(Display):
     def autocrop(self, im):
         '''Crop borders off an image.
     
-         @param im Source image.
-         @param bgcolor Background color, using either a color tuple or
+         :param im: Source image.
+         :param bgcolor: Background color, using either a color tuple or
          a color name (1.1.4 only).
-         @return An image without borders, or None if there's no actual
+         :return: An image without borders, or None if there's no actual
          content in the image.
         '''
         if im.mode != "RGB":
@@ -42,11 +42,15 @@ class SmartDisplay(Display):
         
     def waitgrab(self, timeout=10, autocrop=True, cb_imgcheck=None):
         '''start process and create screenshot.
-        Repeat screenshot until it is not empty.
+        Repeat screenshot until it is not empty and 
+        cb_imgcheck callback function returns True 
+        for current screenshot.
     
         :param autocrop: True -> crop screenshot 
         :param timeout: int 
-        :param cb_imgcheck: callback for testing img, True=accept img, False = reject img
+        :param cb_imgcheck: None or callback for testing img, 
+                            True = accept img, 
+                            False = reject img
         '''
         t = 0
         sleep_time = 0.3 # for fast windows

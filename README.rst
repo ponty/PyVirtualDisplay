@@ -1,4 +1,4 @@
-pyvirtualdisplay is a python wrapper for Xvfb_ and Xephyr_
+pyvirtualdisplay is a python wrapper for Xvfb_, Xephyr_ and Xvnc_
 
 
 Links:
@@ -9,6 +9,8 @@ Links:
 Features:
  - python wrapper
  - backends: Xvfb_, Xephyr_, Xvnc_
+ 
+.. warning:: at least one backend should be installed
  
 Known problems:
  - Python 3 is not supported

@@ -34,7 +34,7 @@ def read_project_version(py=None, where='.', exclude=['bootstrap', 'pavement', '
 
 NAME = 'PyVirtualDisplay'
 URL = 'https://github.com/ponty/PyVirtualDisplay'
-DESCRIPTION = 'python wrapper for Xvfb and Xephyr'
+DESCRIPTION = 'python wrapper for Xvfb, Xephyr and Xvnc'
 VERSION = read_project_version()
 
 
