@@ -24,13 +24,6 @@ Create screenshot of ``xmessage`` in background:
     :prompt:
 
 
-The same with wrap() function:
-
-.. literalinclude:: ../pyvirtualdisplay/examples/screenshot2.py
-
-.. program-screenshot:: python -m pyvirtualdisplay.examples.screenshot2
-    :prompt:
-
 The same using :keyword:`with` statement:
 
 .. literalinclude:: ../pyvirtualdisplay/examples/screenshot3.py
