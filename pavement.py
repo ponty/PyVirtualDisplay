@@ -46,13 +46,7 @@ classifiers = [
     "Programming Language :: Python",
     ]
 
-install_requires = [
-    # -*- Install requires: -*-
-    'setuptools',
-    'path.py',
-    'EasyProcess',
-    'entrypoint2',
-    ]
+install_requires = open("requirements.txt").read().split('\n')
 
 # compatible with distutils of python 2.3+ or later
 setup(
