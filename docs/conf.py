@@ -61,3 +61,8 @@ latex_documents = [
 # remove blank pages from pdf
 # http://groups.google.com/group/sphinx-dev/browse_thread/thread/92e19267d095412d/d60dcba483c6b13d
 latex_font_size = '10pt,oneside' 
+
+latex_elements=dict(
+                    papersize='a4paper',
+                    )
+ 
