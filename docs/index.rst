@@ -1,7 +1,7 @@
-**pyvirtualdisplay**
+**PyVirtualDisplay**
 
 :Date: |today|
-:PDF: `pyvirtualdisplay.pdf <pyvirtualdisplay.pdf>`_
+:PDF: `PyVirtualDisplay.pdf <PyVirtualDisplay.pdf>`_
 
 Contents:
 
