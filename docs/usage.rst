@@ -4,7 +4,7 @@ Usage
 GUI Test
 ----------
 
-Testing ``abiword`` on low resolution:
+Testing ``gnumeric`` on low resolution:
 
 .. literalinclude:: ../pyvirtualdisplay/examples/lowres.py
 

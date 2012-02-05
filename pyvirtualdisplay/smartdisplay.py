@@ -19,11 +19,9 @@ class SmartDisplay(Display):
     def autocrop(self, im):
         '''Crop borders off an image.
     
-         :param im: Source image.
-         :param bgcolor: Background color, using either a color tuple or
-         a color name (1.1.4 only).
-         :return: An image without borders, or None if there's no actual
-         content in the image.
+        :param im: Source image.
+        :param bgcolor: Background color, using either a color tuple or a color name (1.1.4 only).
+        :return: An image without borders, or None if there's no actual content in the image.
         '''
         if im.mode != "RGB":
             im = im.convert("RGB")
