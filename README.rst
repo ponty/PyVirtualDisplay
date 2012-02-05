@@ -44,26 +44,26 @@ General
 --------
 
  * install Xvfb_ or Xephyr_ or Xvnc_.
- * install setuptools_
+ * install pip_
  * optional: pyscreenshot_ and PIL_ should be installed for ``smartdisplay`` submodule
  * install the program::
 
     # as root
-    easy_install pyvirtualdisplay
+    pip install pyvirtualdisplay
 
 Ubuntu
 ----------
 ::
 
-    sudo apt-get install python-setuptools
+    sudo apt-get install python-pip
     sudo apt-get install xvfb
     sudo apt-get install xserver-xephyr
     sudo apt-get install tightvncserver
-    sudo easy_install pyvirtualdisplay
+    sudo pip install pyvirtualdisplay
     # optional
     sudo apt-get install python-imaging
     sudo apt-get install scrot
-    sudo easy_install pyscreenshot
+    sudo pip install pyscreenshot
 
 
 Uninstall
