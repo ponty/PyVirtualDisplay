@@ -40,7 +40,7 @@ class SmartDisplay(Display):
             img = self.autocrop(img)
         return img
         
-    def waitgrab(self, timeout=10, autocrop=True, cb_imgcheck=None):
+    def waitgrab(self, timeout=60, autocrop=True, cb_imgcheck=None):
         '''start process and create screenshot.
         Repeat screenshot until it is not empty and 
         cb_imgcheck callback function returns True 
