@@ -69,7 +69,7 @@ Ubuntu
 Uninstall
 ----------
 
-install pip_::
+::
 
     # as root
     pip uninstall pyvirtualdisplay
