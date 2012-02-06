@@ -12,6 +12,7 @@ try:
     from paved.util import *
     from paved.docs import *
     from paved.pycheck import *
+    from paved.pkg import *
     from sphinxcontrib import paverutils
     ALL_TASKS_LOADED = True
 except ImportError, e:
@@ -121,41 +122,4 @@ if ALL_TASKS_LOADED:
         fpdf.copy(d)
 
 
-    def install_test(installer):
-        import virtualenv
-        import tempfile
-        import textwrap
-        root = path(tempfile.mkdtemp(prefix=NAME + '_'))
-        print 'root=', root
-        script = root / 'start_virtualenv'
-        
-        txt = """
-        def after_install(options, home_dir):
-            assert not os.system('{installer} {NAME}')
-        """.format(
-                   NAME=NAME,
-                   installer=root / 'env' / 'bin' / installer,
-                   )
-        
-        script_text = virtualenv.create_bootstrap_script(textwrap.dedent(txt))
-        script.write_text(script_text)
-        script.chmod(0755)
-        sh('./start_virtualenv env --no-site-packages', cwd=root)
-
-    @task
-    def pypi_pip():
-        install_test('pip install')
-
-    @task
-    def pypi_easy_install():
-        install_test('easy_install')
-        
-    @task
-    @needs(
-           'pypi_easy_install',
-           'pypi_pip', 
-           )
-    def pypi():
-        pass
-        
         
