@@ -53,8 +53,8 @@ class Display(AbstractDisplay):
         return cls
     
     @property
-    def cmd(self):
+    def _cmd(self):
         self._obj.display=self.display
-        return self._obj.cmd
+        return self._obj._cmd
 
 

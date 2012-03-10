@@ -27,7 +27,7 @@ class XephyrDisplay(AbstractDisplay):
         EasyProcess([PROGRAM, '-help'], url=URL, ubuntu_package=PACKAGE).check_installed()
 
     @property
-    def cmd(self):
+    def _cmd(self):
         cmd = [PROGRAM ,
                dict(black='-br', white='-wr')[self.bgcolor],
                 '-screen',

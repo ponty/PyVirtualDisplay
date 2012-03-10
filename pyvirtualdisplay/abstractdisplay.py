@@ -1,5 +1,5 @@
 from easyprocess import EasyProcess
-from path import path
+import fnmatch
 import logging
 import os
 import time
@@ -8,12 +8,12 @@ log = logging.getLogger(__name__)
 
 # TODO: not perfect
 # randomize to avoid possible conflicts
-RANDOMIZE_DISPLAY_NR=True
+RANDOMIZE_DISPLAY_NR = True
 if RANDOMIZE_DISPLAY_NR:
     import random
     random.seed()
 
-MIN_DISPLAY_NR=1000
+MIN_DISPLAY_NR = 1000
         
 class AbstractDisplay(EasyProcess):
     '''
@@ -22,23 +22,32 @@ class AbstractDisplay(EasyProcess):
     
     @property
     def new_display_var(self):
-        return ':{display}'.format(display=self.display)
+        return ':%s' % (self.display)
     
     @property
-    def cmd(self):
+    def _cmd(self):
         raise NotImplementedError()
 
+    def lock_files(self):
+        tmpdir = '/tmp'
+        pattern = '.X*-lock'
+#        ls = path('/tmp').files('.X*-lock')
+        # remove path.py dependency
+        names = fnmatch.filter(os.listdir(tmpdir), pattern)
+        ls = [os.path.join(tmpdir , child) for child in names]
+        ls = [p for p in ls if os.path.isfile(p)]
+        return ls
+    
     def search_for_display(self):
         # search for free display
-        ls = path('/tmp').files('.X*-lock')
-        ls = map(lambda x:int(x.split('X')[1].split('-')[0]), ls)
+        ls = map(lambda x:int(x.split('X')[1].split('-')[0]), self.lock_files())
         if len(ls):
-            display = max( MIN_DISPLAY_NR, max(ls) + 1)
+            display = max(MIN_DISPLAY_NR, max(ls) + 1)
         else:
             display = MIN_DISPLAY_NR
         
         if RANDOMIZE_DISPLAY_NR:    
-            display+=random.randint(0, 100)        
+            display += random.randint(0, 100)        
         return display
                 
     def redirect_display(self, on):
@@ -59,8 +68,8 @@ class AbstractDisplay(EasyProcess):
         
         :rtype: self
         '''
-        self.display=self.search_for_display()
-        EasyProcess.__init__(self,self.cmd)
+        self.display = self.search_for_display()
+        EasyProcess.__init__(self, self._cmd)
         EasyProcess.start(self)
         
         # https://github.com/ponty/PyVirtualDisplay/issues/2
