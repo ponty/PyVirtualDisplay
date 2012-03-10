@@ -8,13 +8,13 @@ Links:
 
 Features:
  - python wrapper
- - backends: Xvfb_, Xephyr_, Xvnc_
+ - back-ends: Xvfb_, Xephyr_, Xvnc_
+ - supported python versions: 2.5, 2.6, 2.7, 3.1, 3.2, PyPy
  
-.. warning:: at least one backend should be installed
+.. warning:: at least one back-end should be installed
  
 Known problems:
- - Python 3 is not supported
- - only a few backend options are supported
+ - only a few back-end options are supported
  
 Possible applications:
  * GUI testing
