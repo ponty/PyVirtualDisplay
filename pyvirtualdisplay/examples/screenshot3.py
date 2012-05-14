@@ -1,6 +1,8 @@
 '''
 using :keyword:`with` statement
 '''
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 from easyprocess import EasyProcess
 from pyvirtualdisplay.smartdisplay import SmartDisplay
