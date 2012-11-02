@@ -9,13 +9,15 @@ import time
 log = logging.getLogger(__name__)
 
 
-#class DisplayError(Exception):
+# class DisplayError(Exception):
 #    pass
 
 class DisplayTimeoutError(Exception):
     pass
 
+
 class SmartDisplay(Display):
+    pyscreenshot_backend = None
     def autocrop(self, im):
         '''Crop borders off an image.
     
@@ -30,14 +32,20 @@ class SmartDisplay(Display):
         bbox = diff.getbbox()
         if bbox:
             return im.crop(bbox)
-        return None # no contents
+        return None  # no contents
 
     def grab(self, autocrop=True):
-        img=pyscreenshot.grab()
+        try:
+            # first try newer pyscreenshot version
+            img = pyscreenshot.grab(childprocess=1, backend=self.pyscreenshot_backend)
+        except TypeError:
+            # try older pyscreenshot version
+            img = pyscreenshot.grab()
+
         if autocrop:
             img = self.autocrop(img)
         return img
-        
+
     def waitgrab(self, timeout=60, autocrop=True, cb_imgcheck=None):
         '''start process and create screenshot.
         Repeat screenshot until it is not empty and 
@@ -51,7 +59,7 @@ class SmartDisplay(Display):
                             False = reject img
         '''
         t = 0
-        sleep_time = 0.3 # for fast windows
+        sleep_time = 0.3  # for fast windows
         repeat_time = 1
         while 1:
             log.debug('sleeping %s secs' % str(sleep_time))
@@ -64,25 +72,25 @@ class SmartDisplay(Display):
                 if cb_imgcheck(img):
                     break
             sleep_time = repeat_time
-            repeat_time += 1 # progressive 
+            repeat_time += 1  # progressive
             if t > timeout:
                 msg = 'Timeout! elapsed time:%s timeout:%s ' % (t, timeout)
-                raise DisplayTimeoutError(msg)    
+                raise DisplayTimeoutError(msg)
                 break
-    
+
             log.debug('screenshot is empty, next try..')
         assert img
 #        if not img:
 #            log.debug('screenshot is empty!')
         return img
-            
-            
-            
-            
-            
-            
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
 
