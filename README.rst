@@ -64,6 +64,8 @@ Ubuntu
     sudo apt-get install python-imaging
     sudo apt-get install scrot
     sudo pip install pyscreenshot
+    # optional for examples
+    sudo pip install entrypoint2
 
 
 Uninstall
