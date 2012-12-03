@@ -14,7 +14,8 @@ from paved.pkg import *
 from sphinxcontrib import paverutils
 
 # get info from setup.py
-setup_py=''.join([x for x in path('setup.py').lines() if 'setuptools' not in x])
+setup_py = ''.join(
+    [x for x in path('setup.py').lines() if 'setuptools' not in x])
 exec(setup_py)
 
 
@@ -22,25 +23,25 @@ options(
     sphinx=Bunch(
         docroot='docs',
         builddir="_build",
-        ),
+    ),
     pdf=Bunch(
         builddir='_build',
         builder='latex',
     ),
-    )
+)
 
-options.paved.clean.rmdirs +=   ['.tox',
-                                 'dist',
-                                 'build' ,
-                                 ]
+options.paved.clean.rmdirs += ['.tox',
+                               'dist',
+                               'build',
+                               ]
 options.paved.clean.patterns += ['*.pickle',
                                  '*.doctree',
-                                 '*.gz' ,
+                                 '*.gz',
                                  'nosetests.xml',
                                  'sloccount.sc',
                                  '*.pdf', '*.tex',
                                  '*.png',
-                                 '*.zip',   
+                                 '*.zip',
                                  'distribute_setup.py',
                                  ]
 
@@ -51,21 +52,23 @@ options.paved.dist.manifest.include.add('requirements.txt')
 
 @task
 @needs(
-#           'clean',
-       'sloccount',
-       'html',
-       'pdf',
-       'sdist',
-       'nose',   'tox',
-       )
+    #           'clean',
+    'sloccount',
+    'html',
+    'pdf',
+    'sdist',
+    'nose', 'tox',
+)
 def alltest():
     'all tasks to check'
     pass
+
 
 @task
 @needs('sphinxcontrib.paverutils.html')
 def html():
     pass
+
 
 @task
 @needs('sphinxcontrib.paverutils.pdf')
@@ -75,16 +78,16 @@ def pdf():
     d.makedirs()
     fpdf.copy(d)
 
+
 @task
 def tox():
     '''Run tox.'''
     sh('tox')
 
-    
+
 @task
 @needs('manifest', 'setuptools.command.sdist')
 def sdist():
     """Overrides sdist to make sure that our MANIFEST.in is generated.
     """
     pass
-        

@@ -7,4 +7,3 @@ img = disp.waitgrab()
 xmessage.stop()
 disp.stop()
 img.show()
-

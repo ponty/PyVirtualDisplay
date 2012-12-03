@@ -46,5 +46,3 @@ class Test(TestCase):
 
     def test_double_pygtk_pyqt(self):
         self.check_double('pygtk', 'pyqt')
-
-

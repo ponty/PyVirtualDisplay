@@ -12,7 +12,7 @@ PACKAGE = 'xvfb'
 class XvfbDisplay(AbstractDisplay):
     '''
     Xvfb wrapper
-    
+
     Xvfb is an X server that can run on machines with no display
     hardware and no physical input devices. It emulates a dumb
     framebuffer using virtual memory.
@@ -27,23 +27,19 @@ class XvfbDisplay(AbstractDisplay):
         self.process = None
         self.bgcolor = bgcolor
         self.display = None
-        
+
     @classmethod
     def check_installed(cls):
-        EasyProcess([PROGRAM, '-help'], url=URL, ubuntu_package=PACKAGE).check_installed()
-        
+        EasyProcess([PROGRAM, '-help'], url=URL,
+                    ubuntu_package=PACKAGE).check_installed()
+
     @property
     def _cmd(self):
-        cmd = [PROGRAM ,
+        cmd = [PROGRAM,
                dict(black='-br', white='-wr')[self.bgcolor],
-                '-screen',
-                str(self.screen),
-                'x'.join(map(str, list(self.size) + [self.color_depth])),
-                self.new_display_var,
-                 ]
+               '-screen',
+               str(self.screen),
+               'x'.join(map(str, list(self.size) + [self.color_depth])),
+               self.new_display_var,
+               ]
         return cmd
-               
-        
-        
-        
-        

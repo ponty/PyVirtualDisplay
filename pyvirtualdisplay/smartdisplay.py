@@ -18,9 +18,10 @@ class DisplayTimeoutError(Exception):
 
 class SmartDisplay(Display):
     pyscreenshot_backend = None
+
     def autocrop(self, im):
         '''Crop borders off an image.
-    
+
         :param im: Source image.
         :param bgcolor: Background color, using either a color tuple or a color name (1.1.4 only).
         :return: An image without borders, or None if there's no actual content in the image.
@@ -37,7 +38,8 @@ class SmartDisplay(Display):
     def grab(self, autocrop=True):
         try:
             # first try newer pyscreenshot version
-            img = pyscreenshot.grab(childprocess=1, backend=self.pyscreenshot_backend)
+            img = pyscreenshot.grab(
+                childprocess=1, backend=self.pyscreenshot_backend)
         except TypeError:
             # try older pyscreenshot version
             img = pyscreenshot.grab()
@@ -48,14 +50,14 @@ class SmartDisplay(Display):
 
     def waitgrab(self, timeout=60, autocrop=True, cb_imgcheck=None):
         '''start process and create screenshot.
-        Repeat screenshot until it is not empty and 
-        cb_imgcheck callback function returns True 
+        Repeat screenshot until it is not empty and
+        cb_imgcheck callback function returns True
         for current screenshot.
-    
-        :param autocrop: True -> crop screenshot 
-        :param timeout: int 
-        :param cb_imgcheck: None or callback for testing img, 
-                            True = accept img, 
+
+        :param autocrop: True -> crop screenshot
+        :param timeout: int
+        :param cb_imgcheck: None or callback for testing img,
+                            True = accept img,
                             False = reject img
         '''
         t = 0
@@ -83,14 +85,3 @@ class SmartDisplay(Display):
 #        if not img:
 #            log.debug('screenshot is empty!')
         return img
-
-
-
-
-
-
-
-
-
-
-
