@@ -1,4 +1,4 @@
-grant docs
+graft docs
 include LICENSE*
 include pavement.py
 include TODO*
