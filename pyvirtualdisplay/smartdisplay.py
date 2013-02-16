@@ -1,6 +1,6 @@
 from pyvirtualdisplay.display import Display
-import Image
-import ImageChops
+from PIL import Image
+from PIL import ImageChops
 import logging
 import pyscreenshot
 import time
