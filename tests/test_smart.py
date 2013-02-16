@@ -1,8 +1,9 @@
 from easyprocess import EasyProcess
 from nose.tools import eq_
+from path import path
 from pyvirtualdisplay.smartdisplay import SmartDisplay, DisplayTimeoutError
 from unittest import TestCase
-from path import path
+import sys
 
 
 class Test(TestCase):
@@ -36,7 +37,7 @@ class Test(TestCase):
 
     def test_empty(self):
         disp = SmartDisplay(visible=0)
-        proc = EasyProcess('python')
+        proc = EasyProcess(sys.executable)
         f = disp.wrap(proc.wrap(disp.waitgrab))
         self.assertRaises(Exception, f)
 
