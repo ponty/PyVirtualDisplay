@@ -13,14 +13,14 @@ class Test(TestCase):
 
         with SmartDisplay(visible=0, bgcolor='black') as disp:
             disp.pyscreenshot_backend = backend1
-            disp.pyscreenshot_childprocess=True # error if FALSE
+            disp.pyscreenshot_childprocess = True  # error if FALSE
             with EasyProcess('xmessage hello1'):
                 img = disp.waitgrab()
                 eq_(img is not None, True)
 
         with SmartDisplay(visible=0, bgcolor='black') as disp:
             disp.pyscreenshot_backend = backend2
-            disp.pyscreenshot_childprocess=True # error if FALSE
+            disp.pyscreenshot_childprocess = True  # error if FALSE
             with EasyProcess('xmessage hello2'):
                 img = disp.waitgrab()
                 eq_(img is not None, True)
