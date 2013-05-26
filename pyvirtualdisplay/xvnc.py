@@ -34,11 +34,9 @@ class XvncDisplay(AbstractDisplay):
     @property
     def _cmd(self):
         cmd = [PROGRAM,
-               #               dict(black='-br', white='-wr')[self.bgcolor],
-               #                '-screen',
-               #                str(self.screen),
-               #                'x'.join(map(str, list(self.size) + [self.color_depth])),
-               '-rfbport', self.rfbport,
+               '-depth', str(self.color_depth),
+               '-geometry', '%dx%d' % (self.size[0], self.size[1]),
+               '-rfbport', str(self.rfbport),
                self.new_display_var,
                ]
         return cmd
