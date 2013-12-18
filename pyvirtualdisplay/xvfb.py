@@ -17,9 +17,11 @@ class XvfbDisplay(AbstractDisplay):
     hardware and no physical input devices. It emulates a dumb
     framebuffer using virtual memory.
     '''
-    def __init__(self, size=(1024, 768), color_depth=24, bgcolor='black'):
+    def __init__(self, size=(1024, 768), color_depth=24, bgcolor='black', fbdir=None):
         '''
         :param bgcolor: 'black' or 'white'
+        :param fbdir: If non-null, the virtual screen is memory-mapped 
+            to a file in the given directory ('-fbdir' option)
         '''
         self.screen = 0
         self.size = size
@@ -27,6 +29,7 @@ class XvfbDisplay(AbstractDisplay):
         self.process = None
         self.bgcolor = bgcolor
         self.display = None
+        self.fbdir = fbdir
 
     @classmethod
     def check_installed(cls):
@@ -35,11 +38,13 @@ class XvfbDisplay(AbstractDisplay):
 
     @property
     def _cmd(self):
-        cmd = [PROGRAM,
+        cmd = [
                dict(black='-br', white='-wr')[self.bgcolor],
                '-screen',
                str(self.screen),
                'x'.join(map(str, list(self.size) + [self.color_depth])),
                self.new_display_var,
                ]
-        return cmd
+        if self.fbdir:
+            cmd += ['-fbdir', self.fbdir]
+        return [PROGRAM] + cmd
