@@ -1,7 +1,10 @@
 from nose.tools import ok_
 from pyvirtualdisplay.display import Display
-from unittest import TestCase
+from pyvirtualdisplay.xephyr import XephyrDisplay
+from pyvirtualdisplay.xvfb import XvfbDisplay
+from pyvirtualdisplay.xvnc import XvncDisplay
 import sys
+from unittest import TestCase
 
 
 class Test(TestCase):
@@ -33,3 +36,23 @@ class Test(TestCase):
 
         vd.stop()
         ok_(not vd.is_alive())
+
+
+def test_repr():
+    display = Display()
+    print(repr(display))
+
+
+def test_repr2():
+    display = XvfbDisplay()
+    print(repr(display))
+
+
+def test_repr3():
+    display = XvncDisplay()
+    print(repr(display))
+
+
+def test_repr4():
+    display = XephyrDisplay()
+    print(repr(display))
