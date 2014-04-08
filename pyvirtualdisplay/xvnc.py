@@ -25,6 +25,7 @@ class XvncDisplay(AbstractDisplay):
         self.bgcolor = bgcolor
         self.display = None
         self.rfbport = rfbport
+        AbstractDisplay.__init__(self)
 
     @classmethod
     def check_installed(cls):

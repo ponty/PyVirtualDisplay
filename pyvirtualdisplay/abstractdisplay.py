@@ -21,6 +21,10 @@ class AbstractDisplay(EasyProcess):
     Common parent for Xvfb and Xephyr
     '''
 
+    def __init__(self):
+        self.display = self.search_for_display()
+        EasyProcess.__init__(self, self._cmd)
+
     @property
     def new_display_var(self):
         return ':%s' % (self.display)
@@ -70,8 +74,6 @@ class AbstractDisplay(EasyProcess):
 
         :rtype: self
         '''
-        self.display = self.search_for_display()
-        EasyProcess.__init__(self, self._cmd)
         EasyProcess.start(self)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2

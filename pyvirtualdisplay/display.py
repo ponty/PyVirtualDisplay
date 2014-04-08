@@ -35,6 +35,7 @@ class Display(AbstractDisplay):
             color_depth=color_depth,
             bgcolor=bgcolor,
             **kwargs)
+        AbstractDisplay.__init__(self)
 
     @property
     def display_class(self):

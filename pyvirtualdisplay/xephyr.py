@@ -22,6 +22,7 @@ class XephyrDisplay(AbstractDisplay):
         self.screen = 0
         self.process = None
         self.display = None
+        AbstractDisplay.__init__(self)
 
     @classmethod
     def check_installed(cls):

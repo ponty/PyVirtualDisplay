@@ -20,7 +20,7 @@ class XvfbDisplay(AbstractDisplay):
     def __init__(self, size=(1024, 768), color_depth=24, bgcolor='black', fbdir=None):
         '''
         :param bgcolor: 'black' or 'white'
-        :param fbdir: If non-null, the virtual screen is memory-mapped 
+        :param fbdir: If non-null, the virtual screen is memory-mapped
             to a file in the given directory ('-fbdir' option)
         '''
         self.screen = 0
@@ -30,6 +30,7 @@ class XvfbDisplay(AbstractDisplay):
         self.bgcolor = bgcolor
         self.display = None
         self.fbdir = fbdir
+        AbstractDisplay.__init__(self)
 
     @classmethod
     def check_installed(cls):
