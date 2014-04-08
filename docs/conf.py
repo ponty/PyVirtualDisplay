@@ -1,24 +1,10 @@
-from path import path
-from setuptools import find_packages
+from easyprocess import EasyProcess
 import logging
-import sphinx
-import sys
 
 
-def read_project_version(py=None, where='.', exclude=['bootstrap', 'pavement', 'doc', 'docs', 'test', 'tests', ]):
-    if not py:
-        py = path(where) / find_packages(where=where, exclude=exclude)[0]
-    py = path(py)
-    if py.isdir():
-        py = py / '__init__.py'
-    __version__ = None
-    for line in py.lines():
-        if '__version__' in line:
-            exec line
-            break
-    return __version__
-
-release = read_project_version(where='..')
+p = EasyProcess('python setup.py --version', cwd='..').call()
+release = p.stdout.splitlines()[-1]
+print release
 
 project = 'PyVirtualDisplay'
 author = 'ponty'

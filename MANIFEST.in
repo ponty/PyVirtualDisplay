@@ -3,6 +3,7 @@ include LICENSE*
 include pavement.py
 include TODO*
 include requirements.txt
+include versioneer.py
 include CHANGES*
 include README*
 include setup.py

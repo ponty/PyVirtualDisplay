@@ -1,22 +1,20 @@
-from setuptools import find_packages, setup
+import versioneer
+from distutils.core import setup
 import os.path
 import sys
 
 
-def read_project_version(package):
-    py = os.path.join(package, '__init__.py')
-    __version__ = None
-    for line in open(py).read().splitlines():
-        if '__version__' in line:
-            exec(line)
-            break
-    return __version__
-
-PACKAGE = 'pyvirtualdisplay'
-NAME = 'PyVirtualDisplay'
+NAME = 'pyvirtualdisplay'
 URL = 'https://github.com/ponty/PyVirtualDisplay'
 DESCRIPTION = 'python wrapper for Xvfb, Xephyr and Xvnc'
-VERSION = read_project_version(PACKAGE)
+PACKAGES = [NAME,
+            NAME + '.examples',
+            ]
+
+versioneer.versionfile_source = NAME + '/_version.py'
+versioneer.versionfile_build = versioneer.versionfile_source
+versioneer.tag_prefix = ''
+versioneer.parentdir_prefix = NAME + '-'
 
 extra = {}
 if sys.version_info >= (3,):
@@ -33,10 +31,10 @@ classifiers = [
 
 install_requires = open("requirements.txt").read().split('\n')
 
-# compatible with distutils of python 2.3+ or later
 setup(
     name=NAME,
-    version=VERSION,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description=DESCRIPTION,
     long_description=open('README.rst', 'r').read(),
     classifiers=classifiers,
@@ -45,10 +43,7 @@ setup(
     # author_email='',
     url=URL,
     license='BSD',
-    packages=find_packages(exclude=['bootstrap', 'pavement', ]),
-    include_package_data=True,
-    test_suite='nose.collector',
-    zip_safe=False,
+    packages=PACKAGES,
     install_requires=install_requires,
     **extra
 )
