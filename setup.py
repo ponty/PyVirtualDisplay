@@ -5,7 +5,8 @@ import sys
 
 
 NAME = 'pyvirtualdisplay'
-URL = 'https://github.com/ponty/PyVirtualDisplay'
+PYPI_NAME = 'PyVirtualDisplay'
+URL = 'https://github.com/ponty/pyvirtualdisplay'
 DESCRIPTION = 'python wrapper for Xvfb, Xephyr and Xvnc'
 PACKAGES = [NAME,
             NAME + '.examples',
@@ -32,7 +33,7 @@ classifiers = [
 install_requires = open("requirements.txt").read().split('\n')
 
 setup(
-    name=NAME,
+    name=PYPI_NAME,
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description=DESCRIPTION,
