@@ -41,7 +41,7 @@ Installation
 ============
 
 General
---------
+-------
 
  * install Xvfb_ or Xephyr_ or Xvnc_.
  * install pip_
@@ -52,13 +52,13 @@ General
     pip install pyvirtualdisplay
 
 Ubuntu
-----------
+------
 ::
 
     sudo apt-get install python-pip
     sudo apt-get install xvfb
     sudo apt-get install xserver-xephyr
-    sudo apt-get install tightvncserver
+    sudo apt-get install vnc4server
     sudo pip install pyvirtualdisplay
     # optional
     sudo apt-get install python-imaging
@@ -69,7 +69,7 @@ Ubuntu
 
 
 Uninstall
-----------
+---------
 
 ::
 
