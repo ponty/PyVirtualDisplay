@@ -65,8 +65,12 @@ class AbstractDisplay(EasyProcess):
         :param on: bool
         '''
         d = self.new_display_var if on else self.old_display_var
-        log.debug('DISPLAY=' + d)
-        os.environ['DISPLAY'] = d
+        if d is None:
+            log.debug('unset DISPLAY')
+            del os.environ['DISPLAY']
+        else:
+            log.debug('DISPLAY=%s', d)
+            os.environ['DISPLAY'] = d
 
     def start(self):
         '''
@@ -77,8 +81,8 @@ class AbstractDisplay(EasyProcess):
         EasyProcess.start(self)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
-        self.old_display_var = os.environ[
-            'DISPLAY'] if 'DISPLAY' in os.environ else ':0'
+        # https://github.com/ponty/PyVirtualDisplay/issues/14
+        self.old_display_var = os.environ.get('DISPLAY', None)
 
         self.redirect_display(True)
         # wait until X server is active
