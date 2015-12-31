@@ -25,6 +25,11 @@ class AbstractDisplay(EasyProcess):
         self.display = self.search_for_display()
         EasyProcess.__init__(self, self._cmd)
 
+    def __del__(self):
+        # Stop the display on delete to avoid 
+        # "orphaned" dbus processes
+        self.stop()
+
     @property
     def new_display_var(self):
         return ':%s' % (self.display)
