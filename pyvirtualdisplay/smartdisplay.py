@@ -18,7 +18,7 @@ class DisplayTimeoutError(Exception):
 
 class SmartDisplay(Display):
     pyscreenshot_backend = None
-    pyscreenshot_childprocess = False
+    pyscreenshot_childprocess = True
 
     def autocrop(self, im):
         '''Crop borders off an image.
