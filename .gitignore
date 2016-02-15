@@ -19,13 +19,15 @@ pip-log.txt
 */_build/latex/*
 
 *.class
-*.png
+#*.png
 .version
 nosetests.xml
 
 .*
-!.gitignore
-!.gitattributes
+!.git*
+!.travis*
+!.coveragerc
+
 
 /distribute_setup.py
 
