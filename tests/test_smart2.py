@@ -1,9 +1,9 @@
 from easyprocess import EasyProcess
 from nose.tools import eq_
-from pyvirtualdisplay.smartdisplay import SmartDisplay, DisplayTimeoutError
+from pyvirtualdisplay.smartdisplay import SmartDisplay
 from unittest import TestCase
-from path import path
-import pyscreenshot
+# from path import path
+# import pyscreenshot
 
 
 class Test(TestCase):
@@ -25,26 +25,29 @@ class Test(TestCase):
                 img = disp.waitgrab()
                 eq_(img is not None, True)
 
-    def test_double_wx(self):
-        self.check_double('wx')
+#     def test_double_wx(self):
+#         self.check_double('wx')
 
-    def test_double_pygtk(self):
-        self.check_double('pygtk')
+#     def test_double_pygtk(self):
+#         self.check_double('pygtk')
 
-    def test_double_pyqt(self):
-        self.check_double('pyqt')
+#     def test_double_pyqt(self):
+#         self.check_double('pyqt')
 
-    def test_double_imagemagick(self):
-        self.check_double('imagemagick')
+#     def test_double_imagemagick(self):
+#         self.check_double('imagemagick')
 
     def test_double_scrot(self):
         self.check_double('scrot')
 
-    def test_double_wx_pygtk(self):
-        self.check_double('wx', 'pygtk')
+#     def test_double_imagemagick_scrot(self):
+#         self.check_double('imagemagick', 'scrot')
 
-    def test_double_wx_pyqt(self):
-        self.check_double('wx', 'pyqt')
+#     def test_double_wx_pygtk(self):
+#         self.check_double('wx', 'pygtk')
 
-    def test_double_pygtk_pyqt(self):
-        self.check_double('pygtk', 'pyqt')
+#     def test_double_wx_pyqt(self):
+#         self.check_double('wx', 'pyqt')
+
+#     def test_double_pygtk_pyqt(self):
+#         self.check_double('pygtk', 'pyqt')
