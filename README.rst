@@ -152,18 +152,18 @@ vncserver
 .. _Xvnc: http://www.hep.phy.cam.ac.uk/vnc_docs/xvnc.html
 
 
-.. |Travis| image:: http://img.shields.io/travis/ponty/pyvirtualdisplay.svg
-   :target: https://travis-ci.org/ponty/pyvirtualdisplay/
-.. |Coveralls| image:: http://img.shields.io/coveralls/ponty/pyvirtualdisplay/master.svg
-   :target: https://coveralls.io/r/ponty/pyvirtualdisplay/
-.. |Latest Version| image:: https://img.shields.io/pypi/v/pyvirtualdisplay.svg
-   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
-.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/pyvirtualdisplay.svg
-   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
-.. |License| image:: https://img.shields.io/pypi/l/pyvirtualdisplay.svg
-   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
-.. |Downloads| image:: https://img.shields.io/pypi/dm/pyvirtualdisplay.svg
-   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
+.. |Travis| image:: http://img.shields.io/travis/ponty/PyVirtualDisplay.svg
+   :target: https://travis-ci.org/ponty/PyVirtualDisplay/
+.. |Coveralls| image:: http://img.shields.io/coveralls/ponty/PyVirtualDisplay/master.svg
+   :target: https://coveralls.io/r/ponty/PyVirtualDisplay/
+.. |Latest Version| image:: https://img.shields.io/pypi/v/PyVirtualDisplay.svg
+   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
+.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/PyVirtualDisplay.svg
+   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
+.. |License| image:: https://img.shields.io/pypi/l/PyVirtualDisplay.svg
+   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
+.. |Downloads| image:: https://img.shields.io/pypi/dm/PyVirtualDisplay.svg
+   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
 .. |Code Health| image:: https://landscape.io/github/ponty/PyVirtualDisplay/master/landscape.svg?style=flat
    :target: https://landscape.io/github/ponty/PyVirtualDisplay/master
 .. |Documentation| image:: https://readthedocs.org/projects/pyvirtualdisplay/badge/?version=latest
