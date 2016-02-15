@@ -1,0 +1,7 @@
+tox
+nose
+coverage
+pyscreenshot
+pillow
+entrypoint2
+path.py

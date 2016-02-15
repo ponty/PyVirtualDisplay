@@ -1,16 +1,14 @@
-from easyprocess import EasyProcess
-import logging
-
-
-p = EasyProcess('python setup.py --version', cwd='..').call()
-release = p.stdout.splitlines()[-1]
-print release
+import sys
+import os
 
 project = 'PyVirtualDisplay'
 author = 'ponty'
 copyright = '2011, ponty'
 
-# logging.basicConfig(level=logging.DEBUG)
+__version__ = None
+exec(open(os.path.join('..', project, 'about.py')).read())
+release = __version__
+
 
 # Extension
 extensions = [

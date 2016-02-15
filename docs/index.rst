@@ -1,25 +1,17 @@
-**PyVirtualDisplay**
+================
+PyVirtualDisplay
+================
 
-:Date: |today|
-:PDF: `PyVirtualDisplay.pdf <PyVirtualDisplay.pdf>`_
 
-Contents:
+About
+=====
 
-.. toctree::
-    :maxdepth: 2
 
-    readme
-    usage
-    api
-    struct
-    dev
+.. include:: ../README.rst
 
-Indices and tables
-==================
+.. include:: hierarchy.rst
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. include:: api.rst
 
-.. _Xvfb: http://en.wikipedia.org/wiki/Xvfb
-.. _Xephyr: http://en.wikipedia.org/wiki/Xephyr
+
+

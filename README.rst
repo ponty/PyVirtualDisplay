@@ -1,14 +1,15 @@
 pyvirtualdisplay is a python wrapper for Xvfb_, Xephyr_ and Xvnc_
 
-
 Links:
- * home: https://github.com/ponty/PyVirtualDisplay
- * documentation: http://ponty.github.com/PyVirtualDisplay
+ * home: https://github.com/ponty/pyvirtualdisplay
+ * documentation: http://pyvirtualdisplay.readthedocs.org
+ * PYPI: https://pypi.python.org/pypi/pyvirtualdisplay
 
+|Travis| |Coveralls| |Latest Version| |Supported Python versions| |License| |Downloads| |Code Health| |Documentation|
 
 Features:
  - python wrapper
- - supported python versions: 2.6, 2.7, 3.2, 3.3
+ - supported python versions: 2.6, 2.7, 3.3, 3.4, 3.5
  - back-ends: Xvfb_, Xephyr_, Xvnc_
 
 .. warning:: at least one back-end should be installed
@@ -51,18 +52,15 @@ General
     # as root
     pip install pyvirtualdisplay
 
-Ubuntu
-------
+Ubuntu 14.04
+------------
 ::
 
     sudo apt-get install python-pip
-    sudo apt-get install xvfb
-    sudo apt-get install xserver-xephyr
-    sudo apt-get install vnc4server
+    sudo apt-get install xvfb xserver-xephyr vnc4server
     sudo pip install pyvirtualdisplay
     # optional
-    sudo apt-get install python-imaging
-    sudo apt-get install scrot
+    sudo apt-get install python-pil scrot
     sudo pip install pyscreenshot
     # optional for examples
     sudo pip install entrypoint2
@@ -77,6 +75,74 @@ Uninstall
     pip uninstall pyvirtualdisplay
 
 
+Usage
+=====
+
+  #-- from screenshot import screenshot--#
+  #-#
+
+GUI Test
+--------
+
+Testing ``gnumeric`` on low resolution:
+
+  #-- include('examples/lowres.py') --#
+  from easyprocess import EasyProcess
+  from pyvirtualdisplay import Display
+
+  Display(visible=1, size=(320, 240)).start()
+  EasyProcess('gnumeric').start()
+  #-#
+
+  #-- screenshot('python -m pyvirtualdisplay.examples.lowres','lowres.png') --#
+  .. image:: lowres.png
+  #-#
+
+Screenshot
+----------
+
+Create screenshot of ``xmessage`` in background:
+
+  #-- include('examples/screenshot3.py') --#
+  '''
+  using :keyword:`with` statement
+  '''
+  import logging
+  logging.basicConfig(level=logging.DEBUG)
+
+  from easyprocess import EasyProcess
+  from pyvirtualdisplay.smartdisplay import SmartDisplay
+
+  with SmartDisplay(visible=0, bgcolor='black') as disp:
+      with EasyProcess('xmessage hello'):
+          img = disp.waitgrab()
+
+
+  img.show()
+  #-#
+
+  
+  #-- screenshot('python -m pyvirtualdisplay.examples.screenshot3','screenshot3.png') --#
+  .. image:: screenshot3.png
+  #-#
+    
+vncserver
+---------
+
+  #-- include('examples/vncserver.py') --#
+  '''
+  Example for Xvnc backend
+  '''
+
+  from easyprocess import EasyProcess
+  from pyvirtualdisplay.display import Display
+
+  with Display(backend='xvnc', rfbport=5904) as disp:
+      with EasyProcess('xmessage hello') as proc:
+          proc.wait()
+  #-#
+
+
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
 .. _pip: http://pip.openplans.org/
 .. _Xvfb: http://en.wikipedia.org/wiki/Xvfb
@@ -85,3 +151,20 @@ Uninstall
 .. _PIL: http://www.pythonware.com/library/pil/
 .. _Xvnc: http://www.hep.phy.cam.ac.uk/vnc_docs/xvnc.html
 
+
+.. |Travis| image:: http://img.shields.io/travis/ponty/pyvirtualdisplay.svg
+   :target: https://travis-ci.org/ponty/pyvirtualdisplay/
+.. |Coveralls| image:: http://img.shields.io/coveralls/ponty/pyvirtualdisplay/master.svg
+   :target: https://coveralls.io/r/ponty/pyvirtualdisplay/
+.. |Latest Version| image:: https://img.shields.io/pypi/v/pyvirtualdisplay.svg
+   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
+.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/pyvirtualdisplay.svg
+   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
+.. |License| image:: https://img.shields.io/pypi/l/pyvirtualdisplay.svg
+   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
+.. |Downloads| image:: https://img.shields.io/pypi/dm/pyvirtualdisplay.svg
+   :target: https://pypi.python.org/pypi/pyvirtualdisplay/
+.. |Code Health| image:: https://landscape.io/github/ponty/pyvirtualdisplay/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/ponty/pyvirtualdisplay/master
+.. |Documentation| image:: https://readthedocs.org/projects/pyvirtualdisplay/badge/?version=latest
+   :target: http://pyvirtualdisplay.readthedocs.org
