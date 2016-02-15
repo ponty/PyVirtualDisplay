@@ -164,7 +164,7 @@ vncserver
    :target: https://pypi.python.org/pypi/pyvirtualdisplay/
 .. |Downloads| image:: https://img.shields.io/pypi/dm/pyvirtualdisplay.svg
    :target: https://pypi.python.org/pypi/pyvirtualdisplay/
-.. |Code Health| image:: https://landscape.io/github/ponty/pyvirtualdisplay/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/ponty/pyvirtualdisplay/master
+.. |Code Health| image:: https://landscape.io/github/ponty/PyVirtualDisplay/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/ponty/PyVirtualDisplay/master
 .. |Documentation| image:: https://readthedocs.org/projects/pyvirtualdisplay/badge/?version=latest
    :target: http://pyvirtualdisplay.readthedocs.org
