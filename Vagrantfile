@@ -90,6 +90,7 @@ Vagrant.configure(2) do |config|
   sudo pip install -r /vagrant/requirements-test.txt
   
 # doc dependencies
+  sudo apt-get install -y imagemagick
   sudo pip install -r /vagrant/requirements-doc.txt
   
   "
