@@ -78,56 +78,61 @@ Uninstall
 Usage
 =====
 
-  #-- from screenshot import screenshot--#
-  #-#
+..  #-- from screenshot import screenshot--#  
+..  #-#
 
 GUI Test
 --------
 
-Testing ``gnumeric`` on low resolution:
+Testing ``gnumeric`` on low resolution::
 
   #-- include('examples/lowres.py') --#
   from easyprocess import EasyProcess
   from pyvirtualdisplay import Display
 
-  Display(visible=1, size=(320, 240)).start()
-  EasyProcess('gnumeric').start()
+  if __name__ == "__main__":
+      Display(visible=1, size=(320, 240)).start()
+      EasyProcess('gnumeric').start()
   #-#
 
-  #-- screenshot('python -m pyvirtualdisplay.examples.lowres','lowres.png') --#
-  .. image:: lowres.png
-  #-#
+Image:
+
+.. #-- screenshot('python -m pyvirtualdisplay.examples.lowres','lowres.png') --#
+.. image:: _static/lowres.png
+.. #-#
 
 Screenshot
 ----------
 
-Create screenshot of ``xmessage`` in background:
+Create screenshot of ``xmessage`` in background::
 
   #-- include('examples/screenshot3.py') --#
   '''
   using :keyword:`with` statement
   '''
-  import logging
-  logging.basicConfig(level=logging.DEBUG)
-
   from easyprocess import EasyProcess
   from pyvirtualdisplay.smartdisplay import SmartDisplay
 
-  with SmartDisplay(visible=0, bgcolor='black') as disp:
-      with EasyProcess('xmessage hello'):
-          img = disp.waitgrab()
-
-
-  img.show()
+  if __name__ == "__main__":
+      with SmartDisplay(visible=0, bgcolor='black') as disp:
+          with EasyProcess('xmessage hello'):
+              img = disp.waitgrab()
+      
+      
+      img.show()
   #-#
 
   
-  #-- screenshot('python -m pyvirtualdisplay.examples.screenshot3','screenshot3.png') --#
-  .. image:: screenshot3.png
-  #-#
+Image:
+
+..  #-- screenshot('python -m pyvirtualdisplay.examples.screenshot3','screenshot3.png') --#
+.. image:: _static/screenshot3.png
+..  #-#
     
 vncserver
 ---------
+
+::
 
   #-- include('examples/vncserver.py') --#
   '''
@@ -137,9 +142,10 @@ vncserver
   from easyprocess import EasyProcess
   from pyvirtualdisplay.display import Display
 
-  with Display(backend='xvnc', rfbport=5904) as disp:
-      with EasyProcess('xmessage hello') as proc:
-          proc.wait()
+  if __name__ == "__main__":
+      with Display(backend='xvnc', rfbport=5904) as disp:
+          with EasyProcess('xmessage hello') as proc:
+              proc.wait()
   #-#
 
 

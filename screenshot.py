@@ -4,13 +4,16 @@ from pyvirtualdisplay.smartdisplay import SmartDisplay
 import cog
 
 import logging
-logging.basicConfig(level=logging.DEBUG)
+FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 
 def screenshot(cmd, fname):
-    if os.path.exists(fname):
-        os.remove(fname)
+    logging.info('%s %s',cmd, fname)
+    fpath = 'docs/_static/%s' % fname
+    if os.path.exists(fpath):
+        os.remove(fpath)
     with SmartDisplay(visible=0, bgcolor='black') as disp:
         with EasyProcess(cmd):
             img = disp.waitgrab()
-            img.save(fname)
-            cog.outl( '.. image:: %s' % fname )
+            img.save(fpath)
+            cog.outl('.. image:: _static/%s' % fname)

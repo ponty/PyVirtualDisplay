@@ -1,4 +1,4 @@
-import sys
+# import sys
 import os
 
 project = 'PyVirtualDisplay'
@@ -6,7 +6,7 @@ author = 'ponty'
 copyright = '2011, ponty'
 
 __version__ = None
-exec(open(os.path.join('..', project, 'about.py')).read())
+exec(open(os.path.join('..', project.lower(), 'about.py')).read())
 release = __version__
 
 
@@ -14,8 +14,8 @@ release = __version__
 extensions = [
     # -*-Extensions: -*-
     'sphinx.ext.autodoc',
-    'sphinxcontrib.programoutput',
-    'sphinxcontrib.programscreenshot',
+#     'sphinxcontrib.programoutput',
+#     'sphinxcontrib.programscreenshot',
     'sphinx.ext.graphviz',
     #'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
