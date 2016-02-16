@@ -1,15 +1,13 @@
 '''
 using :keyword:`with` statement
 '''
-import logging
-logging.basicConfig(level=logging.DEBUG)
-
 from easyprocess import EasyProcess
 from pyvirtualdisplay.smartdisplay import SmartDisplay
 
-with SmartDisplay(visible=0, bgcolor='black') as disp:
-    with EasyProcess('xmessage hello'):
-        img = disp.waitgrab()
-
-
-img.show()
+if __name__ == "__main__":
+    with SmartDisplay(visible=0, bgcolor='black') as disp:
+        with EasyProcess('xmessage hello'):
+            img = disp.waitgrab()
+    
+    
+    img.show()
