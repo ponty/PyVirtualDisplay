@@ -78,7 +78,7 @@ Uninstall
 Usage
 =====
 
-..  #-- from screenshot import screenshot--#  
+..  #-- from docs.screenshot import screenshot--#  
 ..  #-#
 
 GUI Test
@@ -98,7 +98,7 @@ Testing ``gnumeric`` on low resolution::
 Image:
 
 .. #-- screenshot('python -m pyvirtualdisplay.examples.lowres','lowres.png') --#
-.. image:: _static/lowres.png
+.. image:: _img/lowres.png
 .. #-#
 
 Screenshot
@@ -126,7 +126,7 @@ Create screenshot of ``xmessage`` in background::
 Image:
 
 ..  #-- screenshot('python -m pyvirtualdisplay.examples.screenshot3','screenshot3.png') --#
-.. image:: _static/screenshot3.png
+.. image:: _img/screenshot3.png
 ..  #-#
     
 vncserver

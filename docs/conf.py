@@ -1,4 +1,4 @@
-# import sys
+import sys
 import os
 
 project = 'PyVirtualDisplay'
@@ -8,6 +8,8 @@ copyright = '2011, ponty'
 __version__ = None
 exec(open(os.path.join('..', project.lower(), 'about.py')).read())
 release = __version__
+
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # Extension
@@ -20,7 +22,7 @@ extensions = [
     #'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
 ]
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {'python': ('http://docs.python.org/', None)}
 
 # Source
 master_doc = 'index'

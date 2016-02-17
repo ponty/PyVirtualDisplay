@@ -9,7 +9,7 @@ About
 
 .. include:: ../README.rst
 
-.. include:: hierarchy.rst
+.. include:: struct.rst
 
 .. include:: api.rst
 
