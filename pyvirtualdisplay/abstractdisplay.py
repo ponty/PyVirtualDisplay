@@ -3,6 +3,9 @@ import fnmatch
 import logging
 import os
 import time
+from threading import Lock
+
+mutex = Lock()
 
 log = logging.getLogger(__name__)
 
@@ -14,7 +17,7 @@ if RANDOMIZE_DISPLAY_NR:
     random.seed()
 
 MIN_DISPLAY_NR = 1000
-
+USED_DISPLAY_NR_LIST=[]
 
 class AbstractDisplay(EasyProcess):
     '''
@@ -22,7 +25,14 @@ class AbstractDisplay(EasyProcess):
     '''
 
     def __init__(self):
-        self.display = self.search_for_display()
+        mutex.acquire()
+        try:        
+            self.display = self.search_for_display()
+            while self.display in USED_DISPLAY_NR_LIST:
+                self.display+=1            
+            USED_DISPLAY_NR_LIST.append(self.display)
+        finally:
+            mutex.release()
         EasyProcess.__init__(self, self._cmd)
 
     @property
@@ -48,7 +58,7 @@ class AbstractDisplay(EasyProcess):
         ls = map(
             lambda x: int(x.split('X')[1].split('-')[0]), self.lock_files())
         if len(ls):
-            display = max(MIN_DISPLAY_NR, max(ls) + 1)
+            display = max(MIN_DISPLAY_NR, max(ls) + 3)
         else:
             display = MIN_DISPLAY_NR
 
