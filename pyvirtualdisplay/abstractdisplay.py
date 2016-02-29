@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 # TODO: not perfect
 # randomize to avoid possible conflicts
-RANDOMIZE_DISPLAY_NR = True
+RANDOMIZE_DISPLAY_NR = False
 if RANDOMIZE_DISPLAY_NR:
     import random
     random.seed()
