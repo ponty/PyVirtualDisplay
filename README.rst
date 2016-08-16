@@ -148,6 +148,15 @@ vncserver
               proc.wait()
   #-#
 
+xauth
+=====
+
+Some programs require a functional Xauthority file. PyVirtualDisplay can
+generate one and set the appropriate environment variables if you pass
+``use_xauth=True`` to the ``Display`` constructor. Note however that this
+feature needs ``xauth`` installed, otherwise a
+``pyvirtualdisplay.xauth.NotFoundError`` is raised.
+
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
 .. _pip: http://pip.openplans.org/
