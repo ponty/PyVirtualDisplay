@@ -28,3 +28,4 @@ def test_xauth():
 
     display.stop()
     eq_(old_xauth, os.getenv('XAUTHORITY'))
+    ok_(not os.path.isfile(new_xauth))
