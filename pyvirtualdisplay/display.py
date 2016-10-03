@@ -13,8 +13,9 @@ class Display(AbstractDisplay):
     :param bgcolor: background color ['black' or 'white']
     :param visible: True -> Xephyr, False -> Xvfb
     :param backend: 'xvfb', 'xvnc' or 'xephyr', ignores ``visible``
+    :param xauth: If a Xauthority file should be created.
     '''
-    def __init__(self, backend=None, visible=False, size=(1024, 768), color_depth=24, bgcolor='black', **kwargs):
+    def __init__(self, backend=None, visible=False, size=(1024, 768), color_depth=24, bgcolor='black', use_xauth=False, **kwargs):
         self.color_depth = color_depth
         self.size = size
         self.bgcolor = bgcolor
@@ -35,7 +36,7 @@ class Display(AbstractDisplay):
             color_depth=color_depth,
             bgcolor=bgcolor,
             **kwargs)
-        AbstractDisplay.__init__(self)
+        AbstractDisplay.__init__(self, use_xauth=use_xauth)
 
     @property
     def display_class(self):

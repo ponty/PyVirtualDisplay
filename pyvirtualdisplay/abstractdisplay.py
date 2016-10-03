@@ -3,7 +3,10 @@ import fnmatch
 import logging
 import os
 import time
+import tempfile
 from threading import Lock
+
+from pyvirtualdisplay import xauth
 
 mutex = Lock()
 
@@ -24,15 +27,20 @@ class AbstractDisplay(EasyProcess):
     Common parent for Xvfb and Xephyr
     '''
 
-    def __init__(self):
+    def __init__(self, use_xauth=False):
         mutex.acquire()
-        try:        
+        try:
             self.display = self.search_for_display()
             while self.display in USED_DISPLAY_NR_LIST:
-                self.display+=1            
+                self.display+=1
             USED_DISPLAY_NR_LIST.append(self.display)
         finally:
             mutex.release()
+        if xauth and not xauth.is_installed():
+            raise xauth.NotFoundError()
+        self.use_xauth = use_xauth
+        self._old_xauth = None
+        self._xauth_filename = None
         EasyProcess.__init__(self, self._cmd)
 
     @property
@@ -88,6 +96,8 @@ class AbstractDisplay(EasyProcess):
 
         :rtype: self
         '''
+        if self.use_xauth:
+            self._setup_xauth()
         EasyProcess.start(self)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
@@ -108,4 +118,35 @@ class AbstractDisplay(EasyProcess):
         '''
         self.redirect_display(False)
         EasyProcess.stop(self)
+        if self.use_xauth:
+            self._clear_xauth()
         return self
+
+    def _setup_xauth(self):
+        '''
+        Set up the Xauthority file and the XAUTHORITY environment variable.
+        '''
+        handle, filename = tempfile.mkstemp(prefix='PyVirtualDisplay.',
+                                            suffix='.Xauthority')
+        self._xauth_filename = filename
+        os.close(handle)
+        # Save old environment
+        self._old_xauth = {}
+        self._old_xauth['AUTHFILE'] = os.getenv('AUTHFILE')
+        self._old_xauth['XAUTHORITY'] = os.getenv('XAUTHORITY')
+
+        os.environ['AUTHFILE'] = os.environ['XAUTHORITY'] = filename
+        cookie = xauth.generate_mcookie()
+        xauth.call('add', self.new_display_var, '.', cookie)
+
+    def _clear_xauth(self):
+        '''
+        Clear the Xauthority file and restore the environment variables.
+        '''
+        os.remove(self._xauth_filename)
+        for varname in ['AUTHFILE', 'XAUTHORITY']:
+            if self._old_xauth[varname] is None:
+                del os.environ[varname]
+            else:
+                os.environ[varname] = self._old_xauth[varname]
+        self._old_xauth = None
