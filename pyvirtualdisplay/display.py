@@ -24,6 +24,7 @@ class Display(AbstractDisplay):
         self.display = None
         self.visible = visible
         self.backend = backend
+        self.install_checked = []
 
         if not self.backend:
             if self.visible:
@@ -48,8 +49,9 @@ class Display(AbstractDisplay):
         if self.backend == 'xephyr':
             cls = XephyrDisplay
 
-        # TODO: check only once
-        cls.check_installed()
+        if self.backend not in self.install_checked:
+            cls.check_installed()
+            self.install_checked.append(self.backend)
 
         return cls
 
