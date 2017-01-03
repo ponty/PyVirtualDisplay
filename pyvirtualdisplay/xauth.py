@@ -15,7 +15,7 @@ def is_installed():
     Return whether or not xauth is installed.
     '''
     try:
-        easyprocess.EasyProcess(['xauth', '-h']).check_installed()
+        easyprocess.EasyProcess(['xauth', '-V']).check_installed()
     except easyprocess.EasyProcessCheckInstalledError:
         return False
     else:
