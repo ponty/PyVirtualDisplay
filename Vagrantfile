@@ -71,7 +71,7 @@ Vagrant.configure(2) do |config|
 # install python versions
   sudo add-apt-repository --yes  ppa:fkrull/deadsnakes
   sudo apt-get update
-  sudo apt-get install -y python2.6-dev python2.7-dev python3.3-dev python3.4-dev python3.5-dev
+  sudo apt-get install -y python2.7-dev python3.3-dev python3.4-dev python3.5-dev
 
 # tools
   sudo apt-get install -y mc python-pip xvfb
