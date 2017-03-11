@@ -36,7 +36,7 @@ class AbstractDisplay(EasyProcess):
             USED_DISPLAY_NR_LIST.append(self.display)
         finally:
             mutex.release()
-        if xauth and not xauth.is_installed():
+        if use_xauth and not xauth.is_installed():
             raise xauth.NotFoundError()
         self.use_xauth = use_xauth
         self._old_xauth = None
