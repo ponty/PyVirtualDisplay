@@ -5,6 +5,8 @@ from pyvirtualdisplay.xvnc import XvncDisplay
 
 
 class Display(AbstractDisplay):
+    install_checked = []
+
     '''
     Common class
 
@@ -48,8 +50,9 @@ class Display(AbstractDisplay):
         if self.backend == 'xephyr':
             cls = XephyrDisplay
 
-        # TODO: check only once
-        cls.check_installed()
+        if self.backend not in Display.install_checked:
+            cls.check_installed()
+            Display.install_checked.append(self.backend)
 
         return cls
 
