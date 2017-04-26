@@ -63,8 +63,8 @@ class AbstractDisplay(EasyProcess):
 
     def search_for_display(self):
         # search for free display
-        ls = map(
-            lambda x: int(x.split('X')[1].split('-')[0]), self.lock_files())
+        ls = list(map(
+            lambda x: int(x.split('X')[1].split('-')[0]), self.lock_files()))
         if len(ls):
             display = max(MIN_DISPLAY_NR, max(ls) + 3)
         else:
