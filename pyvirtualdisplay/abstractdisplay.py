@@ -1,4 +1,4 @@
-from easyprocess import EasyProcess
+from easyprocess import EasyProcess, EasyProcessError
 import fnmatch
 import logging
 import os
@@ -21,6 +21,13 @@ if RANDOMIZE_DISPLAY_NR:
 
 MIN_DISPLAY_NR = 1000
 USED_DISPLAY_NR_LIST=[]
+
+X_START_TIMEOUT = 1
+X_START_TIME_STEP = 0.1
+X_START_WAIT = 0.1
+
+class XStartTimeoutError(Exception):
+    pass
 
 class AbstractDisplay(EasyProcess):
     '''
@@ -105,9 +112,31 @@ class AbstractDisplay(EasyProcess):
         self.old_display_var = os.environ.get('DISPLAY', None)
 
         self.redirect_display(True)
+
         # wait until X server is active
-        # TODO: better method
-        time.sleep(0.1)
+        start_time = time.time()
+        ok = False
+        d = self.new_display_var
+        while time.time() - start_time < X_START_TIMEOUT:
+            try:
+                exit_code = EasyProcess('xdpyinfo').call().return_code
+            except EasyProcessError:
+                log.warn('xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!')
+                time.sleep(X_START_WAIT)    # old method
+                ok = True
+                break
+
+            if exit_code != 0:
+                pass
+            else:
+                log.info('Successfully started X with display "%s".', d)
+                ok = True
+                break
+
+            time.sleep(X_START_TIME_STEP)
+        if not ok:
+            msg = 'Failed to start X on display "%s" (xdpyinfo check failed).'
+            raise XStartTimeoutError(msg % d)
         return self
 
     def stop(self):
