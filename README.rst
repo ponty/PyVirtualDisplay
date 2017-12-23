@@ -5,7 +5,7 @@ Links:
  * documentation: http://pyvirtualdisplay.readthedocs.org
  * PYPI: https://pypi.python.org/pypi/pyvirtualdisplay
 
-|Travis| |Coveralls| |Latest Version| |Supported Python versions| |License| |Downloads| |Code Health| |Documentation|
+|Travis| |Coveralls| |Latest Version| |Supported Python versions| |License| |Code Health| |Documentation|
 
 Features:
  - python wrapper
@@ -119,12 +119,12 @@ Create screenshot of ``xmessage`` in background::
       with SmartDisplay(visible=0, bgcolor='black') as disp:
           with EasyProcess('xmessage hello'):
               img = disp.waitgrab()
-      
-      
+
+
       img.show()
   #-#
 
-  
+
 Image:
 
 ..  #-- screenshot('python -m pyvirtualdisplay.examples.screenshot3','screenshot3.png') --#
@@ -178,8 +178,6 @@ feature needs ``xauth`` installed, otherwise a
 .. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/PyVirtualDisplay.svg
    :target: https://pypi.python.org/pypi/PyVirtualDisplay/
 .. |License| image:: https://img.shields.io/pypi/l/PyVirtualDisplay.svg
-   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
-.. |Downloads| image:: https://img.shields.io/pypi/dm/PyVirtualDisplay.svg
    :target: https://pypi.python.org/pypi/PyVirtualDisplay/
 .. |Code Health| image:: https://landscape.io/github/ponty/PyVirtualDisplay/master/landscape.svg?style=flat
    :target: https://landscape.io/github/ponty/PyVirtualDisplay/master
