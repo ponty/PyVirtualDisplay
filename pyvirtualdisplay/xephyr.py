@@ -35,6 +35,7 @@ class XephyrDisplay(AbstractDisplay):
                dict(black='-br', white='-wr')[self.bgcolor],
                '-screen',
                'x'.join(map(str, list(self.size) + [self.color_depth])),
+               '-resizeable',
                self.new_display_var,
                ]
         return cmd
