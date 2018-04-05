@@ -12,13 +12,6 @@ mutex = Lock()
 
 log = logging.getLogger(__name__)
 
-# TODO: not perfect
-# randomize to avoid possible conflicts
-RANDOMIZE_DISPLAY_NR = False
-if RANDOMIZE_DISPLAY_NR:
-    import random
-    random.seed()
-
 MIN_DISPLAY_NR = 1000
 USED_DISPLAY_NR_LIST=[]
 
@@ -34,17 +27,18 @@ class AbstractDisplay(EasyProcess):
     Common parent for Xvfb and Xephyr
     '''
 
-    def __init__(self, use_xauth=False):
-        mutex.acquire()
-        try:
-            self.display = self.search_for_display()
+    def __init__(self, use_xauth=False, randomizer=None):
+        with mutex:
+            self.display = self.search_for_display(randomizer=randomizer)
+
             while self.display in USED_DISPLAY_NR_LIST:
                 self.display+=1
+
             USED_DISPLAY_NR_LIST.append(self.display)
-        finally:
-            mutex.release()
+
         if use_xauth and not xauth.is_installed():
             raise xauth.NotFoundError()
+
         self.use_xauth = use_xauth
         self._old_xauth = None
         self._xauth_filename = None
@@ -68,7 +62,7 @@ class AbstractDisplay(EasyProcess):
         ls = [p for p in ls if os.path.isfile(p)]
         return ls
 
-    def search_for_display(self):
+    def search_for_display(self, randomizer=None):
         # search for free display
         ls = list(map(
             lambda x: int(x.split('X')[1].split('-')[0]), self.lock_files()))
@@ -77,8 +71,9 @@ class AbstractDisplay(EasyProcess):
         else:
             display = MIN_DISPLAY_NR
 
-        if RANDOMIZE_DISPLAY_NR:
-            display += random.randint(0, 100)
+        if randomizer:
+            display = randomizer.generate()
+
         return display
 
     def redirect_display(self, on):
