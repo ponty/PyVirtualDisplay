@@ -69,9 +69,9 @@ Vagrant.configure(2) do |config|
   echo 'export distutils_issue8876_workaround_enabled=1' >> /home/vagrant/.profile
   
 # install python versions
-  sudo add-apt-repository --yes  ppa:fkrull/deadsnakes
+  sudo add-apt-repository --yes  ppa:deadsnakes/ppa
   sudo apt-get update
-  sudo apt-get install -y python2.7-dev python3.3-dev python3.4-dev  python3.5-dev python3.6-dev
+  sudo apt-get install -y python2.7-dev python3.4-dev  python3.5-dev python3.6-dev
 
 # tools
   sudo apt-get install -y mc python-pip xvfb
