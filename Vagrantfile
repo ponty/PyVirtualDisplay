@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -71,7 +71,11 @@ Vagrant.configure(2) do |config|
 # install python versions
   sudo add-apt-repository --yes  ppa:deadsnakes/ppa
   sudo apt-get update
-  sudo apt-get install -y python2.7-dev python3.4-dev  python3.5-dev python3.6-dev
+  sudo apt-get install -y python2.7-dev
+  sudo apt-get install -y python3.4-dev
+  sudo apt-get install -y python3.5-dev
+  sudo apt-get install -y python3.6-dev
+  sudo apt-get install -y python3-distutils
 
 # tools
   sudo apt-get install -y mc python-pip xvfb
