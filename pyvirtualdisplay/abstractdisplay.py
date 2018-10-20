@@ -144,7 +144,7 @@ class AbstractDisplay(EasyProcess):
 
         d = self.new_display_var
         ok = False
-        while time.time() - start_time < X_START_TIMEOUT:
+        while True:
             try:
                 exit_code = EasyProcess('xdpyinfo').call().return_code
             except EasyProcessError:
@@ -160,6 +160,8 @@ class AbstractDisplay(EasyProcess):
                 ok = True
                 break
 
+            if time.time() - start_time >= X_START_TIMEOUT:
+                break
             time.sleep(X_START_TIME_STEP)
         if not ok:
             msg = 'Failed to start X on display "%s" (xdpyinfo check failed).'
