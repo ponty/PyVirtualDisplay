@@ -5,6 +5,8 @@ import os
 import time
 import tempfile
 from threading import Lock
+import select
+import fcntl
 
 from pyvirtualdisplay import xauth
 
@@ -22,7 +24,7 @@ if RANDOMIZE_DISPLAY_NR:
 MIN_DISPLAY_NR = 1000
 USED_DISPLAY_NR_LIST=[]
 
-X_START_TIMEOUT = 1
+X_START_TIMEOUT = 10
 X_START_TIME_STEP = 0.1
 X_START_WAIT = 0.1
 
@@ -34,7 +36,7 @@ class AbstractDisplay(EasyProcess):
     Common parent for Xvfb and Xephyr
     '''
 
-    def __init__(self, use_xauth=False):
+    def __init__(self, use_xauth=False, check_startup=False):
         mutex.acquire()
         try:
             self.display = self.search_for_display()
@@ -48,6 +50,15 @@ class AbstractDisplay(EasyProcess):
         self.use_xauth = use_xauth
         self._old_xauth = None
         self._xauth_filename = None
+        self.check_startup = check_startup
+        if self.check_startup:
+            rp, wp = os.pipe()
+            fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
+            #to properly allow to inherit fds to subprocess on
+            #python 3.2+ the easyprocess needs small fix..
+            fcntl.fcntl(wp, fcntl.F_SETFD, 0)
+            self.check_startup_fd = wp
+            self._check_startup_fd = rp
         EasyProcess.__init__(self, self._cmd)
 
     @property
@@ -115,8 +126,24 @@ class AbstractDisplay(EasyProcess):
 
         # wait until X server is active
         start_time = time.time()
-        ok = False
+        if self.check_startup:
+            rp = self._check_startup_fd
+            display_check = None
+            rlist, wlist, xlist = select.select((rp,), (), (), X_START_TIMEOUT)
+            if rlist:
+                display_check = os.read(rp, 10).rstrip()
+            else:
+                msg = 'No display number returned by X server'
+                raise XStartTimeoutError(msg)
+            dnbs = str(self.display)
+            if bytes != str:
+                dnbs = bytes(dnbs, 'ascii')
+            if display_check != dnbs:
+                msg = 'Display number "%s" not returned by X server' + str(display_check)
+                raise XStartTimeoutError(msg % self.display)
+
         d = self.new_display_var
+        ok = False
         while time.time() - start_time < X_START_TIMEOUT:
             try:
                 exit_code = EasyProcess('xdpyinfo').call().return_code
