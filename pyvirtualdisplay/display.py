@@ -57,5 +57,6 @@ class Display(AbstractDisplay):
     def _cmd(self):
         self._obj.display = self.display
         self._obj.check_startup = self.check_startup
-        self._obj.check_startup_fd = self.check_startup_fd
+        if self.check_startup:
+            self._obj.check_startup_fd = self.check_startup_fd
         return self._obj._cmd
