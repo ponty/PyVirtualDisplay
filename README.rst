@@ -12,8 +12,6 @@ Features:
  - supported python versions: 2.7, 3.4, 3.5, 3.6
  - back-ends: Xvfb_, Xephyr_, Xvnc_
 
-.. warning:: at least one back-end should be installed
-
 Known problems:
  - only a few back-end options are supported
 
@@ -49,7 +47,6 @@ General
  * optional: pyscreenshot_ and PIL_ should be installed for ``smartdisplay`` submodule
  * install the program::
 
-    # as root
     pip install pyvirtualdisplay
 
 Ubuntu 14.04
@@ -71,7 +68,6 @@ Uninstall
 
 ::
 
-    # as root
     pip uninstall pyvirtualdisplay
 
 
@@ -160,7 +156,6 @@ feature needs ``xauth`` installed, otherwise a
 ``pyvirtualdisplay.xauth.NotFoundError`` is raised.
 
 
-.. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
 .. _pip: http://pip.openplans.org/
 .. _Xvfb: http://en.wikipedia.org/wiki/Xvfb
 .. _Xephyr: http://en.wikipedia.org/wiki/Xephyr
