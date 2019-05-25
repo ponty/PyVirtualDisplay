@@ -5,6 +5,12 @@ python:
  - "3.5"
  - "3.6"
 
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+      env: DIST="xenial"
+
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y xvfb xserver-xephyr scrot zenity gnumeric x11-utils x11-apps

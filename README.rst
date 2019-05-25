@@ -9,7 +9,7 @@ Links:
 
 Features:
  - python wrapper
- - supported python versions: 2.7, 3.4, 3.5, 3.6
+ - supported python versions: 2.7, 3.4, 3.5, 3.6, 3.7
  - back-ends: Xvfb_, Xephyr_, Xvnc_
 
 .. warning:: at least one back-end should be installed
