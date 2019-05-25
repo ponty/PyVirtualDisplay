@@ -36,3 +36,5 @@ sloccount.sc
 *.prefs
 
 MANIFEST
+
+*.log
