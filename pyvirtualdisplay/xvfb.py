@@ -54,4 +54,6 @@ class XvfbDisplay(AbstractDisplay):
             cmd += ['-fbdir', self.fbdir]
         if self.dpi is not None:
             cmd += ['-dpi', str(self.dpi)]
+        if self.check_startup:
+            cmd += ['-displayfd', str(self.check_startup_fd)]
         return [PROGRAM] + cmd
