@@ -1,4 +1,5 @@
 from nose.tools import ok_
+from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.display import Display
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
@@ -10,7 +11,14 @@ from unittest import TestCase
 class Test(TestCase):
     def test_virt(self):
         vd = Display().start().stop()
-#        self.assertEquals(vd.return_code, 0)
+        self.assertEquals(vd.return_code, 0)
+        ok_(not vd.is_alive())
+
+    def test_random(self):
+        r = Randomizer()
+        vd = Display(randomizer=r).start().stop()
+        self.assertEquals(vd.return_code, 0)
+        assert(r.min <= vd.display <= r.min + r.delta)
         ok_(not vd.is_alive())
 
     def test_nest(self):
@@ -19,7 +27,7 @@ class Test(TestCase):
 
         nd = Display(visible=1).start().stop()
 
-#        self.assertEquals(nd.return_code, 0)
+        self.assertEquals(nd.return_code, 0)
 
         vd.stop()
         ok_(not vd.is_alive())
@@ -29,10 +37,10 @@ class Test(TestCase):
         ok_(vd.is_alive())
 
         d = Display(visible=1).start().sleep(2).stop()
-#        self.assertEquals(d.return_code, 0)
+        self.assertEquals(d.return_code, 0)
 
         d = Display(visible=0).start().stop()
-#        self.assertEquals(d.return_code, 0)
+        self.assertEquals(d.return_code, 0)
 
         vd.stop()
         ok_(not vd.is_alive())
