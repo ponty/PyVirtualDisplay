@@ -141,7 +141,7 @@ class AbstractDisplay(EasyProcess):
             try:
                 exit_code = EasyProcess('xdpyinfo').call().return_code
             except EasyProcessError:
-                log.warn('xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!')
+                log.warning('xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!')
                 time.sleep(X_START_WAIT)    # old method
                 ok = True
                 break
