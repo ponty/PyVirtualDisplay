@@ -6,7 +6,10 @@ import time
 import tempfile
 from threading import Lock
 import select
-import fcntl
+try:
+    import fcntl
+except ImportError:
+    fcntl = None
 
 from pyvirtualdisplay import xauth
 
@@ -43,6 +46,9 @@ class AbstractDisplay(EasyProcess):
         self._old_xauth = None
         self._xauth_filename = None
         self.check_startup = check_startup
+        if not fcntl:
+            self.check_startup = False
+            log.warning("fcntl module can't be imported, 'check_startup' parameter is disabled")
         if self.check_startup:
             rp, wp = os.pipe()
             fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
