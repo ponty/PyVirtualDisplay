@@ -46,7 +46,7 @@ class AbstractDisplay(EasyProcess):
         self._old_xauth = None
         self._xauth_filename = None
         self.check_startup = check_startup
-        if not fcntl:
+        if check_startup and not fcntl:
             self.check_startup = False
             log.warning("fcntl module can't be imported, 'check_startup' parameter is disabled")
         if self.check_startup:
