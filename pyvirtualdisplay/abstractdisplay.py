@@ -48,7 +48,8 @@ class AbstractDisplay(EasyProcess):
         self.check_startup = check_startup
         if check_startup and not fcntl:
             self.check_startup = False
-            log.warning("fcntl module can't be imported, 'check_startup' parameter is disabled")
+            log.warning("fcntl module can't be imported, 'check_startup' parameter has been disabled")
+            log.warning("fnctl module does not exist on Windows")
         if self.check_startup:
             rp, wp = os.pipe()
             fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
