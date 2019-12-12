@@ -77,6 +77,7 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y python3.5-dev
   sudo apt-get install -y python3.6-dev
   sudo apt-get install -y python3.7-dev
+  sudo apt-get install -y python3.8-dev
   sudo apt-get install -y python3-distutils
 
 # tools

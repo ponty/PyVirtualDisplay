@@ -6,9 +6,21 @@ python:
 
 matrix:
   include:
-    - python: 3.7
+    - name: 3.7 xenial
+      python: 3.7
       dist: xenial
-      env: DIST="xenial"
+
+    - name: 3.8 xenial
+      python: 3.8
+      dist: xenial
+
+    - name: 3.7 bionic
+      python: 3.7
+      dist: bionic
+
+    - name: 3.8 bionic
+      python: 3.8
+      dist: bionic
 
 before_install:
   - sudo apt-get update -qq
