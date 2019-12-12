@@ -6,19 +6,19 @@ python:
 
 matrix:
   include:
-    - name: 3.7 xenial
+    - name: 3.7_xenial
       python: 3.7
       dist: xenial
 
-    - name: 3.8 xenial
+    - name: 3.8_xenial
       python: 3.8
       dist: xenial
 
-    - name: 3.7 bionic
+    - name: 3.7_bionic
       python: 3.7
       dist: bionic
 
-    - name: 3.8 bionic
+    - name: 3.8_bionic
       python: 3.8
       dist: bionic
 
