@@ -31,7 +31,7 @@ class XvncDisplay(AbstractDisplay):
 
     @classmethod
     def check_installed(cls):
-        EasyProcess(['sh', '-c', PROGRAM + ' -help > /dev/null'], url=URL,
+        EasyProcess([PROGRAM, '-help'], url=URL,
                     ubuntu_package=PACKAGE).check_installed()
 
     @property
