@@ -24,7 +24,10 @@ class XephyrDisplay(AbstractDisplay):
 
     @classmethod
     def check_installed(cls):
-        EasyProcess([PROGRAM, '-help']).check_installed()
+        p = EasyProcess([PROGRAM, '-help'])
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
 
     @property
     def _cmd(self):

@@ -2,7 +2,7 @@
 import os
 import hashlib
 
-import easyprocess
+from easyprocess import EasyProcess
 
 
 class NotFoundError(Exception):
@@ -15,8 +15,11 @@ def is_installed():
     Return whether or not xauth is installed.
     '''
     try:
-        easyprocess.EasyProcess(['xauth', '-V']).check_installed()
-    except easyprocess.EasyProcessCheckInstalledError:
+        p = EasyProcess(['xauth', '-V'])
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
+    except Exception:
         return False
     else:
         return True
@@ -34,4 +37,4 @@ def call(*args):
     '''
     Call xauth with the given args.
     '''
-    easyprocess.EasyProcess(['xauth'] + list(args)).call()
+    EasyProcess(['xauth'] + list(args)).call()
