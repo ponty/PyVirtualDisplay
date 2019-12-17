@@ -5,8 +5,6 @@ import logging
 log = logging.getLogger(__name__)
 
 PROGRAM = 'Xvnc'
-URL = None
-PACKAGE = 'tightvncserver'
 
 
 class XvncDisplay(AbstractDisplay):
@@ -31,8 +29,7 @@ class XvncDisplay(AbstractDisplay):
 
     @classmethod
     def check_installed(cls):
-        EasyProcess([PROGRAM, '-help'], url=URL,
-                    ubuntu_package=PACKAGE).check_installed()
+        EasyProcess([PROGRAM, '-help']).check_installed()
 
     @property
     def _cmd(self):

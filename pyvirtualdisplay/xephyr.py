@@ -2,8 +2,6 @@ from easyprocess import EasyProcess
 from pyvirtualdisplay.abstractdisplay import AbstractDisplay
 
 PROGRAM = 'Xephyr'
-URL = None
-PACKAGE = 'xephyr'
 
 
 class XephyrDisplay(AbstractDisplay):
@@ -26,8 +24,7 @@ class XephyrDisplay(AbstractDisplay):
 
     @classmethod
     def check_installed(cls):
-        EasyProcess([PROGRAM, '-help'], url=URL,
-                    ubuntu_package=PACKAGE).check_installed()
+        EasyProcess([PROGRAM, '-help']).check_installed()
 
     @property
     def _cmd(self):

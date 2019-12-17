@@ -5,8 +5,6 @@ import logging
 log = logging.getLogger(__name__)
 
 PROGRAM = 'Xvfb'
-URL = None
-PACKAGE = 'xvfb'
 
 
 class XvfbDisplay(AbstractDisplay):
@@ -36,8 +34,7 @@ class XvfbDisplay(AbstractDisplay):
 
     @classmethod
     def check_installed(cls):
-        EasyProcess([PROGRAM, '-help'], url=URL,
-                    ubuntu_package=PACKAGE).check_installed()
+        EasyProcess([PROGRAM, '-help']).check_installed()
 
     @property
     def _cmd(self):
