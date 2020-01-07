@@ -167,8 +167,8 @@ class AbstractDisplay(EasyProcess):
                 break
             time.sleep(X_START_TIME_STEP)
         if not ok:
-            msg = 'Failed to start X on display "%s" (xdpyinfo check failed).'
-            raise XStartTimeoutError(msg % d)
+            msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
+            raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
         return self
 
     def stop(self):
