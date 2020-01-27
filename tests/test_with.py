@@ -9,8 +9,9 @@ def test_with():
     eq_(vd.return_code, 0)
     ok_(not vd.is_alive())
 
+
 def test_dpi():
-    with Display(backend='xvfb', size=(800, 600), dpi=99) as vd:
+    with Display(backend="xvfb", size=(800, 600), dpi=99) as vd:
         ok_(vd.is_alive())
     eq_(vd.return_code, 0)
     ok_(not vd.is_alive())

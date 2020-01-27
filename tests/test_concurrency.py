@@ -10,11 +10,13 @@ def test_with():
 
     def f1():
         ls[0] = Display()
-#         d1.start()
+
+    #         d1.start()
 
     def f2():
         ls[1] = Display()
-#         d2.start()
+
+    #         d2.start()
 
     t1 = Thread(target=f1)
     t2 = Thread(target=f2)
@@ -25,14 +27,15 @@ def test_with():
     t1.join()
     t2.join()
 
-#     print ls
+    #     print ls
 
     dv1 = ls[0].new_display_var
     dv2 = ls[1].new_display_var
 
-#     print dv1
-#     print dv2
+    #     print dv1
+    #     print dv2
 
     ok_(dv1 != dv2)
+
 
 #     ok_(0)

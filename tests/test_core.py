@@ -19,7 +19,7 @@ class Test(TestCase):
         r = Randomizer()
         vd = Display(randomizer=r).start().stop()
         self.assertEquals(vd.return_code, 0)
-        assert(r.min <= vd.display <= r.min + r.delta)
+        assert r.min <= vd.display <= r.min + r.delta
         ok_(not vd.is_alive())
 
     def test_nest(self):
