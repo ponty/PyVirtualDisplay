@@ -164,7 +164,7 @@ feature needs ``xauth`` installed, otherwise a
 .. _Xvnc: http://www.hep.phy.cam.ac.uk/vnc_docs/xvnc.html
 
 
-.. |Travis| image:: http://img.shields.io/travis/ponty/PyVirtualDisplay.svg
+.. |Travis| image:: https://travis-ci.org/ponty/PyVirtualDisplay.svg?branch=master
    :target: https://travis-ci.org/ponty/PyVirtualDisplay/
 .. |Coveralls| image:: http://img.shields.io/coveralls/ponty/PyVirtualDisplay/master.svg
    :target: https://coveralls.io/r/ponty/PyVirtualDisplay/
