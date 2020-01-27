@@ -1,7 +1,6 @@
-from nose.tools import ok_, eq_
+from nose.tools import ok_
 from pyvirtualdisplay.display import Display
 from threading import Thread
-from pyvirtualdisplay import abstractdisplay
 
 
 def test_with():

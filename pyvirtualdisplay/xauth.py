@@ -7,7 +7,6 @@ from easyprocess import EasyProcess
 
 class NotFoundError(Exception):
     '''Error when xauth was not found.'''
-    pass
 
 
 def is_installed():

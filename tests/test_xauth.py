@@ -1,6 +1,5 @@
 import os
 
-import easyprocess
 
 from nose import SkipTest
 from nose.tools import ok_, eq_

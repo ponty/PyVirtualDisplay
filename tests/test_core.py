@@ -4,7 +4,6 @@ from pyvirtualdisplay.display import Display
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
-import sys
 from unittest import TestCase
 
 
