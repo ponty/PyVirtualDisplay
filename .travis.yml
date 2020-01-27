@@ -1,8 +1,8 @@
 language: python
 python:
- - "2.7"
- - "3.5"
- - "3.6"
+  - "2.7"
+  - "3.5"
+  - "3.6"
 
 matrix:
   include:
@@ -13,6 +13,10 @@ matrix:
     - name: 3.8_xenial
       python: 3.8
       dist: xenial
+
+    - name: 2.7_bionic
+      python: 2.7
+      dist: bionic
 
     - name: 3.7_bionic
       python: 3.7
@@ -27,14 +31,14 @@ before_install:
   - sudo apt-get install -y xvfb xserver-xephyr scrot zenity gnumeric x11-utils x11-apps
 
 install:
- - pip install coveralls
- - pip install -r requirements-test.txt
- - pip install --upgrade .
- 
-script:  
- - xauth add :0 . `mcookie`
- - cd tests 
- - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
- 
+  - pip install coveralls
+  - pip install -r requirements-test.txt
+  - pip install --upgrade .
+
+script:
+  - xauth add :0 . `mcookie`
+  - cd tests
+  - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
+
 after_success:
- - coveralls
+  - coveralls
