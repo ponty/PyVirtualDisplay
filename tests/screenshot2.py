@@ -4,10 +4,13 @@ two calls
 This can be error
 '''
 import logging
-logging.basicConfig(level=logging.DEBUG)
 
 from easyprocess import EasyProcess
+
 from pyvirtualdisplay.smartdisplay import SmartDisplay
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 backend1 = 'wx'
 backend2 = 'wx'

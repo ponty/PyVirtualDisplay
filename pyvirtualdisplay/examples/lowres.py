@@ -1,4 +1,5 @@
 from easyprocess import EasyProcess
+
 from pyvirtualdisplay import Display
 
 if __name__ == "__main__":

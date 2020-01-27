@@ -1,6 +1,6 @@
 '''Utility functions for xauth.'''
-import os
 import hashlib
+import os
 
 from easyprocess import EasyProcess
 

@@ -1,9 +1,11 @@
+import sys
+from unittest import TestCase
+
 from easyprocess import EasyProcess
 from nose.tools import eq_
 from path import Path
-from pyvirtualdisplay.smartdisplay import SmartDisplay, DisplayTimeoutError
-from unittest import TestCase
-import sys
+
+from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
 
 
 class Test(TestCase):

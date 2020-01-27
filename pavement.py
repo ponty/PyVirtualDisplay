@@ -1,9 +1,9 @@
 from path import Path
+
 from paver.doctools import cog, html
 from paver.easy import options
 from paver.options import Bunch
 from paver.setuputils import setup
-
 
 IMPORTS=[cog, html, setup]
     

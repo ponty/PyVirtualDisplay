@@ -1,10 +1,12 @@
+from unittest import TestCase
+
 from nose.tools import ok_
-from pyvirtualdisplay.randomize import Randomizer
+
 from pyvirtualdisplay.display import Display
+from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
-from unittest import TestCase
 
 
 class Test(TestCase):

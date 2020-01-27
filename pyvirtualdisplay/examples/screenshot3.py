@@ -2,6 +2,7 @@
 using :keyword:`with` statement
 '''
 from easyprocess import EasyProcess
+
 from pyvirtualdisplay.smartdisplay import SmartDisplay
 
 if __name__ == "__main__":

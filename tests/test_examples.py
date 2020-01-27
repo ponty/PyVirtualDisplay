@@ -1,8 +1,9 @@
-from easyprocess import EasyProcess
-from pyvirtualdisplay.display import Display
 import logging
 import time
 
+from easyprocess import EasyProcess
+
+from pyvirtualdisplay.display import Display
 
 log = logging.getLogger(__name__)
 

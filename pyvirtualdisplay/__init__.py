@@ -1,8 +1,7 @@
 import logging
 
-from pyvirtualdisplay.display import Display
 from pyvirtualdisplay.about import __version__
-
+from pyvirtualdisplay.display import Display
 
 log = logging.getLogger(__name__)
 

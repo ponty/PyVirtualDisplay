@@ -1,7 +1,10 @@
+from unittest import TestCase
+
 from easyprocess import EasyProcess
 from nose.tools import eq_
+
 from pyvirtualdisplay.smartdisplay import SmartDisplay
-from unittest import TestCase
+
 # from path import path
 # import pyscreenshot
 

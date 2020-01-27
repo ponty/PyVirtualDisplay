@@ -1,4 +1,5 @@
 from easyprocess import EasyProcess
+
 from pyvirtualdisplay.abstractdisplay import AbstractDisplay
 
 PROGRAM = 'Xephyr'

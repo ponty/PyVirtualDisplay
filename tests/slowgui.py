@@ -1,5 +1,6 @@
-from easyprocess import EasyProcess
 import time
+
+from easyprocess import EasyProcess
 
 
 def main():

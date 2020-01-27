@@ -1,9 +1,11 @@
-from easyprocess import EasyProcess
-import os
-from pyvirtualdisplay.smartdisplay import SmartDisplay
-import cog
-
 import logging
+import os
+
+from easyprocess import EasyProcess
+
+import cog
+from pyvirtualdisplay.smartdisplay import SmartDisplay
+
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 

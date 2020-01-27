@@ -1,17 +1,20 @@
-from easyprocess import EasyProcess, EasyProcessError
 import fnmatch
 import logging
 import os
-import time
-import tempfile
-from threading import Lock
 import select
+import tempfile
+import time
+from threading import Lock
+
+from easyprocess import EasyProcess, EasyProcessError
+
+from pyvirtualdisplay import xauth
+
 try:
     import fcntl
 except ImportError:
     fcntl = None
 
-from pyvirtualdisplay import xauth
 
 mutex = Lock()
 

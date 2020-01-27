@@ -1,5 +1,6 @@
 import random
 
+
 class Randomizer():
     '''
     Class to generate random display numbers between a minimum and maximum

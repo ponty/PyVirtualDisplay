@@ -1,10 +1,10 @@
-from pyvirtualdisplay.display import Display
-from PIL import Image
-from PIL import ImageChops
 import logging
-import pyscreenshot
 import time
 
+import pyscreenshot
+from PIL import Image, ImageChops
+
+from pyvirtualdisplay.display import Display
 
 log = logging.getLogger(__name__)
 

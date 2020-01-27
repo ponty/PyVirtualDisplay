@@ -1,8 +1,7 @@
 import os
 
-
 from nose import SkipTest
-from nose.tools import ok_, eq_
+from nose.tools import eq_, ok_
 
 from pyvirtualdisplay import xauth
 from pyvirtualdisplay.display import Display
