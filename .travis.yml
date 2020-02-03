@@ -26,13 +26,39 @@ matrix:
       python: 3.8
       dist: bionic
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y xvfb xserver-xephyr scrot zenity gnumeric x11-utils x11-apps
+    # - name: "Python 3.7 on macOS"
+    #   os: osx
+    #   osx_image: xcode11.2 # Python 3.7.4 running on macOS 10.14.4
+    #   language: shell # 'language: python' is an error on Travis CI macOS
+    #   env: PATH=/Users/travis/Library/Python/3.7/bin:$PATH PIPUSER=--user
+
+    # - name: "Python 3.8 on Windows"
+    #   os: windows # Windows 10.0.17134 N/A Build 17134
+    #   language: shell # 'language: python' is an error on Travis CI Windows
+    #   before_install:
+    #     - choco install python --version 3.8
+    #     - python -m pip install --upgrade pip
+    #   env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+
+addons:
+  apt:
+    packages:
+      - xvfb
+      - xserver-xephyr
+      - scrot
+      - zenity
+      - gnumeric
+      - x11-utils
+      - x11-apps
 
 install:
-  - pip install -r requirements-test.txt
-  - pip install --upgrade .
+  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PIP=pip; else PIP=pip3; fi
+  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PYTHON=python; else PYTHON=python3; fi
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then PYTHON=python; fi
+  - $PIP install $PIPUSER --upgrade -r requirements-test.txt
+  - $PIP install $PIPUSER --upgrade .
+  # http://blog.tigerteufel.de/?p=476
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then mkdir /tmp/.X11-unix;sudo chmod 1777 /tmp/.X11-unix;sudo chown root /tmp/.X11-unix/; fi
 
 script:
   - cd tests
