@@ -32,6 +32,10 @@ class XStartTimeoutError(Exception):
     pass
 
 
+class XStartError(Exception):
+    pass
+
+
 class AbstractDisplay(EasyProcess):
     """
     Common parent for Xvfb and Xephyr
@@ -124,6 +128,7 @@ class AbstractDisplay(EasyProcess):
         if self.use_xauth:
             self._setup_xauth()
         EasyProcess.start(self)
+        time.sleep(0.01)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14
@@ -154,6 +159,9 @@ class AbstractDisplay(EasyProcess):
         d = self.new_display_var
         ok = False
         while True:
+            if not EasyProcess.is_alive(self):
+                break
+
             try:
                 xdpyinfo = EasyProcess("xdpyinfo")
                 xdpyinfo.enable_stdout_log = False
@@ -177,6 +185,10 @@ class AbstractDisplay(EasyProcess):
             if time.time() - start_time >= X_START_TIMEOUT:
                 break
             time.sleep(X_START_TIME_STEP)
+        if not EasyProcess.is_alive(self):
+            log.warning("process exited early",)
+            msg = "Failed to start process: %s"
+            raise XStartError(msg % self)
         if not ok:
             msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
             raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
