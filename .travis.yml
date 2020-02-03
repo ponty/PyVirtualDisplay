@@ -35,7 +35,6 @@ install:
   - pip install --upgrade .
 
 script:
-  - xauth add :0 . `mcookie`
   - cd tests
   - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
 
