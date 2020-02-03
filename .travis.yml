@@ -31,7 +31,6 @@ before_install:
   - sudo apt-get install -y xvfb xserver-xephyr scrot zenity gnumeric x11-utils x11-apps
 
 install:
-  - pip install coveralls
   - pip install -r requirements-test.txt
   - pip install --upgrade .
 
