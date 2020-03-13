@@ -33,19 +33,24 @@ class Test(TestCase):
         disp = SmartDisplay(visible=0)
         py = Path(__file__).parent / ("slowgui.py")
         proc = EasyProcess("python " + py)
-        f = disp.wrap(proc.wrap(disp.waitgrab))
-        img = f()
+        with disp:
+            with proc:
+                img = disp.waitgrab()
         eq_(img is not None, True)
 
     def test_empty(self):
         disp = SmartDisplay(visible=0)
         proc = EasyProcess(sys.executable)
-        f = disp.wrap(proc.wrap(disp.waitgrab))
-        self.assertRaises(Exception, f)
+        with disp:
+            with proc:
+                with self.assertRaises(Exception):
+                    img = disp.waitgrab()
 
     def test_slowshot_timeout(self):
         disp = SmartDisplay(visible=0)
         py = Path(__file__).parent / ("slowgui.py")
         proc = EasyProcess("python " + py)
-        f = disp.wrap(proc.wrap(lambda: disp.waitgrab(timeout=1)))
-        self.assertRaises(DisplayTimeoutError, f)
+        with disp:
+            with proc:
+                with self.assertRaises(DisplayTimeoutError):
+                    img = disp.waitgrab(timeout=1)
