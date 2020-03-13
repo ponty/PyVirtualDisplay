@@ -36,6 +36,31 @@ class XStartError(Exception):
     pass
 
 
+def lock_files():
+    tmpdir = "/tmp"
+    pattern = ".X*-lock"
+    #        ls = path('/tmp').files('.X*-lock')
+    # remove path.py dependency
+    names = fnmatch.filter(os.listdir(tmpdir), pattern)
+    ls = [os.path.join(tmpdir, child) for child in names]
+    ls = [p for p in ls if os.path.isfile(p)]
+    return ls
+
+
+def search_for_display(randomizer=None):
+    # search for free display
+    ls = list(map(lambda x: int(x.split("X")[1].split("-")[0]), lock_files()))
+    if len(ls):
+        display = max(MIN_DISPLAY_NR, max(ls) + 3)
+    else:
+        display = MIN_DISPLAY_NR
+
+    if randomizer:
+        display = randomizer.generate()
+
+    return display
+
+
 class AbstractDisplay(object):
     """
     Common parent for Xvfb and Xephyr
@@ -43,7 +68,7 @@ class AbstractDisplay(object):
 
     def __init__(self, use_xauth=False, check_startup=False, randomizer=None):
         with mutex:
-            self.display = self.search_for_display(randomizer=randomizer)
+            self.display = search_for_display(randomizer=randomizer)
             while self.display in USED_DISPLAY_NR_LIST:
                 self.display += 1
 
@@ -79,29 +104,6 @@ class AbstractDisplay(object):
     @property
     def _cmd(self):
         raise NotImplementedError()
-
-    def lock_files(self):
-        tmpdir = "/tmp"
-        pattern = ".X*-lock"
-        #        ls = path('/tmp').files('.X*-lock')
-        # remove path.py dependency
-        names = fnmatch.filter(os.listdir(tmpdir), pattern)
-        ls = [os.path.join(tmpdir, child) for child in names]
-        ls = [p for p in ls if os.path.isfile(p)]
-        return ls
-
-    def search_for_display(self, randomizer=None):
-        # search for free display
-        ls = list(map(lambda x: int(x.split("X")[1].split("-")[0]), self.lock_files()))
-        if len(ls):
-            display = max(MIN_DISPLAY_NR, max(ls) + 3)
-        else:
-            display = MIN_DISPLAY_NR
-
-        if randomizer:
-            display = randomizer.generate()
-
-        return display
 
     def redirect_display(self, on):
         """
