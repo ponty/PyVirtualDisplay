@@ -36,7 +36,7 @@ class XStartError(Exception):
     pass
 
 
-class AbstractDisplay(EasyProcess):
+class AbstractDisplay(object):
     """
     Common parent for Xvfb and Xephyr
     """
@@ -65,12 +65,12 @@ class AbstractDisplay(EasyProcess):
         if self.check_startup:
             rp, wp = os.pipe()
             fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
-            # to properly allow to inherit fds to subprocess on
+            # TODO: to properly allow to inherit fds to subprocess on
             # python 3.2+ the easyprocess needs small fix..
             fcntl.fcntl(wp, fcntl.F_SETFD, 0)
             self.check_startup_fd = wp
             self._check_startup_fd = rp
-        EasyProcess.__init__(self, self._cmd)
+        self.proc = EasyProcess(self._cmd)
 
     @property
     def new_display_var(self):
@@ -127,7 +127,7 @@ class AbstractDisplay(EasyProcess):
         """
         if self.use_xauth:
             self._setup_xauth()
-        EasyProcess.start(self)
+        self.proc.start()
         time.sleep(0.01)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
@@ -159,7 +159,7 @@ class AbstractDisplay(EasyProcess):
         d = self.new_display_var
         ok = False
         while True:
-            if not EasyProcess.is_alive(self):
+            if not self.proc.is_alive():
                 break
 
             try:
@@ -185,7 +185,7 @@ class AbstractDisplay(EasyProcess):
             if time.time() - start_time >= X_START_TIMEOUT:
                 break
             time.sleep(X_START_TIME_STEP)
-        if not EasyProcess.is_alive(self):
+        if not self.proc.is_alive():
             log.warning("process exited early",)
             msg = "Failed to start process: %s"
             raise XStartError(msg % self)
@@ -201,7 +201,7 @@ class AbstractDisplay(EasyProcess):
         :rtype: self
         """
         self.redirect_display(False)
-        EasyProcess.stop(self)
+        self.proc.stop()
         if self.use_xauth:
             self._clear_xauth()
         return self

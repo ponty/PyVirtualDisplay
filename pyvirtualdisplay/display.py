@@ -57,6 +57,7 @@ class Display(AbstractDisplay):
             randomizer=randomizer,
         )
 
+    # TODO: convert to property
     @property
     def display_class(self):
         assert self.backend
@@ -79,3 +80,20 @@ class Display(AbstractDisplay):
         if self.check_startup:
             self._obj.check_startup_fd = self.check_startup_fd
         return self._obj._cmd
+
+    def __enter__(self):
+        """used by the :keyword:`with` statement"""
+        self.start()
+        return self
+
+    def __exit__(self, *exc_info):
+        """used by the :keyword:`with` statement"""
+        self.stop()
+
+    def is_alive(self):
+        return self.proc.is_alive()
+
+    @property
+    def return_code(self):
+        return self.proc.return_code
+
