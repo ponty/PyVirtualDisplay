@@ -12,6 +12,9 @@ class XephyrDisplay(AbstractDisplay):
     Xephyr is an X server outputting to a window on a pre-existing X display
     """
 
+    has_displayfd = False
+    has_resizeable = False
+
     def __init__(
         self, size=(1024, 768), color_depth=24, bgcolor="black", randomizer=None
     ):
@@ -32,6 +35,9 @@ class XephyrDisplay(AbstractDisplay):
         p.enable_stdout_log = False
         p.enable_stderr_log = False
         p.call()
+        helptext = p.stdout
+        cls.has_displayfd = "-displayfd" in helptext
+        cls.has_resizeable = "-resizeable" in helptext
 
     @property
     def _cmd(self):
@@ -40,9 +46,11 @@ class XephyrDisplay(AbstractDisplay):
             dict(black="-br", white="-wr")[self.bgcolor],
             "-screen",
             "x".join(map(str, list(self.size) + [self.color_depth])),
-            "-resizeable",
             self.new_display_var,
         ]
         if self.check_startup:
-            cmd += ["-displayfd", str(self.check_startup_fd)]
+            if self.has_displayfd:
+                cmd += ["-displayfd", str(self.check_startup_fd)]
+        if self.has_resizeable:
+            cmd += ["-resizeable"]
         return cmd
