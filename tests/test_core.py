@@ -1,5 +1,3 @@
-from unittest import TestCase
-
 from pyvirtualdisplay.display import Display
 from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
@@ -7,42 +5,44 @@ from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
 
 
-class Test(TestCase):
-    def test_virt(self):
-        vd = Display().start().stop()
-        assert vd.return_code == 0
-        assert not vd.is_alive()
+def test_virt():
+    vd = Display().start().stop()
+    assert vd.return_code == 0
+    assert not vd.is_alive()
 
-    def test_random(self):
-        r = Randomizer()
-        vd = Display(randomizer=r).start().stop()
-        assert vd.return_code == 0
-        assert r.min <= vd.display <= r.min + r.delta
-        assert not vd.is_alive()
 
-    def test_nest(self):
-        vd = Display().start()
-        assert vd.is_alive()
+def test_random():
+    r = Randomizer()
+    vd = Display(randomizer=r).start().stop()
+    assert vd.return_code == 0
+    assert r.min <= vd.display <= r.min + r.delta
+    assert not vd.is_alive()
 
-        nd = Display(visible=1).start().stop()
 
-        assert nd.return_code == 0
+def test_nest():
+    vd = Display().start()
+    assert vd.is_alive()
 
-        vd.stop()
-        assert not vd.is_alive()
+    nd = Display(visible=1).start().stop()
 
-    def test_disp(self):
-        vd = Display().start()
-        assert vd.is_alive()
+    assert nd.return_code == 0
 
-        # d = Display(visible=1).start().sleep(2).stop()
-        # self.assertEquals(d.return_code, 0)
+    vd.stop()
+    assert not vd.is_alive()
 
-        d = Display(visible=0).start().stop()
-        assert d.return_code == 0
 
-        vd.stop()
-        assert not vd.is_alive()
+def test_disp():
+    vd = Display().start()
+    assert vd.is_alive()
+
+    # d = Display(visible=1).start().sleep(2).stop()
+    # .assertEquals(d.return_code, 0)
+
+    d = Display(visible=0).start().stop()
+    assert d.return_code == 0
+
+    vd.stop()
+    assert not vd.is_alive()
 
 
 def test_repr():
