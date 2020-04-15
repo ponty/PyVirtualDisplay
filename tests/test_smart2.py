@@ -10,14 +10,14 @@ def check_double(backend1, backend2=None):
     if not backend2:
         backend2 = backend1
 
-    with SmartDisplay(visible=0, bgcolor="black") as disp:
+    with SmartDisplay(visible=False, bgcolor="black") as disp:
         disp.pyscreenshot_backend = backend1
         disp.pyscreenshot_childprocess = True  # error if FALSE
         with EasyProcess("xmessage hello1"):
             img = disp.waitgrab()
             assert img is not None
 
-    with SmartDisplay(visible=0, bgcolor="black") as disp:
+    with SmartDisplay(visible=False, bgcolor="black") as disp:
         disp.pyscreenshot_backend = backend2
         disp.pyscreenshot_childprocess = True  # error if FALSE
         with EasyProcess("xmessage hello2"):

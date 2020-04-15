@@ -23,7 +23,7 @@ def test_nest():
     vd = Display().start()
     assert vd.is_alive()
 
-    nd = Display(visible=1).start().stop()
+    nd = Display(visible=True).start().stop()
 
     assert nd.return_code == 0
 
@@ -35,10 +35,10 @@ def test_disp():
     vd = Display().start()
     assert vd.is_alive()
 
-    # d = Display(visible=1).start().sleep(2).stop()
+    # d = Display(visible=True).start().sleep(2).stop()
     # .assertEquals(d.return_code, 0)
 
-    d = Display(visible=0).start().stop()
+    d = Display(visible=False).start().stop()
     assert d.return_code == 0
 
     vd.stop()

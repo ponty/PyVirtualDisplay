@@ -10,17 +10,17 @@ import pytest
 def test_disp():
     vd = SmartDisplay().start()
 
-    # d = SmartDisplay(visible=1).start().sleep(2).stop()
+    # d = SmartDisplay(visible=True).start().sleep(2).stop()
     # .assertEquals(d.return_code, 0)
 
-    d = SmartDisplay(visible=0).start().stop()
+    d = SmartDisplay(visible=False).start().stop()
     assert d.return_code == 0
 
     vd.stop()
 
 
 def test_slowshot():
-    disp = SmartDisplay(visible=0).start()
+    disp = SmartDisplay(visible=False).start()
     py = Path(__file__).parent / ("slowgui.py")
     proc = EasyProcess("python " + py).start()
     img = disp.waitgrab()
@@ -30,7 +30,7 @@ def test_slowshot():
 
 
 def test_slowshot_wrap():
-    disp = SmartDisplay(visible=0)
+    disp = SmartDisplay(visible=False)
     py = Path(__file__).parent / ("slowgui.py")
     proc = EasyProcess("python " + py)
     with disp:
@@ -40,7 +40,7 @@ def test_slowshot_wrap():
 
 
 def test_empty():
-    disp = SmartDisplay(visible=0)
+    disp = SmartDisplay(visible=False)
     proc = EasyProcess(sys.executable)
     with disp:
         with proc:
@@ -49,7 +49,7 @@ def test_empty():
 
 
 def test_slowshot_timeout():
-    disp = SmartDisplay(visible=0)
+    disp = SmartDisplay(visible=False)
     py = Path(__file__).parent / ("slowgui.py")
     proc = EasyProcess("python " + py)
     with disp:

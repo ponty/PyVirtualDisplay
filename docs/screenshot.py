@@ -15,7 +15,7 @@ def screenshot(cmd, fname):
     fpath = "docs/_img/%s" % fname
     if os.path.exists(fpath):
         os.remove(fpath)
-    with SmartDisplay(visible=0, bgcolor="black") as disp:
+    with SmartDisplay(visible=False, bgcolor="black") as disp:
         with EasyProcess(cmd):
             img = disp.waitgrab()
             img.save(fpath)

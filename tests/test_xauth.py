@@ -12,7 +12,7 @@ def test_xauth():
         print("This test needs xauth installed")
         return
     old_xauth = os.getenv("XAUTHORITY")
-    display = Display(visible=0, use_xauth=True)
+    display = Display(visible=False, use_xauth=True)
     display.start()
     new_xauth = os.getenv("XAUTHORITY")
 
