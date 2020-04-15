@@ -60,7 +60,6 @@ Ubuntu 14.04
     sudo apt-get install python-pil scrot
     sudo pip install pyscreenshot
     # optional for examples
-    sudo pip install entrypoint2
 
 
 Uninstall

@@ -2,5 +2,4 @@ tox
 pytest
 pyscreenshot
 pillow
-entrypoint2
 path.py
