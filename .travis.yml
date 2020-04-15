@@ -62,7 +62,5 @@ install:
 
 script:
   - cd tests
-  - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
+  - pytest -v .
 
-after_success:
-  - coveralls

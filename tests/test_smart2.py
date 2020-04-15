@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 from easyprocess import EasyProcess
-from nose.tools import eq_
 
 from pyvirtualdisplay.smartdisplay import SmartDisplay
 
@@ -19,14 +18,14 @@ class Test(TestCase):
             disp.pyscreenshot_childprocess = True  # error if FALSE
             with EasyProcess("xmessage hello1"):
                 img = disp.waitgrab()
-                eq_(img is not None, True)
+                assert img is not None
 
         with SmartDisplay(visible=0, bgcolor="black") as disp:
             disp.pyscreenshot_backend = backend2
             disp.pyscreenshot_childprocess = True  # error if FALSE
             with EasyProcess("xmessage hello2"):
                 img = disp.waitgrab()
-                eq_(img is not None, True)
+                assert img is not None
 
     #     def test_double_wx(self):
     #         self.check_double('wx')

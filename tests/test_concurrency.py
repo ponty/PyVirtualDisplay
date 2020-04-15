@@ -1,7 +1,5 @@
 from threading import Thread
 
-from nose.tools import ok_
-
 from pyvirtualdisplay.display import Display
 
 
@@ -35,7 +33,7 @@ def test_with():
     #     print dv1
     #     print dv2
 
-    ok_(dv1 != dv2)
+    assert dv1 != dv2
 
 
 #     ok_(0)

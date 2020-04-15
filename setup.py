@@ -53,7 +53,6 @@ setup(
     license="BSD",
     packages=PACKAGES,
     #     include_package_data=True,
-    #     test_suite='nose.collector',
     #     zip_safe=False,
     install_requires=install_requires,
     # **extra

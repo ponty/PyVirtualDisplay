@@ -1,8 +1,6 @@
 tox
-nose
-coverage
+pytest
 pyscreenshot
 pillow
 entrypoint2
 path.py
-coveralls

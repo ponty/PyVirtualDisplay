@@ -2,7 +2,6 @@ import sys
 from unittest import TestCase
 
 from easyprocess import EasyProcess
-from nose.tools import eq_
 from path import Path
 
 from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
@@ -27,7 +26,7 @@ class Test(TestCase):
         img = disp.waitgrab()
         proc.stop()
         disp.stop()
-        eq_(img is not None, True)
+        assert img is not None
 
     def test_slowshot_wrap(self):
         disp = SmartDisplay(visible=0)
@@ -36,7 +35,7 @@ class Test(TestCase):
         with disp:
             with proc:
                 img = disp.waitgrab()
-        eq_(img is not None, True)
+        assert img is not None
 
     def test_empty(self):
         disp = SmartDisplay(visible=0)
