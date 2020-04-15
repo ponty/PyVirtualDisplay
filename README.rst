@@ -2,10 +2,9 @@ pyvirtualdisplay is a python wrapper for Xvfb_, Xephyr_ and Xvnc_
 
 Links:
  * home: https://github.com/ponty/pyvirtualdisplay
- * documentation: http://pyvirtualdisplay.readthedocs.org
  * PYPI: https://pypi.python.org/pypi/pyvirtualdisplay
 
-|Travis| |Coveralls| |Latest Version| |Supported Python versions| |License| |Code Health| |Documentation|
+|Travis| |License|
 
 Features:
  - python wrapper
@@ -39,36 +38,18 @@ Create screenshot of xmessage with Xvfb::
 Installation
 ============
 
-General
--------
+install the program::
 
- * install Xvfb_ or Xephyr_ or Xvnc_.
- * install pip_
- * optional: pyscreenshot_ and PIL_ should be installed for ``smartdisplay`` submodule
- * install the program::
+    pip3 install pyvirtualdisplay
 
-    pip install pyvirtualdisplay
+optional: pyscreenshot_ and Pillow_ should be installed for ``smartdisplay`` submodule::
 
-Ubuntu 14.04
-------------
-::
+    pip3 install pyscreenshot pillow
 
-    sudo apt-get install python-pip
+on Ubuntu::
+
     sudo apt-get install xvfb xserver-xephyr vnc4server
-    sudo pip install pyvirtualdisplay
-    # optional
-    sudo apt-get install python-pil scrot
-    sudo pip install pyscreenshot
-    # optional for examples
-
-
-Uninstall
----------
-
-::
-
-    pip uninstall pyvirtualdisplay
-
+    pip3 install pyvirtualdisplay pyscreenshot pillow
 
 Usage
 =====
@@ -155,25 +136,14 @@ feature needs ``xauth`` installed, otherwise a
 ``pyvirtualdisplay.xauth.NotFoundError`` is raised.
 
 
-.. _pip: http://pip.openplans.org/
 .. _Xvfb: http://en.wikipedia.org/wiki/Xvfb
 .. _Xephyr: http://en.wikipedia.org/wiki/Xephyr
-.. _pyscreenshot: https://github.com/ponty/pyscreenshot
-.. _PIL: http://www.pythonware.com/library/pil/
 .. _Xvnc: http://www.hep.phy.cam.ac.uk/vnc_docs/xvnc.html
+.. _pyscreenshot: https://github.com/ponty/pyscreenshot
+.. _Pillow: https://pillow.readthedocs.io
 
 
 .. |Travis| image:: https://travis-ci.org/ponty/PyVirtualDisplay.svg?branch=master
    :target: https://travis-ci.org/ponty/PyVirtualDisplay/
-.. |Coveralls| image:: http://img.shields.io/coveralls/ponty/PyVirtualDisplay/master.svg
-   :target: https://coveralls.io/r/ponty/PyVirtualDisplay/
-.. |Latest Version| image:: https://img.shields.io/pypi/v/PyVirtualDisplay.svg
-   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
-.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/PyVirtualDisplay.svg
-   :target: https://pypi.python.org/pypi/PyVirtualDisplay/
 .. |License| image:: https://img.shields.io/pypi/l/PyVirtualDisplay.svg
    :target: https://pypi.python.org/pypi/PyVirtualDisplay/
-.. |Code Health| image:: https://landscape.io/github/ponty/PyVirtualDisplay/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/ponty/PyVirtualDisplay/master
-.. |Documentation| image:: https://readthedocs.org/projects/pyvirtualdisplay/badge/?version=latest
-   :target: http://pyvirtualdisplay.readthedocs.org
