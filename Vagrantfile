@@ -66,8 +66,6 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   $script = "
   export DEBIAN_FRONTEND=noninteractive
-  echo 'export distutils_issue8876_workaround_enabled=1' >> /home/vagrant/.profile
-  
   echo 'export export LC_ALL=C' >> /home/vagrant/.profile
   
 # install python versions

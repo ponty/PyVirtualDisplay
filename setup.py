@@ -2,12 +2,6 @@ import os.path
 
 from setuptools import setup
 
-if os.environ.get("distutils_issue8876_workaround_enabled", False):
-    # sdist_hack: Remove reference to os.link to disable using hardlinks when
-    #             building setup.py's sdist target.  This is done because
-    #             VirtualBox VMs shared filesystems don't support hardlinks.
-    del os.link
-
 
 NAME = "pyvirtualdisplay"
 PYPI_NAME = "PyVirtualDisplay"
