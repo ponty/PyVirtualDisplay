@@ -81,11 +81,11 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y mc python3-pip xvfb
 
 # for pillow source install
-  sudo apt-get install -y libjpeg-dev zlib1g-dev
+#  sudo apt-get install -y libjpeg-dev zlib1g-dev
 
 # project dependencies
   sudo apt-get install -y xvfb xserver-xephyr vnc4server
-  sudo apt-get install -y python-pil scrot
+  #sudo apt-get install -y python-pil scrot
 
 # test dependencies
   sudo apt-get install -y zenity gnumeric 
@@ -94,7 +94,7 @@ Vagrant.configure(2) do |config|
   sudo pip3 install tox
   
 # doc dependencies
-  sudo apt-get install -y imagemagick graphviz
+#  sudo apt-get install -y imagemagick graphviz
 #  sudo pip install -r /vagrant/requirements-doc.txt
   
   "
