@@ -1,9 +1,4 @@
-Hierarchy
-==================================
-
-.. graphviz::
-
-    digraph G {
+digraph G {
     rankdir=LR;
     node [fontsize=8,style=filled, fillcolor=white];
     fontsize=8;
@@ -35,4 +30,4 @@ Hierarchy
 	SmartDisplay -> pyscreenshot;
 	SmartDisplay -> PIL;
 	
-    }
+}

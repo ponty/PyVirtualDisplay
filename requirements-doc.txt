@@ -1,5 +1,0 @@
-pillow
-paver
-path.py
-cogapp==2.3
-sphinx
