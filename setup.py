@@ -17,10 +17,6 @@ __version__ = None
 exec(open(os.path.join(NAME, "about.py")).read())
 VERSION = __version__
 
-easy_process = "EasyProcess"
-if VERSION >= '0.2.5':
-    easy_process = "EasyProcess>=0.3.0"
-
 # extra = {}
 # if sys.version_info >= (3,):
 #     extra['use_2to3'] = True
@@ -42,7 +38,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
 ]
 
-install_requires = [easy_process]
+install_requires = ["EasyProcess>=0.3.0"]
 
 setup(
     name=PYPI_NAME,
