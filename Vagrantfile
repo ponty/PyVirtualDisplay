@@ -72,7 +72,6 @@ Vagrant.configure(2) do |config|
   sudo add-apt-repository --yes  ppa:deadsnakes/ppa
   sudo apt-get update
   sudo apt-get install -y python2.7-dev
-  sudo apt-get install -y python3.5-dev
   sudo apt-get install -y python3.6-dev
   sudo apt-get install -y python3.7-dev
   sudo apt-get install -y python3.8-dev
