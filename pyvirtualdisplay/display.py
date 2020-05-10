@@ -96,4 +96,3 @@ class Display(AbstractDisplay):
     @property
     def return_code(self):
         return self.proc.return_code
-

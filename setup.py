@@ -2,7 +2,6 @@ import os.path
 
 from setuptools import setup
 
-
 NAME = "pyvirtualdisplay"
 PYPI_NAME = "PyVirtualDisplay"
 URL = "https://github.com/ponty/pyvirtualdisplay"

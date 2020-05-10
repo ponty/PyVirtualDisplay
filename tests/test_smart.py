@@ -1,10 +1,10 @@
 import sys
 
+import pytest
 from easyprocess import EasyProcess
 from path import Path
 
 from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
-import pytest
 
 
 def test_disp():
@@ -45,7 +45,7 @@ def test_empty():
     with disp:
         with proc:
             with pytest.raises(Exception):
-                img = disp.waitgrab()
+                disp.waitgrab()
 
 
 def test_slowshot_timeout():
