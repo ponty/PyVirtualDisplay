@@ -79,7 +79,7 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y python3-distutils
 
 # tools
-  sudo apt-get install -y mc python-pip xvfb
+  sudo apt-get install -y mc python3-pip xvfb
 
 # for pillow source install
   sudo apt-get install -y libjpeg-dev zlib1g-dev
@@ -92,11 +92,11 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y zenity gnumeric 
   sudo apt-get install -y x11-utils #   for: xmessage
   sudo apt-get install -y x11-apps  #   for: xlogo
-  sudo pip install -r /vagrant/requirements-test.txt
+  sudo pip3 install tox
   
 # doc dependencies
   sudo apt-get install -y imagemagick graphviz
-  sudo pip install -r /vagrant/requirements-doc.txt
+#  sudo pip install -r /vagrant/requirements-doc.txt
   
   "
       config.vm.provision "shell", inline: $script
