@@ -165,7 +165,7 @@ class AbstractDisplay(object):
                 break
 
             try:
-                xdpyinfo = EasyProcess("xdpyinfo")
+                xdpyinfo = EasyProcess(["xdpyinfo"])
                 xdpyinfo.enable_stdout_log = False
                 xdpyinfo.enable_stderr_log = False
                 exit_code = xdpyinfo.call().return_code

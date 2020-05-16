@@ -41,7 +41,7 @@ Create screenshot of xmessage with Xvfb:
 from easyprocess import EasyProcess
 from pyvirtualdisplay.smartdisplay import SmartDisplay
 with SmartDisplay(visible=False, bgcolor='black') as disp:
-    with EasyProcess('xmessage hello'):
+    with EasyProcess(['xmessage', 'hello']):
         img = disp.waitgrab()
 img.show()
 ```
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # start Xephyr
     Display(visible=True, size=(320, 240)).start()
     # start Gnumeric
-    EasyProcess('gnumeric').start()
+    EasyProcess(['gnumeric']).start()
 ```
 
 Image:
@@ -103,7 +103,7 @@ from pyvirtualdisplay.smartdisplay import SmartDisplay
 
 if __name__ == "__main__":
     with SmartDisplay(visible=False, bgcolor='black') as disp:
-        with EasyProcess('xmessage hello'):
+        with EasyProcess(['xmessage', 'hello']):
             img = disp.waitgrab()
 
 
@@ -130,7 +130,7 @@ from pyvirtualdisplay import Display
 
 if __name__ == "__main__":
     with Display(backend='xvnc', rfbport=5904) as disp:
-        with EasyProcess('xmessage hello') as proc:
+        with EasyProcess(['xmessage', 'hello']) as proc:
             proc.wait()
 ```
 
