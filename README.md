@@ -21,6 +21,13 @@ Possible applications:
 Basic usages
 ============
 
+Start Xvnc:
+
+```python
+from pyvirtualdisplay import Display
+xvfb=Display(visible=False, size=(320, 240)).start()
+```
+
 Start Xephyr:
 
 ```python
