@@ -3,18 +3,24 @@ import os.path
 from setuptools import setup
 
 NAME = "pyvirtualdisplay"
-PYPI_NAME = "PyVirtualDisplay"
-URL = "https://github.com/ponty/pyvirtualdisplay"
-DESCRIPTION = "python wrapper for Xvfb, Xephyr and Xvnc"
-PACKAGES = [
-    NAME,
-    NAME + ".examples",
-]
 
 # get __version__
 __version__ = None
 exec(open(os.path.join(NAME, "about.py")).read())
 VERSION = __version__
+
+PYPI_NAME = "PyVirtualDisplay"
+URL = "https://github.com/ponty/pyvirtualdisplay"
+DESCRIPTION = "python wrapper for Xvfb, Xephyr and Xvnc"
+LONG_DESCRIPTION = """pyvirtualdisplay is a python wrapper for Xvfb, Xephyr and Xvnc
+
+Documentation: https://github.com/ponty/pyvirtualdisplay/tree/"""
+LONG_DESCRIPTION += VERSION
+PACKAGES = [
+    NAME,
+    NAME + ".examples",
+]
+
 
 # extra = {}
 # if sys.version_info >= (3,):
@@ -42,7 +48,7 @@ setup(
     name=PYPI_NAME,
     version=VERSION,
     description=DESCRIPTION,
-    # long_description=open("README.rst", "r").read(),
+    long_description=LONG_DESCRIPTION,
     classifiers=classifiers,
     keywords="Xvfb Xephyr X wrapper",
     author="ponty",
