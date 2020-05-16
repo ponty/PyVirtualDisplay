@@ -1,7 +1,6 @@
 import os
 
-from pyvirtualdisplay import xauth
-from pyvirtualdisplay.display import Display
+from pyvirtualdisplay import Display, xauth
 
 
 def test_xauth():

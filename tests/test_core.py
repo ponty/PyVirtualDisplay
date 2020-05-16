@@ -1,4 +1,4 @@
-from pyvirtualdisplay.display import Display
+from pyvirtualdisplay import Display
 from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay

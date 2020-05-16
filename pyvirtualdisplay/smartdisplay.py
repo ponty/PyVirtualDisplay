@@ -4,7 +4,7 @@ import time
 import pyscreenshot
 from PIL import Image, ImageChops
 
-from pyvirtualdisplay.display import Display
+from pyvirtualdisplay import Display
 
 log = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-from pyvirtualdisplay.display import Display
+from pyvirtualdisplay import Display
 
 
 def test_with():

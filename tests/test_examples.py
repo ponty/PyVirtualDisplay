@@ -3,7 +3,7 @@ import time
 
 from easyprocess import EasyProcess
 
-from pyvirtualdisplay.display import Display
+from pyvirtualdisplay import Display
 
 log = logging.getLogger(__name__)
 
