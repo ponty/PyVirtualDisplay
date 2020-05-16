@@ -18,9 +18,6 @@ class DisplayTimeoutError(Exception):
 
 
 class SmartDisplay(Display):
-    pyscreenshot_backend = None
-    pyscreenshot_childprocess = True
-
     def autocrop(self, im):
         """Crop borders off an image.
 
@@ -38,15 +35,7 @@ class SmartDisplay(Display):
         return None  # no contents
 
     def grab(self, autocrop=True):
-        try:
-            # first try newer pyscreenshot version
-            img = pyscreenshot.grab(
-                childprocess=self.pyscreenshot_childprocess,
-                backend=self.pyscreenshot_backend,
-            )
-        except TypeError:
-            # try older pyscreenshot version
-            img = pyscreenshot.grab()
+        img = pyscreenshot.grab()
 
         if autocrop:
             img = self.autocrop(img)
