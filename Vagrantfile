@@ -90,7 +90,7 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y scrot
 
 # test dependencies
-  sudo apt-get install -y zenity gnumeric 
+  sudo apt-get install -y gnumeric 
   sudo apt-get install -y x11-utils #   for: xmessage
   sudo apt-get install -y x11-apps  #   for: xlogo
   sudo pip3 install tox

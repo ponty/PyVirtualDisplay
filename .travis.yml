@@ -45,7 +45,6 @@ addons:
       - xvfb
       - xserver-xephyr
       - scrot
-      - zenity
       - gnumeric
       - x11-utils
       - x11-apps

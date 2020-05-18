@@ -5,7 +5,7 @@ from easyprocess import EasyProcess
 
 def main():
     time.sleep(5)
-    EasyProcess(["zenity", "--question"]).start()
+    EasyProcess(["xmessage", "hello"]).start()
 
 
 if __name__ == "__main__":

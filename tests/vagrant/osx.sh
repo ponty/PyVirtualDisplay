@@ -17,7 +17,7 @@ sudo systemsetup -setharddisksleep Never
 echo  "@reboot /bin/sh -c 'mkdir /tmp/.X11-unix;sudo chmod 1777 /tmp/.X11-unix;sudo chown root /tmp/.X11-unix/'" > mycron
 sudo crontab mycron
 
-brew install python3 imagemagick mc pqiv pidof zenity
+brew install python3 imagemagick mc pqiv pidof
 brew cask install xquartz
 python3 -m pip install --user pillow  pytest path.py tox
 
