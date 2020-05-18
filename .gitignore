@@ -38,3 +38,5 @@ sloccount.sc
 MANIFEST
 
 *.log
+
+Vagrantfile.*
