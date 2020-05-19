@@ -6,9 +6,9 @@ from pyvirtualdisplay.xvnc import XvncDisplay
 class_map = {"xvfb": XvfbDisplay, "xvnc": XvncDisplay, "xephyr": XephyrDisplay}
 
 
-class Display(AbstractDisplay):
+class Display(object):
     """
-    Common class
+    Proxy class
 
     :param color_depth: [8, 16, 24, 32]
     :param size: screen size (width,height)
@@ -33,9 +33,6 @@ class Display(AbstractDisplay):
         self.color_depth = color_depth
         self.size = size
         self.bgcolor = bgcolor
-        self.screen = 0
-        self.process = None
-        self.display = None
         self.visible = visible
         self.backend = backend
 
@@ -53,29 +50,37 @@ class Display(AbstractDisplay):
             raise ValueError("unknown backend: %s" % self.backend)
 
         # TODO: check only once
-        cls.check_installed()
+        # cls.check_installed()
 
         self._obj = cls(
             size=size,
             color_depth=color_depth,
             bgcolor=bgcolor,
             randomizer=randomizer,
-            **kwargs
-        )
-        AbstractDisplay.__init__(
-            self,
             use_xauth=use_xauth,
             check_startup=check_startup,
-            randomizer=randomizer,
+            **kwargs
         )
+        self.display = self._obj.display
+        self.new_display_var = self._obj.new_display_var
 
-    @property
-    def _cmd(self):
-        self._obj.display = self.display
-        self._obj.check_startup = self.check_startup
-        if self.check_startup:
-            self._obj.check_startup_fd = self.check_startup_fd
-        return self._obj._cmd
+    def start(self):
+        """
+        start display
+
+        :rtype: self
+        """
+        self._obj.start()
+        return self
+
+    def stop(self):
+        """
+        stop display
+
+        :rtype: self
+        """
+        self._obj.stop()
+        return self
 
     def __enter__(self):
         """used by the :keyword:`with` statement"""
@@ -87,8 +92,8 @@ class Display(AbstractDisplay):
         self.stop()
 
     def is_alive(self):
-        return self.proc.is_alive()
+        return self._obj.is_alive()
 
     @property
     def return_code(self):
-        return self.proc.return_code
+        return self._obj.return_code

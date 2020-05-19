@@ -240,3 +240,19 @@ class AbstractDisplay(object):
             else:
                 os.environ[varname] = self._old_xauth[varname]
         self._old_xauth = None
+
+    def __enter__(self):
+        """used by the :keyword:`with` statement"""
+        self.start()
+        return self
+
+    def __exit__(self, *exc_info):
+        """used by the :keyword:`with` statement"""
+        self.stop()
+
+    def is_alive(self):
+        return self.proc.is_alive()
+
+    @property
+    def return_code(self):
+        return self.proc.return_code

@@ -19,6 +19,8 @@ class XvncDisplay(AbstractDisplay):
         size=(1024, 768),
         color_depth=24,
         bgcolor="black",
+        use_xauth=False,
+        check_startup=False,
         rfbport=5900,
         rfbauth=None,
         randomizer=None,
@@ -36,7 +38,12 @@ class XvncDisplay(AbstractDisplay):
         self.display = None
         self.rfbport = rfbport
         self.rfbauth = rfbauth
-        AbstractDisplay.__init__(self, randomizer=randomizer)
+        AbstractDisplay.__init__(
+            self,
+            use_xauth=use_xauth,
+            check_startup=check_startup,
+            randomizer=randomizer,
+        )
 
     @classmethod
     def check_installed(cls):

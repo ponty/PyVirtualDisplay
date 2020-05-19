@@ -23,6 +23,8 @@ class XvfbDisplay(AbstractDisplay):
         size=(1024, 768),
         color_depth=24,
         bgcolor="black",
+        use_xauth=False,
+        check_startup=False,
         fbdir=None,
         dpi=None,
         randomizer=None,
@@ -41,7 +43,12 @@ class XvfbDisplay(AbstractDisplay):
         self.display = None
         self.fbdir = fbdir
         self.dpi = dpi
-        AbstractDisplay.__init__(self, randomizer=randomizer)
+        AbstractDisplay.__init__(
+            self,
+            use_xauth=use_xauth,
+            check_startup=check_startup,
+            randomizer=randomizer,
+        )
 
     @classmethod
     def check_installed(cls):

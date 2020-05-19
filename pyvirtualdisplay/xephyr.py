@@ -16,7 +16,13 @@ class XephyrDisplay(AbstractDisplay):
     has_resizeable = False
 
     def __init__(
-        self, size=(1024, 768), color_depth=24, bgcolor="black", randomizer=None
+        self,
+        size=(1024, 768),
+        color_depth=24,
+        bgcolor="black",
+        use_xauth=False,
+        check_startup=False,
+        randomizer=None,
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -27,7 +33,12 @@ class XephyrDisplay(AbstractDisplay):
         self.screen = 0
         self.process = None
         self.display = None
-        AbstractDisplay.__init__(self, randomizer=randomizer)
+        AbstractDisplay.__init__(
+            self,
+            use_xauth=use_xauth,
+            check_startup=check_startup,
+            randomizer=randomizer,
+        )
 
     @classmethod
     def check_installed(cls):
