@@ -38,7 +38,7 @@ class SmartDisplay(Display):
     def grab(self, autocrop=True):
         img = grab()
         if sys.platform == "darwin" or sys.platform == "win32":
-            img = grab(xdisplay="")
+            img = grab(xdisplay=self.new_display_var)
         else:
             img = grab()
 
