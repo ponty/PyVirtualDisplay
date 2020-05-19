@@ -38,19 +38,20 @@ class XvncDisplay(AbstractDisplay):
         self.display = None
         self.rfbport = rfbport
         self.rfbauth = rfbauth
+
+        p = EasyProcess([PROGRAM, "-help"])
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
+        helptext = p.stdout
+        self.has_displayfd = "-displayfd" in helptext
+
         AbstractDisplay.__init__(
             self,
             use_xauth=use_xauth,
             check_startup=check_startup,
             randomizer=randomizer,
         )
-
-    @classmethod
-    def check_installed(cls):
-        p = EasyProcess([PROGRAM, "-help"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
 
     def _cmd(self):
         cmd = [
@@ -71,5 +72,6 @@ class XvncDisplay(AbstractDisplay):
         ]
 
         if self.check_startup:
-            cmd += ["-displayfd", str(self.check_startup_fd)]
+            if self.has_displayfd:
+                cmd += ["-displayfd", str(self.check_startup_fd)]
         return cmd

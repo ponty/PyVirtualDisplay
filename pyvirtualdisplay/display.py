@@ -49,9 +49,6 @@ class Display(object):
         if not cls:
             raise ValueError("unknown backend: %s" % self.backend)
 
-        # TODO: check only once
-        # cls.check_installed()
-
         self._obj = cls(
             size=size,
             color_depth=color_depth,

@@ -12,9 +12,6 @@ class XephyrDisplay(AbstractDisplay):
     Xephyr is an X server outputting to a window on a pre-existing X display
     """
 
-    has_displayfd = False
-    has_resizeable = False
-
     def __init__(
         self,
         size=(1024, 768),
@@ -33,22 +30,21 @@ class XephyrDisplay(AbstractDisplay):
         self.screen = 0
         self.process = None
         self.display = None
+        
+        p = EasyProcess([PROGRAM, "-help"])
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
+        helptext = p.stdout
+        self.has_displayfd = "-displayfd" in helptext
+        self.has_resizeable = "-resizeable" in helptext
+
         AbstractDisplay.__init__(
             self,
             use_xauth=use_xauth,
             check_startup=check_startup,
             randomizer=randomizer,
         )
-
-    @classmethod
-    def check_installed(cls):
-        p = EasyProcess([PROGRAM, "-help"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
-        helptext = p.stdout
-        cls.has_displayfd = "-displayfd" in helptext
-        cls.has_resizeable = "-resizeable" in helptext
 
     def _cmd(self):
         cmd = [
