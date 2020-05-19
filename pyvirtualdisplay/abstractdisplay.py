@@ -38,10 +38,13 @@ class XStartError(Exception):
 
 def lock_files():
     tmpdir = "/tmp"
+    try:
+        ls = os.listdir(tmpdir)
+    except FileNotFoundError:
+        log.warning("missing /tmp")
+        return []
     pattern = ".X*-lock"
-    #        ls = path('/tmp').files('.X*-lock')
-    # remove path.py dependency
-    names = fnmatch.filter(os.listdir(tmpdir), pattern)
+    names = fnmatch.filter(ls, pattern)
     ls = [os.path.join(tmpdir, child) for child in names]
     ls = [p for p in ls if os.path.isfile(p)]
     return ls
