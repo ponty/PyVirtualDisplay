@@ -3,6 +3,8 @@ from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
 
+class_map = {"xvfb": XvfbDisplay, "xvnc": XvncDisplay, "xephyr": XephyrDisplay}
+
 
 class Display(AbstractDisplay):
     """
@@ -43,7 +45,17 @@ class Display(AbstractDisplay):
             else:
                 self.backend = "xvfb"
 
-        self._obj = self.display_class(
+        if not self.backend:
+            raise ValueError("missing backend")
+
+        cls = class_map.get(self.backend)
+        if not cls:
+            raise ValueError("unknown backend: %s" % self.backend)
+
+        # TODO: check only once
+        cls.check_installed()
+
+        self._obj = cls(
             size=size,
             color_depth=color_depth,
             bgcolor=bgcolor,
@@ -56,22 +68,6 @@ class Display(AbstractDisplay):
             check_startup=check_startup,
             randomizer=randomizer,
         )
-
-    # TODO: convert to property
-    @property
-    def display_class(self):
-        assert self.backend
-        if self.backend == "xvfb":
-            cls = XvfbDisplay
-        if self.backend == "xvnc":
-            cls = XvncDisplay
-        if self.backend == "xephyr":
-            cls = XephyrDisplay
-
-        # TODO: check only once
-        cls.check_installed()
-
-        return cls
 
     @property
     def _cmd(self):
