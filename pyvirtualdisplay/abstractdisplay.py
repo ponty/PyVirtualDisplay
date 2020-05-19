@@ -98,13 +98,12 @@ class AbstractDisplay(object):
             fcntl.fcntl(wp, fcntl.F_SETFD, 0)
             self.check_startup_fd = wp
             self._check_startup_fd = rp
-        self.proc = EasyProcess(self._cmd)
+        self.proc = EasyProcess(self._cmd())
 
     @property
     def new_display_var(self):
         return ":%s" % (self.display)
 
-    @property
     def _cmd(self):
         raise NotImplementedError()
 

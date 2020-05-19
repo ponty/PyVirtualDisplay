@@ -52,7 +52,6 @@ class XvncDisplay(AbstractDisplay):
         p.enable_stderr_log = False
         p.call()
 
-    @property
     def _cmd(self):
         cmd = [
             PROGRAM,

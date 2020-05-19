@@ -50,7 +50,6 @@ class XephyrDisplay(AbstractDisplay):
         cls.has_displayfd = "-displayfd" in helptext
         cls.has_resizeable = "-resizeable" in helptext
 
-    @property
     def _cmd(self):
         cmd = [
             PROGRAM,

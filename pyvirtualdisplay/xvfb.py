@@ -57,7 +57,6 @@ class XvfbDisplay(AbstractDisplay):
         p.enable_stderr_log = False
         p.call()
 
-    @property
     def _cmd(self):
         cmd = [
             dict(black="-br", white="-wr")[self.bgcolor],
