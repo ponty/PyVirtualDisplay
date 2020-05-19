@@ -7,8 +7,6 @@ from path import Path
 
 import vagrant
 
-# from fabric.api import env, execute, task, run, sudo, settings
-
 
 # pip3 install fabric vncdotool python-vagrant entrypoint2
 
@@ -21,18 +19,14 @@ class Options:
     destroy = False
 
 
-def wrapcmd(cmd, guiproc):
-    if guiproc:
-        # copy env vars from graphical session
-        cmd = f"sudo cat /proc/`pidof {guiproc}`/environ | tr '\\0' '\\n' > /tmp/x;export $(cat /tmp/x); {cmd}"
-    print(f"command: {cmd}")
-    return cmd
-
-
-def run_box(options, vagrantfile, cmds, guiproc):
+def run_box(options, vagrantfile, cmds):
     env = os.environ
     env["VAGRANT_VAGRANTFILE"] = DIR / vagrantfile
-    env["VAGRANT_DOTFILE_PATH"] = DIR / ".vagrant_" + vagrantfile
+    if vagrantfile != "Vagrantfile":
+        env["VAGRANT_DOTFILE_PATH"] = DIR / ".vagrant_" + vagrantfile
+    else:
+        env["VAGRANT_DOTFILE_PATH"] = ""
+
     v = vagrant.Vagrant(env=env, quiet_stdout=False, quiet_stderr=False)
     status = v.status()
     state = status[0].state
@@ -60,92 +54,20 @@ def run_box(options, vagrantfile, cmds, guiproc):
             with conn.cd("c:/vagrant" if options.win else "/vagrant"):
                 if not options.win:
                     cmds = ["env | sort"] + cmds
-                if guiproc:
-                    pid = None
-                    while not pid:
-                        print(f"waiting for {guiproc}")
-                        cmd = f"bash --login -c 'pidof {guiproc} || true'"
-                        print(cmd)
-                        pid = conn.run(cmd).stdout
-                        sleep(1)
-                    print(f"{guiproc} pid={pid}")
                 sleep(1)
                 for cmd in cmds:
                     if options.recreate:
                         if "tox" in cmd:
                             cmd += " -r"
-                    conn.run(wrapcmd(cmd, guiproc))
+                    conn.run(cmd)
     finally:
         if options.halt:
             v.halt()
 
 
 config = {
-    "server": ("Vagrantfile", ["tox"], "",),
-    "lubuntu.18.04": (
-        "Vagrantfile.lubuntu.18.04.rb",
-        ["tox -e py27-desktop", "tox -e py3-desktop"],
-        "lxsession",
-    ),
-    # TODO: add ubuntu 20.04 variants when it becomes stable
-    # "lubuntu.20.04": (
-    #     "Vagrantfile.lubuntu.20.04.rb",
-    #     ["tox -e py27-desktop", "tox -e py3-desktop"],
-    #     "lxsession",
-    # ),
-    "xubuntu.18.04": (
-        "Vagrantfile.xubuntu.18.04.rb",
-        ["tox -e py27-desktop", "tox -e py3-desktop"],
-        "xfdesktop",
-    ),
-    # "xubuntu.20.04": (
-    #     "Vagrantfile.xubuntu.20.04.rb",
-    #     ["tox -e py27-desktop", "tox -e py3-desktop"],
-    #     "xfdesktop",
-    # ),
-    "kubuntu.18.04": (
-        "Vagrantfile.kubuntu.18.04.rb",
-        ["tox -e py27-desktop", "tox -e py3-desktop"],
-        "gnome-shell",
-    ),
-    # "kubuntu.20.04": (
-    #     "Vagrantfile.kubuntu.20.04.rb",
-    #     ["tox -e py27-desktop", "tox -e py3-desktop"],
-    #     "gnome-shell",
-    # ),
-    "ubuntu.18.04": (
-        "Vagrantfile.ubuntu.18.04.rb",
-        ["tox -e py3-desktop"],
-        "gnome-shell",
-    ),
-    "ubuntu.20.04": (
-        "Vagrantfile.ubuntu.20.04.rb",
-        ["tox -e py3-desktop"],
-        "gnome-shell",
-    ),
-    "arch.kde.x11": (
-        "Vagrantfile.arch.kde.x11.rb",
-        ["tox -e py3-desktop"],
-        "plasma_session",
-    ),
-    "arch.kde.wayland": (
-        "Vagrantfile.arch.kde.wayland.rb",
-        ["tox -e py3-desktop"],
-        "plasma_session",
-        # "Xwayland",
-    ),
-    "arch.gnome.wayland": (
-        "Vagrantfile.arch.gnome.wayland.rb",
-        ["tox -e py3-desktop"],
-        "gnome-shell-calendar-server",
-        # "Xwayland",
-    ),
-    # "win": ("Vagrantfile.win.rb", ["tox -e py3-win"], "",),
-    "osx": (
-        "Vagrantfile.osx.rb",
-        ["bash --login -c 'python3 -m tox -e py3-osx'"],
-        "Dock",
-    ),
+    "server": ("Vagrantfile", ["tox"],),
+    "osx": ("Vagrantfile.osx.rb", ["bash --login -c 'python3 -m tox -e py3-osx'"],),
 }
 
 
@@ -164,4 +86,4 @@ def main(boxes="all", fast=False, destroy=False):
         if k in boxes:
             options.win = k == "win"
             print("-----> %s %s %s" % (k, v[0], v[1]))
-            run_box(options, v[0], v[1], v[2])
+            run_box(options, v[0], v[1])
