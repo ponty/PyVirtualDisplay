@@ -9,6 +9,7 @@ from threading import Lock
 from easyprocess import EasyProcess, EasyProcessError
 
 from pyvirtualdisplay import xauth
+from pyvirtualdisplay.util import get_helptext
 
 # try:
 #     import fcntl
@@ -89,11 +90,7 @@ class AbstractDisplay(object):
     def __init__(self, program, use_xauth, randomizer):
         self.randomizer = randomizer
 
-        p = EasyProcess([program, "-help"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
-        helptext = p.stderr
+        helptext = get_helptext(program)
         self.has_displayfd = "-displayfd" in helptext
         # if check_startup and not has_displayfd:
         #     check_startup = False
@@ -162,7 +159,7 @@ class AbstractDisplay(object):
                 self.new_display_var = ":%s" % int(self.display)
 
                 USED_DISPLAY_NR_LIST.append(self.display)
-    
+
         cmd = self._cmd()
         log.debug("command: %s", cmd)
         self.subproc = subprocess.Popen(

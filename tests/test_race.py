@@ -3,6 +3,7 @@ from pyvirtualdisplay import Display
 import sys
 from entrypoint2 import entrypoint
 from time import sleep
+from pyvirtualdisplay.util import get_helptext
 
 # ubuntu 14.04 no displayfd
 # ubuntu 16.04 displayfd
@@ -10,12 +11,7 @@ from time import sleep
 
 
 def has_displayfd():
-    p = EasyProcess(["Xvfb", "-help"])
-    p.enable_stdout_log = False
-    p.enable_stderr_log = False
-    p.call()
-    helptext = p.stderr
-    return "-displayfd" in helptext
+    return "-displayfd" in get_helptext("Xvfb")
 
 
 if has_displayfd():
