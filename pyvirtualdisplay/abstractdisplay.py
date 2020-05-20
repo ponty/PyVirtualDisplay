@@ -126,10 +126,6 @@ class AbstractDisplay(object):
         #     self._check_startup_fd = rp
         # self.proc = EasyProcess(self._cmd())
 
-    @property
-    def new_display_var(self):
-        return ":%s" % (self.display)
-
     def _check_flags(self, helptext):
         pass
 
@@ -167,9 +163,10 @@ class AbstractDisplay(object):
                 self.display = search_for_display(randomizer=self.randomizer)
                 while self.display in USED_DISPLAY_NR_LIST:
                     self.display += 1
+                self.new_display_var = ":%s" % int(self.display)
 
                 USED_DISPLAY_NR_LIST.append(self.display)
-
+    
         cmd = self._cmd()
         log.debug("command: %s", cmd)
         self.subproc = subprocess.Popen(
@@ -181,6 +178,8 @@ class AbstractDisplay(object):
         if self.has_displayfd:
             rfd = self.subproc.stdout.fileno()
             self.display = int(wait_for_pipe_text(rfd, self))
+        self.new_display_var = ":%s" % int(self.display)
+
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14
