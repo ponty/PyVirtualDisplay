@@ -26,32 +26,22 @@ def check_N(N):
 
         sleep(3)
 
-        alive_count = 0
-        alive_ls = []
+        good_count = 0
         for p in ls:
-            if p.is_alive():
-                alive_count += 1
-                alive_ls += [1]
-            else:
-                alive_ls += [0]
+            p.wait()
+            if p.return_code == 0:
+                good_count += 1
     finally:
         for p in ls:
             p.stop()
-    # ret_count = 0
-    # for p in ls:
-    #     if p.return_code == 0:
-    #         ret_count += 1
-    print(alive_count)
-    print(alive_ls)
-    # print(ret_count)
-    assert alive_count == N
-    # assert ret_count == N
+    print(good_count)
+    assert good_count == N
 
 
 @entrypoint
 def main(i):
-    # print("my index:%s" % (i))
     d = Display().start()
     print("my index:%s  disp:%s" % (i, d.new_display_var))
-    assert d.is_alive()
-    sleep(600)
+    ok = d.is_alive()
+    d.stop()
+    assert ok
