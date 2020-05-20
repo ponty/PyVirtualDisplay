@@ -92,7 +92,7 @@ class AbstractDisplay(object):
         p.enable_stderr_log = False
         p.call()
         helptext = p.stderr
-        has_displayfd = "-displayfd" in helptext
+        self.has_displayfd = "-displayfd" in helptext
         # if check_startup and not has_displayfd:
         #     check_startup = False
         #     log.warning(
@@ -101,12 +101,13 @@ class AbstractDisplay(object):
         #     )
         self._check_flags(helptext)
 
-        with mutex:
-            self.display = search_for_display(randomizer=randomizer)
-            while self.display in USED_DISPLAY_NR_LIST:
-                self.display += 1
+        if not self.has_displayfd:
+            with mutex:
+                self.display = search_for_display(randomizer=randomizer)
+                while self.display in USED_DISPLAY_NR_LIST:
+                    self.display += 1
 
-            USED_DISPLAY_NR_LIST.append(self.display)
+                USED_DISPLAY_NR_LIST.append(self.display)
 
         if use_xauth and not xauth.is_installed():
             raise xauth.NotFoundError()
@@ -177,7 +178,7 @@ class AbstractDisplay(object):
         )
         rfd = self.subproc.stdout.fileno()
 
-        self.display = wait_for_pipe_text(rfd, self)
+        self.display = int(wait_for_pipe_text(rfd, self))
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14
@@ -205,42 +206,44 @@ class AbstractDisplay(object):
         #         )
         #         raise XStartTimeoutError(msg % self.display)
 
-        d = self.new_display_var
-        ok = False
-        while True:
+        if not self.has_displayfd:
+            d = self.new_display_var
+            ok = False
+            while True:
+                if not self.is_alive():
+                    break
+
+                try:
+                    xdpyinfo = EasyProcess(["xdpyinfo"])
+                    xdpyinfo.enable_stdout_log = False
+                    xdpyinfo.enable_stderr_log = False
+                    exit_code = xdpyinfo.call().return_code
+                except EasyProcessError:
+                    log.warning(
+                        "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
+                    )
+                    time.sleep(X_START_WAIT)  # old method
+                    ok = True
+                    break
+
+                if exit_code != 0:
+                    pass
+                else:
+                    log.info('Successfully started X with display "%s".', d)
+                    ok = True
+                    break
+
+                if time.time() - start_time >= X_START_TIMEOUT:
+                    break
+                time.sleep(X_START_TIME_STEP)
             if not self.is_alive():
-                break
+                log.warning("process exited early",)
+                msg = "Failed to start process: %s"
+                raise XStartError(msg % self)
+            if not ok:
+                msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
+                raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
 
-            try:
-                xdpyinfo = EasyProcess(["xdpyinfo"])
-                xdpyinfo.enable_stdout_log = False
-                xdpyinfo.enable_stderr_log = False
-                exit_code = xdpyinfo.call().return_code
-            except EasyProcessError:
-                log.warning(
-                    "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
-                )
-                time.sleep(X_START_WAIT)  # old method
-                ok = True
-                break
-
-            if exit_code != 0:
-                pass
-            else:
-                log.info('Successfully started X with display "%s".', d)
-                ok = True
-                break
-
-            if time.time() - start_time >= X_START_TIMEOUT:
-                break
-            time.sleep(X_START_TIME_STEP)
-        if not self.is_alive():
-            log.warning("process exited early",)
-            msg = "Failed to start process: %s"
-            raise XStartError(msg % self)
-        if not ok:
-            msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
-            raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
         return self
 
     def stop(self):

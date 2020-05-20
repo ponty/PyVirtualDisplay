@@ -51,10 +51,11 @@ class XephyrDisplay(AbstractDisplay):
             dict(black="-br", white="-wr")[self.bgcolor],
             "-screen",
             "x".join(map(str, list(self.size) + [self.color_depth])),
-            self.new_display_var,
+            # self.new_display_var,
         ]
         # if self.check_startup:
-        cmd += ["-displayfd", "1"]
+        if self.has_displayfd:
+            cmd += ["-displayfd", "1"]
         if self.has_resizeable:
             cmd += ["-resizeable"]
         return cmd

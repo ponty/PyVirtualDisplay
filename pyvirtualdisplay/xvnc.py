@@ -64,12 +64,13 @@ class XvncDisplay(AbstractDisplay):
         if self.rfbauth:
             cmd += ["-rfbauth", str(self.rfbauth)]
 
-        cmd += [
-            self.new_display_var,
-        ]
+        # cmd += [
+        #     self.new_display_var,
+        # ]
 
         # if self.check_startup:
         #     if self.has_displayfd:
         #         cmd += ["-displayfd", str(self.check_startup_fd)]
-        cmd += ["-displayfd", "1"]
+        if self.has_displayfd:
+            cmd += ["-displayfd", "1"]
         return cmd
