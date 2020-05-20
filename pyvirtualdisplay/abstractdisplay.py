@@ -69,7 +69,21 @@ class AbstractDisplay(object):
     Common parent for Xvfb and Xephyr
     """
 
-    def __init__(self, use_xauth=False, check_startup=False, randomizer=None):
+    def __init__(self, program, use_xauth, check_startup, randomizer):
+        p = EasyProcess([program, "-help"])
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
+        helptext = p.stderr
+        has_displayfd = "-displayfd" in helptext
+        if check_startup and not has_displayfd:
+            check_startup = False
+            log.warning(
+                program
+                + " -displayfd flag is not supported, 'check_startup' parameter has been disabled"
+            )
+        self._check_flags(helptext)
+
         with mutex:
             self.display = search_for_display(randomizer=randomizer)
             while self.display in USED_DISPLAY_NR_LIST:
@@ -103,6 +117,9 @@ class AbstractDisplay(object):
     @property
     def new_display_var(self):
         return ":%s" % (self.display)
+
+    def _check_flags(self, helptext):
+        pass
 
     def _cmd(self):
         raise NotImplementedError()

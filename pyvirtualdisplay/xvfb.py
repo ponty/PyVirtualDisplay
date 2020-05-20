@@ -44,19 +44,16 @@ class XvfbDisplay(AbstractDisplay):
         self.fbdir = fbdir
         self.dpi = dpi
 
-        p = EasyProcess([PROGRAM, "-help"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
-        helptext = p.stdout
-        self.has_displayfd = "-displayfd" in helptext
-
         AbstractDisplay.__init__(
             self,
+            PROGRAM,
             use_xauth=use_xauth,
             check_startup=check_startup,
             randomizer=randomizer,
         )
+
+    def _check_flags(self, helptext):
+        pass
 
     def _cmd(self):
         cmd = [
@@ -73,6 +70,5 @@ class XvfbDisplay(AbstractDisplay):
         if self.dpi is not None:
             cmd += ["-dpi", str(self.dpi)]
         if self.check_startup:
-            if self.has_displayfd:
-                cmd += ["-displayfd", str(self.check_startup_fd)]
+            cmd += ["-displayfd", str(self.check_startup_fd)]
         return [PROGRAM] + cmd

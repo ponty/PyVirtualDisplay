@@ -1,6 +1,9 @@
 from easyprocess import EasyProcess
 
 from pyvirtualdisplay.abstractdisplay import AbstractDisplay
+import logging
+
+log = logging.getLogger(__name__)
 
 PROGRAM = "Xephyr"
 
@@ -30,21 +33,17 @@ class XephyrDisplay(AbstractDisplay):
         self.screen = 0
         self.process = None
         self.display = None
-        
-        p = EasyProcess([PROGRAM, "-help"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
-        helptext = p.stdout
-        self.has_displayfd = "-displayfd" in helptext
-        self.has_resizeable = "-resizeable" in helptext
 
         AbstractDisplay.__init__(
             self,
+            PROGRAM,
             use_xauth=use_xauth,
             check_startup=check_startup,
             randomizer=randomizer,
         )
+
+    def _check_flags(self, helptext):
+        self.has_resizeable = "-resizeable" in helptext
 
     def _cmd(self):
         cmd = [
@@ -55,8 +54,7 @@ class XephyrDisplay(AbstractDisplay):
             self.new_display_var,
         ]
         if self.check_startup:
-            if self.has_displayfd:
-                cmd += ["-displayfd", str(self.check_startup_fd)]
+            cmd += ["-displayfd", str(self.check_startup_fd)]
         if self.has_resizeable:
             cmd += ["-resizeable"]
         return cmd
