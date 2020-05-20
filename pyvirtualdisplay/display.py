@@ -58,8 +58,6 @@ class Display(object):
             # check_startup=check_startup,
             **kwargs
         )
-        self.display = self._obj.display
-        self.new_display_var = self._obj.new_display_var
 
     def start(self):
         """
@@ -68,6 +66,8 @@ class Display(object):
         :rtype: self
         """
         self._obj.start()
+        self.display = self._obj.display
+        self.new_display_var = self._obj.new_display_var
         return self
 
     def stop(self):

@@ -15,7 +15,7 @@ def test_random():
     r = Randomizer()
     vd = Display(randomizer=r).start().stop()
     assert vd.return_code == 0
-    assert r.min <= vd.display <= r.min + r.delta
+    # assert r.min <= vd.display <= r.min + r.delta # can be auto nr
     assert not vd.is_alive()
 
 
