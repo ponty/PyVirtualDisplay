@@ -66,6 +66,7 @@ def search_for_display(randomizer=None):
 
 def wait_for_pipe_text(rfd, proc):
     s = ""
+    start_time = time.time()
     while True:
         (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
         if not proc.is_alive():
@@ -75,6 +76,8 @@ def wait_for_pipe_text(rfd, proc):
             if c == b"\n":
                 break
             s += c.decode("ascii")
+        if time.time() - start_time >= X_START_TIMEOUT:
+            raise XStartTimeoutError("no reply from program")
     return s
 
 
