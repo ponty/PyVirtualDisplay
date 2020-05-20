@@ -63,12 +63,12 @@ class XvfbDisplay(AbstractDisplay):
             "-screen",
             str(self.screen),
             "x".join(map(str, list(self.size) + [self.color_depth])),
-            self.new_display_var,
+            # self.new_display_var,
         ]
         if self.fbdir:
             cmd += ["-fbdir", self.fbdir]
         if self.dpi is not None:
             cmd += ["-dpi", str(self.dpi)]
-        if self.check_startup:
-            cmd += ["-displayfd", str(self.check_startup_fd)]
+        # if self.check_startup:
+        cmd += ["-displayfd", "1"]
         return [PROGRAM] + cmd

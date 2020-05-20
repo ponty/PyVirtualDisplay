@@ -53,8 +53,8 @@ class XephyrDisplay(AbstractDisplay):
             "x".join(map(str, list(self.size) + [self.color_depth])),
             self.new_display_var,
         ]
-        if self.check_startup:
-            cmd += ["-displayfd", str(self.check_startup_fd)]
+        # if self.check_startup:
+        cmd += ["-displayfd", "1"]
         if self.has_resizeable:
             cmd += ["-resizeable"]
         return cmd

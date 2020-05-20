@@ -3,7 +3,7 @@ import logging
 import os
 import select
 import tempfile
-import time
+import time, subprocess
 from threading import Lock
 
 from easyprocess import EasyProcess, EasyProcessError
@@ -64,6 +64,20 @@ def search_for_display(randomizer=None):
     return display
 
 
+def wait_for_pipe_text(rfd, proc):
+    s = ""
+    while True:
+        (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
+        if not proc.is_alive():
+            raise XStartError("program closed")
+        if rfd in rfd_changed_ls:
+            c = os.read(rfd, 1)
+            if c == b"\n":
+                break
+            s += c.decode("ascii")
+    return s
+
+
 class AbstractDisplay(object):
     """
     Common parent for Xvfb and Xephyr
@@ -104,15 +118,15 @@ class AbstractDisplay(object):
                 "fcntl module can't be imported, 'check_startup' parameter has been disabled"
             )
             log.warning("fnctl module does not exist on Windows")
-        if self.check_startup:
-            rp, wp = os.pipe()
-            fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
-            # TODO: to properly allow to inherit fds to subprocess on
-            # python 3.2+ the easyprocess needs small fix..
-            fcntl.fcntl(wp, fcntl.F_SETFD, 0)
-            self.check_startup_fd = wp
-            self._check_startup_fd = rp
-        self.proc = EasyProcess(self._cmd())
+        # if self.check_startup:
+        #     rp, wp = os.pipe()
+        #     fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
+        #     # TODO: to properly allow to inherit fds to subprocess on
+        #     # python 3.2+ the easyprocess needs small fix..
+        #     fcntl.fcntl(wp, fcntl.F_SETFD, 0)
+        #     self.check_startup_fd = wp
+        #     self._check_startup_fd = rp
+        # self.proc = EasyProcess(self._cmd())
 
     @property
     def new_display_var(self):
@@ -148,8 +162,19 @@ class AbstractDisplay(object):
         """
         if self.use_xauth:
             self._setup_xauth()
-        self.proc.start()
-        time.sleep(0.01)
+        # self.proc.start()
+
+        cmd = self._cmd()
+        log.debug("command: %s", cmd)
+        self.subproc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            # TODO: stderr=_stderr_file,
+            shell=False,
+        )
+        rfd = self.subproc.stdout.fileno()
+
+        self.display = wait_for_pipe_text(rfd, self)
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14
@@ -159,28 +184,28 @@ class AbstractDisplay(object):
 
         # wait until X server is active
         start_time = time.time()
-        if self.check_startup:
-            rp = self._check_startup_fd
-            display_check = None
-            rlist, wlist, xlist = select.select((rp,), (), (), X_START_TIMEOUT)
-            if rlist:
-                display_check = os.read(rp, 10).rstrip()
-            else:
-                msg = "No display number returned by X server"
-                raise XStartTimeoutError(msg)
-            dnbs = str(self.display)
-            if bytes != str:
-                dnbs = bytes(dnbs, "ascii")
-            if display_check != dnbs:
-                msg = 'Display number "%s" not returned by X server' + str(
-                    display_check
-                )
-                raise XStartTimeoutError(msg % self.display)
+        # if self.check_startup:
+        #     rp = self._check_startup_fd
+        #     display_check = None
+        #     rlist, wlist, xlist = select.select((rp,), (), (), X_START_TIMEOUT)
+        #     if rlist:
+        #         display_check = os.read(rp, 10).rstrip()
+        #     else:
+        #         msg = "No display number returned by X server"
+        #         raise XStartTimeoutError(msg)
+        #     dnbs = str(self.display)
+        #     if bytes != str:
+        #         dnbs = bytes(dnbs, "ascii")
+        #     if display_check != dnbs:
+        #         msg = 'Display number "%s" not returned by X server' + str(
+        #             display_check
+        #         )
+        #         raise XStartTimeoutError(msg % self.display)
 
         d = self.new_display_var
         ok = False
         while True:
-            if not self.proc.is_alive():
+            if not self.is_alive():
                 break
 
             try:
@@ -206,7 +231,7 @@ class AbstractDisplay(object):
             if time.time() - start_time >= X_START_TIMEOUT:
                 break
             time.sleep(X_START_TIME_STEP)
-        if not self.proc.is_alive():
+        if not self.is_alive():
             log.warning("process exited early",)
             msg = "Failed to start process: %s"
             raise XStartError(msg % self)
@@ -222,7 +247,9 @@ class AbstractDisplay(object):
         :rtype: self
         """
         self.redirect_display(False)
-        self.proc.stop()
+        self.subproc.terminate()
+        self.subproc.wait()
+
         if self.use_xauth:
             self._clear_xauth()
         return self
@@ -267,8 +294,8 @@ class AbstractDisplay(object):
         self.stop()
 
     def is_alive(self):
-        return self.proc.is_alive()
+        return self.subproc.poll() is None
 
     @property
     def return_code(self):
-        return self.proc.return_code
+        return self.subproc.poll()
