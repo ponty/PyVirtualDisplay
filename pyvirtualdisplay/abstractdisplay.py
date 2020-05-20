@@ -87,6 +87,8 @@ class AbstractDisplay(object):
     """
 
     def __init__(self, program, use_xauth, randomizer):
+        self.randomizer = randomizer
+
         p = EasyProcess([program, "-help"])
         p.enable_stdout_log = False
         p.enable_stderr_log = False
@@ -100,14 +102,6 @@ class AbstractDisplay(object):
         #         + " -displayfd flag is not supported, 'check_startup' parameter has been disabled"
         #     )
         self._check_flags(helptext)
-
-        if not self.has_displayfd:
-            with mutex:
-                self.display = search_for_display(randomizer=randomizer)
-                while self.display in USED_DISPLAY_NR_LIST:
-                    self.display += 1
-
-                USED_DISPLAY_NR_LIST.append(self.display)
 
         if use_xauth and not xauth.is_installed():
             raise xauth.NotFoundError()
@@ -167,6 +161,14 @@ class AbstractDisplay(object):
         if self.use_xauth:
             self._setup_xauth()
         # self.proc.start()
+
+        if not self.has_displayfd:
+            with mutex:
+                self.display = search_for_display(randomizer=self.randomizer)
+                while self.display in USED_DISPLAY_NR_LIST:
+                    self.display += 1
+
+                USED_DISPLAY_NR_LIST.append(self.display)
 
         cmd = self._cmd()
         log.debug("command: %s", cmd)
