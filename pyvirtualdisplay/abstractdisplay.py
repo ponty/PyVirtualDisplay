@@ -10,10 +10,10 @@ from easyprocess import EasyProcess, EasyProcessError
 
 from pyvirtualdisplay import xauth
 
-try:
-    import fcntl
-except ImportError:
-    fcntl = None
+# try:
+#     import fcntl
+# except ImportError:
+#     fcntl = None
 
 
 mutex = Lock()
@@ -83,19 +83,19 @@ class AbstractDisplay(object):
     Common parent for Xvfb and Xephyr
     """
 
-    def __init__(self, program, use_xauth, check_startup, randomizer):
+    def __init__(self, program, use_xauth, randomizer):
         p = EasyProcess([program, "-help"])
         p.enable_stdout_log = False
         p.enable_stderr_log = False
         p.call()
         helptext = p.stderr
         has_displayfd = "-displayfd" in helptext
-        if check_startup and not has_displayfd:
-            check_startup = False
-            log.warning(
-                program
-                + " -displayfd flag is not supported, 'check_startup' parameter has been disabled"
-            )
+        # if check_startup and not has_displayfd:
+        #     check_startup = False
+        #     log.warning(
+        #         program
+        #         + " -displayfd flag is not supported, 'check_startup' parameter has been disabled"
+        #     )
         self._check_flags(helptext)
 
         with mutex:
@@ -111,13 +111,13 @@ class AbstractDisplay(object):
         self.use_xauth = use_xauth
         self._old_xauth = None
         self._xauth_filename = None
-        self.check_startup = check_startup
-        if check_startup and not fcntl:
-            self.check_startup = False
-            log.warning(
-                "fcntl module can't be imported, 'check_startup' parameter has been disabled"
-            )
-            log.warning("fnctl module does not exist on Windows")
+        # self.check_startup = check_startup
+        # if check_startup and not fcntl:
+        #     self.check_startup = False
+        #     log.warning(
+        #         "fcntl module can't be imported, 'check_startup' parameter has been disabled"
+        #     )
+        #     log.warning("fnctl module does not exist on Windows")
         # if self.check_startup:
         #     rp, wp = os.pipe()
         #     fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)

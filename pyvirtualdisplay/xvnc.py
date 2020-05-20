@@ -20,7 +20,7 @@ class XvncDisplay(AbstractDisplay):
         color_depth=24,
         bgcolor="black",
         use_xauth=False,
-        check_startup=False,
+        # check_startup=False,
         rfbport=5900,
         rfbauth=None,
         randomizer=None,
@@ -43,7 +43,7 @@ class XvncDisplay(AbstractDisplay):
             self,
             PROGRAM,
             use_xauth=use_xauth,
-            check_startup=check_startup,
+            # check_startup=check_startup,
             randomizer=randomizer,
         )
 

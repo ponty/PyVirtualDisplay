@@ -26,7 +26,7 @@ class Display(object):
         color_depth=24,
         bgcolor="black",
         use_xauth=False,
-        check_startup=False,
+        # check_startup=False,
         randomizer=None,
         **kwargs
     ):
@@ -55,7 +55,7 @@ class Display(object):
             bgcolor=bgcolor,
             randomizer=randomizer,
             use_xauth=use_xauth,
-            check_startup=check_startup,
+            # check_startup=check_startup,
             **kwargs
         )
         self.display = self._obj.display
