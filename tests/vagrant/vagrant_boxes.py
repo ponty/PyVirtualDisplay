@@ -67,6 +67,7 @@ def run_box(options, vagrantfile, cmds):
 
 config = {
     "server": ("Vagrantfile", ["tox"],),
+    "server1404": ("Vagrantfile.14.04.rb", ["tox -e py27", "tox -e py36"],),
     "osx": ("Vagrantfile.osx.rb", ["bash --login -c 'python3 -m tox -e py3-osx'"],),
 }
 
