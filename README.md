@@ -146,7 +146,7 @@ feature needs ``xauth`` installed, otherwise a
 
 [1]: http://en.wikipedia.org/wiki/Xvfb
 [2]: http://en.wikipedia.org/wiki/Xephyr
-[3]: http://www.hep.phy.cam.ac.uk/vnc_docs/xvnc.html
+[3]: https://tigervnc.org/
 [4]: https://github.com/ponty/pyscreenshot
 [5]: https://pillow.readthedocs.io
 
