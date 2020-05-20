@@ -56,6 +56,9 @@ class XephyrDisplay(AbstractDisplay):
         # if self.check_startup:
         if self.has_displayfd:
             cmd += ["-displayfd", "1"]
+        else:
+            cmd += [self.new_display_var]
+
         if self.has_resizeable:
             cmd += ["-resizeable"]
         return cmd

@@ -4,10 +4,25 @@ import sys
 from entrypoint2 import entrypoint
 from time import sleep
 
+# ubuntu 14.04 no displayfd
+# ubuntu 16.04 displayfd
+# ubuntu 18.04 displayfd
 
-def test_race_10_100():
-    check_N(10)
-    check_N(100)
+
+def has_displayfd():
+    p = EasyProcess(["Xvfb", "-help"])
+    p.enable_stdout_log = False
+    p.enable_stderr_log = False
+    p.call()
+    helptext = p.stderr
+    return "-displayfd" in helptext
+
+
+if has_displayfd():
+
+    def test_race_10_100():
+        check_N(10)
+        check_N(100)
 
 
 def check_N(N):

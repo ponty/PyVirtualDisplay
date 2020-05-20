@@ -172,13 +172,13 @@ class AbstractDisplay(object):
         log.debug("command: %s", cmd)
         self.subproc = subprocess.Popen(
             cmd,
-            stdout=subprocess.PIPE,
+            stdout=subprocess.PIPE if self.has_displayfd else None,
             # TODO: stderr=_stderr_file,
             shell=False,
         )
-        rfd = self.subproc.stdout.fileno()
-
-        self.display = int(wait_for_pipe_text(rfd, self))
+        if self.has_displayfd:
+            rfd = self.subproc.stdout.fileno()
+            self.display = int(wait_for_pipe_text(rfd, self))
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14

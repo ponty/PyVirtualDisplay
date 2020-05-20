@@ -73,4 +73,6 @@ class XvncDisplay(AbstractDisplay):
         #         cmd += ["-displayfd", str(self.check_startup_fd)]
         if self.has_displayfd:
             cmd += ["-displayfd", "1"]
+        else:
+            cmd += [self.new_display_var]
         return cmd
