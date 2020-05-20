@@ -154,10 +154,6 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
-        if self.use_xauth:
-            self._setup_xauth()
-        # self.proc.start()
-
         if not self.has_displayfd:
             with mutex:
                 self.display = search_for_display(randomizer=self.randomizer)
@@ -180,6 +176,8 @@ class AbstractDisplay(object):
             self.display = int(wait_for_pipe_text(rfd, self))
         self.new_display_var = ":%s" % int(self.display)
 
+        if self.use_xauth:
+            self._setup_xauth()
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
         # https://github.com/ponty/PyVirtualDisplay/issues/14
