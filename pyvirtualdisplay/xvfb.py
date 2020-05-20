@@ -38,9 +38,9 @@ class XvfbDisplay(AbstractDisplay):
         self.screen = 0
         self.size = size
         self.color_depth = color_depth
-        self.process = None
+        # self.process = None
         self.bgcolor = bgcolor
-        self.display = None
+        # self.display = None
         self.fbdir = fbdir
         self.dpi = dpi
 

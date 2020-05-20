@@ -30,9 +30,9 @@ class XephyrDisplay(AbstractDisplay):
         self.color_depth = color_depth
         self.size = size
         self.bgcolor = bgcolor
-        self.screen = 0
-        self.process = None
-        self.display = None
+        # self.screen = 0
+        # self.process = None
+        # self.display = None
 
         AbstractDisplay.__init__(
             self,
