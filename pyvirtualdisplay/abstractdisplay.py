@@ -187,20 +187,21 @@ class AbstractDisplay(object):
 
         cmd = self._cmd()
         log.debug("command: %s", cmd)
+
+        self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
+        self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
+
         if py2() or not self.has_displayfd:
             self.subproc = subprocess.Popen(
-                cmd,
-                # stdout=subprocess.PIPE if self.has_displayfd else None,
-                # TODO: stderr=_stderr_file,
-                shell=False,
+                cmd, stdout=self._stdout_file, stderr=self._stderr_file, shell=False,
             )
         else:
             if self.has_displayfd:
                 self.subproc = subprocess.Popen(
                     cmd,
                     pass_fds=[self.pipe_wfd],
-                    # stdout=subprocess.PIPE if self.has_displayfd else None,
-                    # TODO: stderr=_stderr_file,
+                    stdout=self._stdout_file,
+                    stderr=self._stderr_file,
                     shell=False,
                 )
         if self.has_displayfd:
@@ -296,6 +297,17 @@ class AbstractDisplay(object):
                 log.debug("exception in terminate:%s", oserror)
 
             self.subproc.wait()
+
+            self._stdout_file.seek(0)
+            self._stderr_file.seek(0)
+            self.stdout = self._stdout_file.read()
+            self.stderr = self._stderr_file.read()
+
+            self._stdout_file.close()
+            self._stderr_file.close()
+
+            log.debug("stdout=%s", self.stdout)
+            log.debug("stderr=%s", self.stderr)
 
         if self.use_xauth:
             self._clear_xauth()
