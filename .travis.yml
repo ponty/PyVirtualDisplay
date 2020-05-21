@@ -25,11 +25,11 @@ matrix:
       python: 3.8
       dist: bionic
 
-    # - name: "Python 3.7 on macOS"
-    #   os: osx
-    #   osx_image: xcode11.2 # Python 3.7.4 running on macOS 10.14.4
-    #   language: shell # 'language: python' is an error on Travis CI macOS
-    #   env: PATH=/Users/travis/Library/Python/3.7/bin:$PATH PIPUSER=--user
+    - name: "Python 3.7 on macOS"
+      os: osx
+      osx_image: xcode11.2 # Python 3.7.4 running on macOS 10.14.4
+      language: shell # 'language: python' is an error on Travis CI macOS
+      env: PATH=/Users/travis/Library/Python/3.7/bin:$PATH PIPUSER=--user
 
     # - name: "Python 3.8 on Windows"
     #   os: windows # Windows 10.0.17134 N/A Build 17134
@@ -50,11 +50,10 @@ addons:
       - x11-apps
 
 install:
-  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PIP=pip; else PIP=pip3; fi
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PYTHON=python; else PYTHON=python3; fi
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then PYTHON=python; fi
-  - $PIP install $PIPUSER --upgrade -r requirements-test.txt
-  - $PIP install $PIPUSER --upgrade .
+  - $PYTHON -m pip install $PIPUSER --upgrade -r requirements-test.txt
+  - $PYTHON -m pip install $PIPUSER --upgrade .
   # http://blog.tigerteufel.de/?p=476
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then mkdir /tmp/.X11-unix;sudo chmod 1777 /tmp/.X11-unix;sudo chown root /tmp/.X11-unix/; fi
 

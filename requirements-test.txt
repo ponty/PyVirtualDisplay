@@ -1,5 +1,5 @@
-tox
 pytest
 pyscreenshot
 pillow
 path.py
+entrypoint2
