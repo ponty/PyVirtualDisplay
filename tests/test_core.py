@@ -4,6 +4,7 @@ from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
 from tutil import prog_check
+from time import sleep
 
 
 def test_virt():
@@ -66,3 +67,23 @@ if prog_check(["Xvnc", "-version"]):
 def test_repr4():
     display = XephyrDisplay()
     print(repr(display))
+
+
+def test_double_stop():
+    vd = Display().start().stop()
+    assert vd.return_code == 0
+    assert not vd.is_alive()
+    vd.stop()
+    assert vd.return_code == 0
+    assert not vd.is_alive()
+
+
+def test_stop_terminated():
+    vd = Display().start()
+    assert vd.is_alive()
+    vd._obj.subproc.terminate()
+    sleep(0.2)
+    assert not vd.is_alive()
+    vd.stop()
+    assert vd.return_code == 0
+    assert not vd.is_alive()
