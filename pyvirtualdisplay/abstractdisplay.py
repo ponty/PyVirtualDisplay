@@ -5,6 +5,7 @@ import select
 import tempfile
 import time, subprocess
 from threading import Lock
+import signal
 
 from easyprocess import EasyProcess, EasyProcessError
 
@@ -27,6 +28,9 @@ USED_DISPLAY_NR_LIST = []
 X_START_TIMEOUT = 10
 X_START_TIME_STEP = 0.1
 X_START_WAIT = 0.1
+
+# only for missing displayfd
+RETRIES = 10
 
 
 class XStartTimeoutError(Exception):
@@ -155,6 +159,21 @@ class AbstractDisplay(object):
         :rtype: self
         """
         if self.has_displayfd:
+            self._start1()
+        else:
+            for i in range(RETRIES):
+                try:
+                    self._start1()
+                    break
+                except XStartError:
+                    log.warning("next try %s", i + 2)
+                    time.sleep(0.05)
+                finally:
+                    self.redirect_display(False)
+        self.redirect_display(True)
+
+    def _start1(self):
+        if self.has_displayfd:
             # stdout doesn't work on osx -> create own pipe
             rfd, self.pipe_wfd = os.pipe()
         else:
@@ -198,8 +217,6 @@ class AbstractDisplay(object):
         # https://github.com/ponty/PyVirtualDisplay/issues/14
         self.old_display_var = os.environ.get("DISPLAY", None)
 
-        self.redirect_display(True)
-
         # wait until X server is active
         start_time = time.time()
         # if self.check_startup:
@@ -221,6 +238,7 @@ class AbstractDisplay(object):
         #         raise XStartTimeoutError(msg % self.display)
 
         if not self.has_displayfd:
+            self.redirect_display(True)  # for xdpyinfo
             d = self.new_display_var
             ok = False
             while True:
