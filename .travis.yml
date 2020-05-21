@@ -1,10 +1,23 @@
 language: python
-python:
-  - "2.7"
-  - "3.6"
 
 matrix:
   include:
+    - name: 2.7_trusty
+      python: 2.7
+      dist: trusty
+
+    - name: 3.6_trusty
+      python: 3.6
+      dist: trusty
+
+    - name: 2.7_xenial
+      python: 2.7
+      dist: xenial
+
+    - name: 3.6_xenial
+      python: 3.6
+      dist: xenial
+
     - name: 3.7_xenial
       python: 3.7
       dist: xenial
