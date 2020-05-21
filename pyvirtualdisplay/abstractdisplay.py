@@ -139,10 +139,13 @@ class AbstractDisplay(object):
         """
         d = self.new_display_var if on else self.old_display_var
         if d is None:
-            log.debug("unset DISPLAY")
-            del os.environ["DISPLAY"]
+            log.debug("unset $DISPLAY")
+            try:
+                del os.environ["DISPLAY"]
+            except KeyError:
+                log.warning("$DISPLAY was already unset.")
         else:
-            log.debug("DISPLAY=%s", d)
+            log.debug("$DISPLAY=%s", d)
             os.environ["DISPLAY"] = d
 
     def start(self):
