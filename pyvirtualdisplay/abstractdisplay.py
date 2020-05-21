@@ -165,25 +165,18 @@ class AbstractDisplay(object):
 
         cmd = self._cmd()
         log.debug("command: %s", cmd)
-        if py2():
+        if py2() or not self.has_displayfd:
             self.subproc = subprocess.Popen(
                 cmd,
                 # stdout=subprocess.PIPE if self.has_displayfd else None,
                 # TODO: stderr=_stderr_file,
                 shell=False,
             )
-        else:  # py3
+        else:
             if self.has_displayfd:
                 self.subproc = subprocess.Popen(
                     cmd,
                     pass_fds=[self.pipe_wfd],
-                    # stdout=subprocess.PIPE if self.has_displayfd else None,
-                    # TODO: stderr=_stderr_file,
-                    shell=False,
-                )
-            else:  # no has_displayfd
-                self.subproc = subprocess.Popen(
-                    cmd,
                     # stdout=subprocess.PIPE if self.has_displayfd else None,
                     # TODO: stderr=_stderr_file,
                     shell=False,
