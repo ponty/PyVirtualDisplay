@@ -55,7 +55,7 @@ class XvfbDisplay(AbstractDisplay):
     def _check_flags(self, helptext):
         pass
 
-    def _cmd(self, wfd):
+    def _cmd(self):
         cmd = [
             dict(black="-br", white="-wr")[self.bgcolor],
             "-nolisten",
@@ -71,7 +71,7 @@ class XvfbDisplay(AbstractDisplay):
             cmd += ["-dpi", str(self.dpi)]
         # if self.check_startup:
         if self.has_displayfd:
-            cmd += ["-displayfd", str(wfd)]
+            cmd += ["-displayfd", str(self.pipe_wfd)]
         else:
             cmd += [self.new_display_var]
         return [PROGRAM] + cmd

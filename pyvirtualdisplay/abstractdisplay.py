@@ -126,7 +126,7 @@ class AbstractDisplay(object):
     def _check_flags(self, helptext):
         pass
 
-    def _cmd(self, wfd):
+    def _cmd(self):
         raise NotImplementedError()
 
     def redirect_display(self, on):
@@ -153,7 +153,7 @@ class AbstractDisplay(object):
         """
         if self.has_displayfd:
             # stdout doesn't work on osx -> create own pipe
-            rfd, wfd = os.pipe()
+            rfd, self.pipe_wfd = os.pipe()
         else:
             with mutex:
                 self.display = search_for_display(randomizer=self.randomizer)
@@ -163,7 +163,7 @@ class AbstractDisplay(object):
 
                 USED_DISPLAY_NR_LIST.append(self.display)
 
-        cmd = self._cmd(wfd)
+        cmd = self._cmd()
         log.debug("command: %s", cmd)
         if py2():
             self.subproc = subprocess.Popen(
@@ -176,7 +176,7 @@ class AbstractDisplay(object):
             if self.has_displayfd:
                 self.subproc = subprocess.Popen(
                     cmd,
-                    pass_fds=[wfd],
+                    pass_fds=[self.pipe_wfd],
                     # stdout=subprocess.PIPE if self.has_displayfd else None,
                     # TODO: stderr=_stderr_file,
                     shell=False,
@@ -192,7 +192,7 @@ class AbstractDisplay(object):
             # rfd = self.subproc.stdout.fileno()
             self.display = int(wait_for_pipe_text(rfd, self))
             os.close(rfd)
-            os.close(wfd)
+            os.close(self.pipe_wfd)
         self.new_display_var = ":%s" % int(self.display)
 
         if self.use_xauth:

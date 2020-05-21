@@ -50,7 +50,7 @@ class XvncDisplay(AbstractDisplay):
     def _check_flags(self, helptext):
         pass
 
-    def _cmd(self, wfd):
+    def _cmd(self):
         cmd = [
             PROGRAM,
             "-depth",
@@ -72,7 +72,7 @@ class XvncDisplay(AbstractDisplay):
         #     if self.has_displayfd:
         #         cmd += ["-displayfd", str(self.check_startup_fd)]
         if self.has_displayfd:
-            cmd += ["-displayfd", str(wfd)]
+            cmd += ["-displayfd", str(self.pipe_wfd)]
         else:
             cmd += [self.new_display_var]
         return cmd
