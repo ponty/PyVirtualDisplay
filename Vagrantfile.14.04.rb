@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
    config.vm.provider "virtualbox" do |vb|
-    virtualbox.name = "pyvirtualdisplay_1404"
+    vb.name = "pyvirtualdisplay_1404"
     #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
