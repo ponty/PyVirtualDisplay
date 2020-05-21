@@ -267,8 +267,17 @@ class AbstractDisplay(object):
         :rtype: self
         """
         self.redirect_display(False)
-        self.subproc.terminate()
-        self.subproc.wait()
+
+        if self.is_alive():
+            try:
+                try:
+                    self.subproc.terminate()
+                except AttributeError:
+                    os.kill(self.subproc.pid, signal.SIGKILL)
+            except OSError as oserror:
+                log.debug("exception in terminate:%s", oserror)
+
+            self.subproc.wait()
 
         if self.use_xauth:
             self._clear_xauth()
