@@ -45,7 +45,7 @@ class XephyrDisplay(AbstractDisplay):
     def _check_flags(self, helptext):
         self.has_resizeable = "-resizeable" in helptext
 
-    def _cmd(self):
+    def _cmd(self, wfd):
         cmd = [
             PROGRAM,
             dict(black="-br", white="-wr")[self.bgcolor],
@@ -55,7 +55,7 @@ class XephyrDisplay(AbstractDisplay):
         ]
         # if self.check_startup:
         if self.has_displayfd:
-            cmd += ["-displayfd", "1"]
+            cmd += ["-displayfd", str(wfd)]
         else:
             cmd += [self.new_display_var]
 

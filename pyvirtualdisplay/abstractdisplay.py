@@ -9,7 +9,7 @@ from threading import Lock
 from easyprocess import EasyProcess, EasyProcessError
 
 from pyvirtualdisplay import xauth
-from pyvirtualdisplay.util import get_helptext
+from pyvirtualdisplay.util import get_helptext, py2
 
 # try:
 #     import fcntl
@@ -126,7 +126,7 @@ class AbstractDisplay(object):
     def _check_flags(self, helptext):
         pass
 
-    def _cmd(self):
+    def _cmd(self, wfd):
         raise NotImplementedError()
 
     def redirect_display(self, on):
@@ -151,7 +151,10 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
-        if not self.has_displayfd:
+        if self.has_displayfd:
+            # stdout doesn't work on osx -> create own pipe
+            rfd, wfd = os.pipe()
+        else:
             with mutex:
                 self.display = search_for_display(randomizer=self.randomizer)
                 while self.display in USED_DISPLAY_NR_LIST:
@@ -160,17 +163,36 @@ class AbstractDisplay(object):
 
                 USED_DISPLAY_NR_LIST.append(self.display)
 
-        cmd = self._cmd()
+        cmd = self._cmd(wfd)
         log.debug("command: %s", cmd)
-        self.subproc = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE if self.has_displayfd else None,
-            # TODO: stderr=_stderr_file,
-            shell=False,
-        )
+        if py2():
+            self.subproc = subprocess.Popen(
+                cmd,
+                # stdout=subprocess.PIPE if self.has_displayfd else None,
+                # TODO: stderr=_stderr_file,
+                shell=False,
+            )
+        else:  # py3
+            if self.has_displayfd:
+                self.subproc = subprocess.Popen(
+                    cmd,
+                    pass_fds=[wfd],
+                    # stdout=subprocess.PIPE if self.has_displayfd else None,
+                    # TODO: stderr=_stderr_file,
+                    shell=False,
+                )
+            else:  # no has_displayfd
+                self.subproc = subprocess.Popen(
+                    cmd,
+                    # stdout=subprocess.PIPE if self.has_displayfd else None,
+                    # TODO: stderr=_stderr_file,
+                    shell=False,
+                )
         if self.has_displayfd:
-            rfd = self.subproc.stdout.fileno()
+            # rfd = self.subproc.stdout.fileno()
             self.display = int(wait_for_pipe_text(rfd, self))
+            os.close(rfd)
+            os.close(wfd)
         self.new_display_var = ":%s" % int(self.display)
 
         if self.use_xauth:

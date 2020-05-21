@@ -1,4 +1,5 @@
 from easyprocess import EasyProcess, EasyProcessError
+import sys
 
 
 def get_helptext(program):
@@ -8,3 +9,7 @@ def get_helptext(program):
     p.call()
     helptext = p.stderr
     return helptext
+
+
+def py2():
+    return sys.version_info[0] == 2
