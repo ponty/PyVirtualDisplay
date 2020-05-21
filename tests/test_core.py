@@ -3,6 +3,7 @@ from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
+from tutil import prog_check
 
 
 def test_virt():
@@ -55,9 +56,11 @@ def test_repr2():
     print(repr(display))
 
 
-def test_repr3():
-    display = XvncDisplay()
-    print(repr(display))
+if prog_check(["Xvnc", "-version"]):
+
+    def test_repr3():
+        display = XvncDisplay()
+        print(repr(display))
 
 
 def test_repr4():
