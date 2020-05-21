@@ -3,7 +3,6 @@ from pyvirtualdisplay import Display
 import sys
 from entrypoint2 import entrypoint
 from time import sleep
-from pyvirtualdisplay.util import get_helptext
 from tutil import platform_is_osx
 
 # ubuntu 14.04 no displayfd
@@ -11,17 +10,11 @@ from tutil import platform_is_osx
 # ubuntu 18.04 displayfd
 
 
-def has_displayfd():
-    return "-displayfd" in get_helptext("Xvfb")
+# TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
+if not platform_is_osx():
 
-
-# TODO:remove
-if has_displayfd():
-    # TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
-    if not platform_is_osx():
-
-        def test_race_10():
-            check_N(10)
+    def test_race_10():
+        check_N(10)
 
 
 def check_N(N):

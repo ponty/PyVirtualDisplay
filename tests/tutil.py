@@ -1,5 +1,7 @@
 from easyprocess import EasyProcess
 import sys
+from pyvirtualdisplay.util import get_helptext
+
 
 def prog_check(cmd):
     try:
@@ -11,3 +13,7 @@ def prog_check(cmd):
 
 def platform_is_osx():
     return sys.platform == "darwin"
+
+
+def has_displayfd():
+    return "-displayfd" in get_helptext("Xvfb")
