@@ -69,29 +69,13 @@ def search_for_display(randomizer=None):
     return display
 
 
-def wait_for_pipe_text(rfd, proc):
-    s = ""
-    start_time = time.time()
-    while True:
-        (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
-        if not proc.is_alive():
-            raise XStartError("program closed")
-        if rfd in rfd_changed_ls:
-            c = os.read(rfd, 1)
-            if c == b"\n":
-                break
-            s += c.decode("ascii")
-        if time.time() - start_time >= X_START_TIMEOUT:
-            raise XStartTimeoutError("no reply from program")
-    return s
-
-
 class AbstractDisplay(object):
     """
     Common parent for Xvfb and Xephyr
     """
 
     def __init__(self, program, use_xauth, randomizer):
+        self.program = program
         self.randomizer = randomizer
         self.stdout = None
         self.stderr = None
@@ -187,20 +171,23 @@ class AbstractDisplay(object):
 
                 USED_DISPLAY_NR_LIST.append(self.display)
 
-        cmd = self._cmd()
-        log.debug("command: %s", cmd)
+        self.command = self._cmd()
+        log.debug("command: %s", self.command)
 
         self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
         self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
 
         if py2() or not self.has_displayfd:
             self.subproc = subprocess.Popen(
-                cmd, stdout=self._stdout_file, stderr=self._stderr_file, shell=False,
+                self.command,
+                stdout=self._stdout_file,
+                stderr=self._stderr_file,
+                shell=False,
             )
         else:
             if self.has_displayfd:
                 self.subproc = subprocess.Popen(
-                    cmd,
+                    self.command,
                     pass_fds=[self.pipe_wfd],
                     stdout=self._stdout_file,
                     stderr=self._stderr_file,
@@ -208,7 +195,7 @@ class AbstractDisplay(object):
                 )
         if self.has_displayfd:
             # rfd = self.subproc.stdout.fileno()
-            self.display = int(wait_for_pipe_text(rfd, self))
+            self.display = int(self.wait_for_pipe_text(rfd))
             os.close(rfd)
             os.close(self.pipe_wfd)
         self.new_display_var = ":%s" % int(self.display)
@@ -280,6 +267,28 @@ class AbstractDisplay(object):
                 raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
 
         return self
+
+    def wait_for_pipe_text(self, rfd):
+        s = ""
+        start_time = time.time()
+        while True:
+            (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
+            if not self.is_alive():
+                raise XStartError(
+                    "%s program closed. command: %s stderr: %s"
+                    % (self.program, self.command, self.stderr)
+                )
+            if rfd in rfd_changed_ls:
+                c = os.read(rfd, 1)
+                if c == b"\n":
+                    break
+                s += c.decode("ascii")
+            if time.time() - start_time >= X_START_TIMEOUT:
+                raise XStartTimeoutError(
+                    "No reply from program %s. command:%s"
+                    % (self.program, self.command,)
+                )
+        return s
 
     def stop(self):
         """
