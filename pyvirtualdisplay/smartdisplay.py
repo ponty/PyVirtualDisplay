@@ -60,7 +60,7 @@ class SmartDisplay(Display):
         """
         t = 0
         sleep_time = 0.3  # for fast windows
-        repeat_time = 1
+        repeat_time = 0.5
         while 1:
             log.debug("sleeping %s secs" % str(sleep_time))
             time.sleep(sleep_time)
@@ -72,7 +72,7 @@ class SmartDisplay(Display):
                 if cb_imgcheck(img):
                     break
             sleep_time = repeat_time
-            repeat_time += 1  # progressive
+            repeat_time += 0.5  # progressive
             if t > timeout:
                 msg = "Timeout! elapsed time:%s timeout:%s " % (t, timeout)
                 raise DisplayTimeoutError(msg)
