@@ -233,6 +233,7 @@ class AbstractDisplay(object):
             self.redirect_display(True)  # for xdpyinfo
             d = self.new_display_var
             ok = False
+            time.sleep(0.05)  # give time for early exit
             while True:
                 if not self.is_alive():
                     break
