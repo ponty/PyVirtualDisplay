@@ -149,13 +149,20 @@ class AbstractDisplay(object):
         if self.has_displayfd:
             self._start1()
         else:
-            for i in range(RETRIES):
+            i = 0
+            while True:
                 try:
                     self._start1()
                     break
                 except XStartError:
-                    log.warning("next try %s", i + 2)
+                    log.warning("start failed %s", i + 1)
                     time.sleep(0.05)
+                    i += 1
+                    if i >= RETRIES:
+                        raise XStartError(
+                            "No success after %s retries. Last stderr: %s"
+                            % (RETRIES, self.stderr)
+                        )
                 finally:
                     self.redirect_display(False)
         self.redirect_display(True)
