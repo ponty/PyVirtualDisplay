@@ -93,6 +93,8 @@ class AbstractDisplay(object):
 
     def __init__(self, program, use_xauth, randomizer):
         self.randomizer = randomizer
+        self.stdout = None
+        self.stderr = None
 
         helptext = get_helptext(program)
         self.has_displayfd = "-displayfd" in helptext
@@ -297,7 +299,13 @@ class AbstractDisplay(object):
                 log.debug("exception in terminate:%s", oserror)
 
             self.subproc.wait()
+            self._read_stdout_stderr()
+        if self.use_xauth:
+            self._clear_xauth()
+        return self
 
+    def _read_stdout_stderr(self):
+        if self.stdout is None:
             self._stdout_file.seek(0)
             self._stderr_file.seek(0)
             self.stdout = self._stdout_file.read()
@@ -308,10 +316,6 @@ class AbstractDisplay(object):
 
             log.debug("stdout=%s", self.stdout)
             log.debug("stderr=%s", self.stderr)
-
-        if self.use_xauth:
-            self._clear_xauth()
-        return self
 
     def _setup_xauth(self):
         """
@@ -353,8 +357,12 @@ class AbstractDisplay(object):
         self.stop()
 
     def is_alive(self):
-        return self.subproc.poll() is None
+        return self.return_code is None
 
     @property
     def return_code(self):
-        return self.subproc.poll()
+        rc = self.subproc.poll()
+        if rc is not None:
+            # proc exited
+            self._read_stdout_stderr()
+        return rc
