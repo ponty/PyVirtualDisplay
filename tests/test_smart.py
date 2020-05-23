@@ -5,20 +5,19 @@ from easyprocess import EasyProcess
 from path import Path
 
 from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
+from pyvirtualdisplay import Display
 
 python = sys.executable
 
 
 def test_disp():
-    vd = SmartDisplay().start()
+    with Display():
 
-    # d = SmartDisplay(visible=True).start().sleep(2).stop()
-    # .assertEquals(d.return_code, 0)
+        d = SmartDisplay(visible=True).start().stop()
+        assert d.return_code == 0
 
-    d = SmartDisplay(visible=False).start().stop()
-    assert d.return_code == 0
-
-    vd.stop()
+        d = SmartDisplay(visible=False).start().stop()
+        assert d.return_code == 0
 
 
 def test_slowshot():
@@ -31,7 +30,7 @@ def test_slowshot():
     assert img is not None
 
 
-def test_slowshot_wrap():
+def test_slowshot_with():
     disp = SmartDisplay(visible=False)
     py = Path(__file__).parent / ("slowgui.py")
     proc = EasyProcess([python, py])

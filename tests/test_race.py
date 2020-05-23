@@ -13,43 +13,51 @@ from tutil import platform_is_osx
 # TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
 if not platform_is_osx():
 
-    def test_race_10():
-        check_N(10)
+    def test_race_10_xvfb():
+        check_N(10, "xvfb")
+
+    def test_race_10_xephyr():
+        check_N(10, "xephyr")
+
+    def test_race_10_xvnc():
+        check_N(10, "xvnc")
 
 
-def check_N(N):
-    ls = []
-    try:
-        for i in range(N):
-            cmd = [
-                sys.executable,
-                __file__.rsplit(".", 1)[0] + ".py",
-                str(i),
-                "--debug",
-            ]
-            p = EasyProcess(cmd)
-            p.start()
-            ls += [p]
+def check_N(N, backend):
+    with Display():
+        ls = []
+        try:
+            for i in range(N):
+                cmd = [
+                    sys.executable,
+                    __file__.rsplit(".", 1)[0] + ".py",
+                    str(i),
+                    backend,
+                    "--debug",
+                ]
+                p = EasyProcess(cmd)
+                p.start()
+                ls += [p]
 
-        sleep(3)
+            sleep(3)
 
-        good_count = 0
-        for p in ls:
-            p.wait()
-            if p.return_code == 0:
-                good_count += 1
-    finally:
-        for p in ls:
-            p.stop()
-    print(good_count)
-    assert good_count == N
+            good_count = 0
+            for p in ls:
+                p.wait()
+                if p.return_code == 0:
+                    good_count += 1
+        finally:
+            for p in ls:
+                p.stop()
+        print(good_count)
+        assert good_count == N
 
 
 @entrypoint
-def main(i):
+def main(i, backend):
     # TODO: test all backends
-    d = Display().start()
-    print("my index:%s  disp:%s" % (i, d.new_display_var))
+    d = Display(backend=backend).start()
+    print("my index:%s  backend:%s disp:%s" % (i, backend, d.new_display_var))
     ok = d.is_alive()
     d.stop()
     assert ok

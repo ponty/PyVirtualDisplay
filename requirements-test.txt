@@ -3,3 +3,5 @@ pyscreenshot
 pillow
 path.py
 entrypoint2
+vncdotool==0.13.0
+backports.tempfile

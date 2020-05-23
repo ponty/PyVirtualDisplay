@@ -1,10 +1,12 @@
 from pyvirtualdisplay import Display
+from pyvirtualdisplay.abstractdisplay import XStartError, XStartTimeoutError
 from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
-from tutil import prog_check
+from tutil import has_xvnc
 from time import sleep
+import pytest
 
 
 def test_virt():
@@ -47,24 +49,37 @@ def test_disp():
     assert not vd.is_alive()
 
 
-def test_repr():
+def test_repr_xvfb():
     display = Display()
     print(repr(display))
 
+    display = Display(visible=False)
+    print(repr(display))
 
-def test_repr2():
+    display = Display(backend="xvfb")
+    print(repr(display))
+
     display = XvfbDisplay()
     print(repr(display))
 
 
-if prog_check(["Xvnc", "-version"]):
+if has_xvnc():
 
-    def test_repr3():
+    def test_repr_xvnc():
+        display = Display(backend="xvnc")
+        print(repr(display))
+
         display = XvncDisplay()
         print(repr(display))
 
 
-def test_repr4():
+def test_repr_xephyr():
+    display = Display(visible=True)
+    print(repr(display))
+
+    display = Display(backend="xephyr")
+    print(repr(display))
+
     display = XephyrDisplay()
     print(repr(display))
 
@@ -87,3 +102,36 @@ def test_stop_terminated():
     vd.stop()
     assert vd.return_code == 0
     assert not vd.is_alive()
+
+
+def test_no_backend():
+    with pytest.raises(ValueError):
+        vd = Display(backend="unknown")
+
+
+def test_color_xvfb():
+    with pytest.raises(XStartError):
+        vd = Display(color_depth=99).start().stop()
+    vd = Display(color_depth=16).start().stop()
+    vd = Display(color_depth=24).start().stop()
+    vd = Display(color_depth=8).start().stop()
+
+
+def test_color_xephyr():
+    with Display():
+        # requested screen depth not supported, setting to match hosts
+        vd = Display(backend="xephyr", color_depth=99).start().stop()
+
+        vd = Display(backend="xephyr", color_depth=16).start().stop()
+        vd = Display(backend="xephyr", color_depth=24).start().stop()
+        vd = Display(backend="xephyr", color_depth=8).start().stop()
+
+
+if has_xvnc():
+
+    def test_color_xvnc():
+        with pytest.raises(XStartError):
+            vd = Display(backend="xvnc", color_depth=99).start().stop()
+        vd = Display(backend="xvnc", color_depth=16).start().stop()
+        vd = Display(backend="xvnc", color_depth=24).start().stop()
+        vd = Display(backend="xvnc", color_depth=8).start().stop()
