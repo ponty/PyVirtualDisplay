@@ -82,6 +82,8 @@ class AbstractDisplay(object):
 
         helptext = get_helptext(program)
         self.has_displayfd = "-displayfd" in helptext
+        if not self.has_displayfd:
+            log.debug("-displayfd flag is missing.")
         # if check_startup and not has_displayfd:
         #     check_startup = False
         #     log.warning(
@@ -259,7 +261,7 @@ class AbstractDisplay(object):
                     break
                 time.sleep(X_START_TIME_STEP)
             if not self.is_alive():
-                log.warning("process exited early",)
+                log.warning("process exited early. stderr:%s", self.stderr)
                 msg = "Failed to start process: %s"
                 raise XStartError(msg % self)
             if not ok:
