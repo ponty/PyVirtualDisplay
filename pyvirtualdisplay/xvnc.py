@@ -63,6 +63,10 @@ class XvncDisplay(AbstractDisplay):
 
         if self.rfbauth:
             cmd += ["-rfbauth", str(self.rfbauth)]
+            # default:
+            # -SecurityTypes = VncAuth
+        else:
+            cmd += ["-SecurityTypes", "None"]
 
         # cmd += [
         #     self.new_display_var,
