@@ -42,9 +42,6 @@ class Display(object):
             else:
                 self.backend = "xvfb"
 
-        if not self.backend:
-            raise ValueError("missing backend")
-
         cls = class_map.get(self.backend)
         if not cls:
             raise ValueError("unknown backend: %s" % self.backend)

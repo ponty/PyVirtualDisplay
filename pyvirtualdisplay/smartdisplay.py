@@ -76,7 +76,7 @@ class SmartDisplay(Display):
             if t > timeout:
                 msg = "Timeout! elapsed time:%s timeout:%s " % (t, timeout)
                 raise DisplayTimeoutError(msg)
-                break
+                # break
 
             log.debug("screenshot is empty, next try..")
         assert img
