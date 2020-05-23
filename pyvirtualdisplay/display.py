@@ -91,3 +91,12 @@ class Display(object):
     @property
     def return_code(self):
         return self._obj.return_code
+
+    @property
+    def pid(self):
+        """
+        PID (:attr:`subprocess.Popen.pid`)
+
+        :rtype: int
+        """
+        return self._obj.pid

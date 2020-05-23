@@ -385,3 +385,13 @@ class AbstractDisplay(object):
             # proc exited
             self._read_stdout_stderr()
         return rc
+
+    @property
+    def pid(self):
+        """
+        PID (:attr:`subprocess.Popen.pid`)
+
+        :rtype: int
+        """
+        if self.subproc:
+            return self.subproc.pid

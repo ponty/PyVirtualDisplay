@@ -135,3 +135,10 @@ if has_xvnc():
         vd = Display(backend="xvnc", color_depth=16).start().stop()
         vd = Display(backend="xvnc", color_depth=24).start().stop()
         vd = Display(backend="xvnc", color_depth=8).start().stop()
+
+
+def test_pid():
+    with Display() as d:
+        assert d.pid > 0
+    with XvfbDisplay() as d:
+        assert d.pid > 0
