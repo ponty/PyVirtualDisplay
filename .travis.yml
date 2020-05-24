@@ -61,6 +61,8 @@ addons:
       - gnumeric
       - x11-utils
       - x11-apps
+      - vnc4server
+      - xfonts-base
 
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PYTHON=python; else PYTHON=python3; fi

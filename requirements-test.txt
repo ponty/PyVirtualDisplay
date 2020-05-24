@@ -5,3 +5,6 @@ path.py
 entrypoint2
 vncdotool==0.13.0
 backports.tempfile
+
+# for travis xenial
+attrs
