@@ -10,7 +10,7 @@ Features:
  - python wrapper
  - supported python versions: 2.7, 3.6, 3.7, 3.8
  - back-ends:  [Xvfb][1], [Xephyr][2] and [Xvnc][3]
- 
+
 Possible applications:
  * GUI testing
  * automatic GUI screenshot
@@ -197,6 +197,11 @@ generate one and set the appropriate environment variables if you pass
 feature needs ``xauth`` installed, otherwise a
 ``pyvirtualdisplay.xauth.NotFoundError`` is raised.
 
+
+Hierarchy
+=========
+
+![Alt text](https://g.gravizo.com/source/svg?https%3A%2F%2Fraw.githubusercontent.com/ponty/pyvirtualdisplay/master/doc/hierarchy.dot)
 
 [1]: http://en.wikipedia.org/wiki/Xvfb
 [2]: http://en.wikipedia.org/wiki/Xephyr
