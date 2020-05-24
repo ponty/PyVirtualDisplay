@@ -1,4 +1,3 @@
-from pyvirtualdisplay.abstractdisplay import AbstractDisplay
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay

@@ -1,5 +1,6 @@
-from easyprocess import EasyProcess, EasyProcessError
 import sys
+
+from easyprocess import EasyProcess
 
 
 def get_helptext(program):

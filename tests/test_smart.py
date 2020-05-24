@@ -4,8 +4,8 @@ import pytest
 from easyprocess import EasyProcess
 from path import Path
 
-from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
 from pyvirtualdisplay import Display
+from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
 
 python = sys.executable
 

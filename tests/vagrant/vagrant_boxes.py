@@ -2,11 +2,9 @@ import os
 from time import sleep
 
 import fabric
+import vagrant
 from entrypoint2 import entrypoint
 from path import Path
-
-import vagrant
-
 
 # pip3 install fabric vncdotool python-vagrant entrypoint2
 

@@ -1,16 +1,10 @@
-from pyvirtualdisplay import Display
-from pyvirtualdisplay.abstractdisplay import XStartError, XStartTimeoutError
-from pyvirtualdisplay.randomize import Randomizer
-from pyvirtualdisplay.xephyr import XephyrDisplay
-from pyvirtualdisplay.xvfb import XvfbDisplay
-from pyvirtualdisplay.xvnc import XvncDisplay
-from tutil import has_xvnc
-from time import sleep
-import pytest
-from vncdotool import api
-
 from backports import tempfile
 from path import Path
+from vncdotool import api
+
+from pyvirtualdisplay import Display
+from pyvirtualdisplay.xvnc import XvncDisplay
+from tutil import has_xvnc
 
 if has_xvnc():
 
@@ -48,4 +42,3 @@ if has_xvnc():
                 with api.connect("localhost:0", password=password) as client:
                     client.timeout = 1
                     client.captureScreen(vnc_png)
-

@@ -1,9 +1,10 @@
-from entrypoint2 import entrypoint
-from easyprocess import EasyProcess
 import logging
-from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay
-from pyvirtualdisplay import Display
 import os
+
+from easyprocess import EasyProcess
+from entrypoint2 import entrypoint
+
+from pyvirtualdisplay.smartdisplay import SmartDisplay
 
 # (cmd,grab,background)
 commands = [
@@ -60,5 +61,4 @@ def main():
     embedme.call()
     print(embedme.stdout)
     assert embedme.return_code == 0
-    assert not 'but file does not exist' in embedme.stdout
-    
+    assert not "but file does not exist" in embedme.stdout

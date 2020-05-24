@@ -1,5 +1,7 @@
-from easyprocess import EasyProcess
 import sys
+
+from easyprocess import EasyProcess
+
 from pyvirtualdisplay.util import get_helptext
 
 

@@ -1,8 +1,10 @@
-from easyprocess import EasyProcess
-from pyvirtualdisplay import Display
 import sys
-from entrypoint2 import entrypoint
 from time import sleep
+
+from easyprocess import EasyProcess
+from entrypoint2 import entrypoint
+
+from pyvirtualdisplay import Display
 from tutil import platform_is_osx
 
 # ubuntu 14.04 no displayfd

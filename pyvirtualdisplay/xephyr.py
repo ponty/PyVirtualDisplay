@@ -1,7 +1,6 @@
-from easyprocess import EasyProcess
+import logging
 
 from pyvirtualdisplay.abstractdisplay import AbstractDisplay
-import logging
 
 log = logging.getLogger(__name__)
 

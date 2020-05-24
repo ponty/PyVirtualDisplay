@@ -2,10 +2,11 @@ import fnmatch
 import logging
 import os
 import select
-import tempfile
-import time, subprocess
-from threading import Lock
 import signal
+import subprocess
+import tempfile
+import time
+from threading import Lock
 
 from easyprocess import EasyProcess, EasyProcessError
 

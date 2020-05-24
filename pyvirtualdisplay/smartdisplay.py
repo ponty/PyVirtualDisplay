@@ -1,6 +1,6 @@
 import logging
-import time
 import sys
+import time
 
 from PIL import Image, ImageChops
 

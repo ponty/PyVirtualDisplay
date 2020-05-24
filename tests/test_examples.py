@@ -1,6 +1,7 @@
 import logging
-import time
 import sys
+import time
+
 from easyprocess import EasyProcess
 
 from pyvirtualdisplay import Display
