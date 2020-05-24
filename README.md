@@ -9,11 +9,8 @@ Links:
 Features:
  - python wrapper
  - supported python versions: 2.7, 3.6, 3.7, 3.8
- - back-ends: Xvfb_, Xephyr_, Xvnc_
-
-Known problems:
- - only a few back-end options are supported
-
+ - back-ends:  [Xvfb][1], [Xephyr][2] and [Xvnc][3]
+ 
 Possible applications:
  * GUI testing
  * automatic GUI screenshot
