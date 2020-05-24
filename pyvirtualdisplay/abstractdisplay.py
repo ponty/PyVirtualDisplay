@@ -80,6 +80,7 @@ class AbstractDisplay(object):
         self.randomizer = randomizer
         self.stdout = None
         self.stderr = None
+        self.old_display_var = None
 
         helptext = get_helptext(program)
         self.has_displayfd = "-displayfd" in helptext
