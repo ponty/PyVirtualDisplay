@@ -97,7 +97,8 @@ Vagrant.configure(2) do |config|
   sudo pip3 install tox
   
 # doc dependencies
-#  sudo apt-get install -y imagemagick graphviz
+  sudo apt-get install -y npm xtightvncviewer
+  sudo npm install -g npx
 #  sudo pip install -r /vagrant/requirements-doc.txt
   
   "
