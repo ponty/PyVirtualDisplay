@@ -42,13 +42,16 @@ def check_N(N, backend):
             sleep(3)
 
             good_count = 0
+            rc_ls = []
             for p in ls:
                 p.wait()
                 if p.return_code == 0:
                     good_count += 1
+                rc_ls += [p.return_code]
         finally:
             for p in ls:
                 p.stop()
+        print(rc_ls)
         print(good_count)
         assert good_count == N
 
