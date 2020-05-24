@@ -62,7 +62,7 @@ def run_box(options, vagrantfile, cmds):
                     conn.run(cmd)
     finally:
         if options.halt:
-            v.halt()
+            v.halt(force=True)
 
 
 config = {
