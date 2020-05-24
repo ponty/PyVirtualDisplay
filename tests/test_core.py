@@ -144,3 +144,10 @@ def test_pid():
         assert d.pid > 0
     with XvfbDisplay() as d:
         assert d.pid > 0
+
+
+def test_bgcolor():
+    Display(bgcolor="black").start().stop()
+    Display(bgcolor="white").start().stop()
+    with pytest.raises(KeyError):
+        Display(bgcolor="green").start().stop()
