@@ -74,5 +74,5 @@ install:
 
 script:
   - cd tests
-  - pytest -v .
+  - $PYTHON -m pytest -v .
 
