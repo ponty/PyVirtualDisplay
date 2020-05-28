@@ -12,36 +12,9 @@ Features:
  - back-ends:  [Xvfb][1], [Xephyr][2] and [Xvnc][3]
 
 Possible applications:
+ * headless run
  * GUI testing
  * automatic GUI screenshot
-
-Basic usages
-============
-
-Start Xvnc:
-
-```py
-from pyvirtualdisplay import Display
-xvfb=Display(visible=False, size=(320, 240)).start()
-```
-
-Start Xephyr:
-
-```py
-from pyvirtualdisplay import Display
-xephyr=Display(visible=True, size=(320, 240)).start()
-```
-
-Create screenshot of xmessage with Xvfb:
-
-```py
-from easyprocess import EasyProcess
-from pyvirtualdisplay.smartdisplay import SmartDisplay
-with SmartDisplay(visible=False, bgcolor='black') as disp:
-    with EasyProcess(['xmessage', 'hello']):
-        img = disp.waitgrab()
-img.show()
-```
 
 Installation
 ============
@@ -68,64 +41,85 @@ $ python3 -m pip install pyvirtualdisplay pyscreenshot pillow
 Usage
 =====
 
-GUI Test
---------
+The display can be controlled with 2 methods:
+using `start()`/`stop()`
 
 ```py
-# pyvirtualdisplay/examples/lowres.py
+from pyvirtualdisplay import Display
+disp = Display().start()
+# display is active
+disp.stop()
+```
 
-"Testing gnumeric on low resolution."
+or using `with`
+```py
+from pyvirtualdisplay import Display
+with Display() as disp:
+    # display is active
+    pass
+# display is stopped
+```
+
+Choosing backend:
+
+Xvfb:
+```py
+disp=Display()
+# or
+disp=Display(visible=False)
+# or
+disp=Display(backend="xvfb")
+```
+
+Xephyr:
+```py
+disp=Display(visible=True)
+# or
+disp=Display(backend="xephyr")
+```
+
+Xvnc:
+```py
+disp=Display(backend="xvnc")
+```
+
+Choosing display size:
+
+```py
+disp=Display(size=(100, 60))
+```
+
+Choosing display color depth:
+
+```py
+disp=Display(color_depth=24)
+```
+
+headless
+--------
+
+The display is hidden.
+If `visible=True` then a nested Xephyr window opens and the GUI can be controlled.
+
+```py
+# pyvirtualdisplay/examples/headless.py
+
+"Start Xvfb server. Open xmessage window."
+
 from easyprocess import EasyProcess
 
 from pyvirtualdisplay import Display
 
-# start Xephyr
-Display(visible=True, size=(320, 240)).start()
-# start Gnumeric
-EasyProcess(["gnumeric"]).start()
+with Display(visible=False, size=(100, 60), rfbport=5904) as disp:
+    with EasyProcess(["xmessage", "hello"]) as proc:
+        proc.wait()
 
 ```
-
-<!-- embedme doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.txt -->
-Run it:
-```console
-$ python3 -m pyvirtualdisplay.examples.lowres
-```
-
-Image:
-
-![](/doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.png)
-
-Screenshot
-----------
-
-```py
-# pyvirtualdisplay/examples/screenshot.py
-
-"Create screenshot of xmessage in background"
-from easyprocess import EasyProcess
-
-from pyvirtualdisplay.smartdisplay import SmartDisplay
-
-with SmartDisplay() as disp:
-    with EasyProcess(["xmessage", "hello"]):
-        img = disp.waitgrab()
-img.save("xmessage.png")
-
-```
-
-<!-- embedme doc/gen/python3_-m_pyvirtualdisplay.examples.screenshot.txt -->
-Run it:
-```console
-$ python3 -m pyvirtualdisplay.examples.screenshot
-```
-
-Image:
-
-![](/doc/gen/xmessage.png)
 
 vncserver
 ---------
+
+The same as headless example, but it can be controlled with a VNC client.
 
 ```py
 # pyvirtualdisplay/examples/vncserver.py
@@ -155,6 +149,65 @@ $ vncviewer localhost:5904
 Image:
 
 ![](/doc/gen/vncviewer_localhost:5904.png)
+
+
+GUI Test
+--------
+
+```py
+# pyvirtualdisplay/examples/lowres.py
+
+"Testing gnumeric on low resolution."
+from easyprocess import EasyProcess
+
+from pyvirtualdisplay import Display
+
+# start Xephyr
+Display(visible=True, size=(320, 240)).start()
+# start Gnumeric
+EasyProcess(["gnumeric"]).start()
+
+```
+
+<!-- embedme doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.txt -->
+Run it:
+```console
+$ python3 -m pyvirtualdisplay.examples.lowres
+```
+
+Image:
+
+![](/doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.png)
+
+
+Screenshot
+----------
+
+```py
+# pyvirtualdisplay/examples/screenshot.py
+
+"Create screenshot of xmessage in background"
+from easyprocess import EasyProcess
+
+from pyvirtualdisplay.smartdisplay import SmartDisplay
+
+with SmartDisplay() as disp:
+    with EasyProcess(["xmessage", "hello"]):
+        img = disp.waitgrab()
+img.save("xmessage.png")
+
+```
+
+<!-- embedme doc/gen/python3_-m_pyvirtualdisplay.examples.screenshot.txt -->
+Run it:
+```console
+$ python3 -m pyvirtualdisplay.examples.screenshot
+```
+
+Image:
+
+![](/doc/gen/xmessage.png)
+
 
 Nested Xephyr
 -------------
