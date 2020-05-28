@@ -79,6 +79,8 @@ class AbstractDisplay(object):
         self.stdout = None
         self.stderr = None
         self.old_display_var = None
+        self.subproc = None
+        self.is_started = False
 
         helptext = get_helptext(program)
         self.has_displayfd = "-displayfd" in helptext
@@ -146,6 +148,7 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
+        self.is_started = True
         if self.has_displayfd:
             self._start1()
         else:
@@ -306,6 +309,9 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
+        if not self.is_started:
+            raise XStartError("stop() is called before start().")
+
         self.redirect_display(False)
 
         if self.is_alive():

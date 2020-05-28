@@ -86,6 +86,11 @@ def test_repr_xephyr():
     print(repr(display))
 
 
+def test_stop_nostart():
+    with pytest.raises(XStartError):
+        Display().stop()
+
+
 def test_double_stop():
     vd = Display().start().stop()
     assert vd.return_code == 0
