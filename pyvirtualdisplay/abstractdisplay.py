@@ -30,9 +30,6 @@ X_START_TIMEOUT = 10
 X_START_TIME_STEP = 0.1
 X_START_WAIT = 0.1
 
-# only for missing displayfd
-RETRIES = 10
-
 
 class XStartTimeoutError(Exception):
     pass
@@ -75,7 +72,8 @@ class AbstractDisplay(object):
     Common parent for Xvfb and Xephyr
     """
 
-    def __init__(self, program, use_xauth, randomizer):
+    def __init__(self, program, use_xauth, randomizer, retries):
+        self.retries = retries
         self.program = program
         self.randomizer = randomizer
         self.stdout = None
@@ -160,10 +158,10 @@ class AbstractDisplay(object):
                     log.warning("start failed %s", i + 1)
                     time.sleep(0.05)
                     i += 1
-                    if i >= RETRIES:
+                    if i >= self.retries:
                         raise XStartError(
                             "No success after %s retries. Last stderr: %s"
-                            % (RETRIES, self.stderr)
+                            % (self.retries, self.stderr)
                         )
                 finally:
                     self.redirect_display(False)

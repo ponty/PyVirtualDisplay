@@ -22,6 +22,7 @@ class XvncDisplay(AbstractDisplay):
         rfbport=5900,
         rfbauth=None,
         randomizer=None,
+        retries=10,
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -43,6 +44,7 @@ class XvncDisplay(AbstractDisplay):
             use_xauth=use_xauth,
             # check_startup=check_startup,
             randomizer=randomizer,
+            retries=retries,
         )
 
     def _check_flags(self, helptext):

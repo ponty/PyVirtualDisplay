@@ -27,6 +27,7 @@ class Display(object):
         use_xauth=False,
         # check_startup=False,
         randomizer=None,
+        retries=10,
         **kwargs
     ):
         self.color_depth = color_depth

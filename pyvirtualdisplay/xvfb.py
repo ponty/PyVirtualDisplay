@@ -26,6 +26,7 @@ class XvfbDisplay(AbstractDisplay):
         fbdir=None,
         dpi=None,
         randomizer=None,
+        retries=10,
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -48,6 +49,7 @@ class XvfbDisplay(AbstractDisplay):
             use_xauth=use_xauth,
             # check_startup=check_startup,
             randomizer=randomizer,
+            retries=retries,
         )
 
     def _check_flags(self, helptext):

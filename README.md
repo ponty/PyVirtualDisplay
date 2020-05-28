@@ -197,6 +197,15 @@ generate one and set the appropriate environment variables if you pass
 feature needs ``xauth`` installed, otherwise a
 ``pyvirtualdisplay.xauth.NotFoundError`` is raised.
 
+Concurrency
+===========
+
+_"Recent X servers as of version 1.13 (Xvfb, too) support the -displayfd command line option: It will make the X server choose the display itself"_
+https://stackoverflow.com/questions/2520704/find-a-free-x11-display-number/
+
+First help text is checked (e.g. `Xvfb -help`) to find if `-displayfd` flag is available.
+If `-displayfd` flag is available then it is used, if not then there are 10 retries by default which should be enough for starting 10 concurrent X servers.
+The `retries` parameter can be increased if necessary.
 
 Hierarchy
 =========
