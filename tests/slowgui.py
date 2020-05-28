@@ -4,7 +4,7 @@ from easyprocess import EasyProcess
 
 
 def main():
-    time.sleep(5)
+    time.sleep(10)
     EasyProcess(["xmessage", "hello"]).start()
 
 
