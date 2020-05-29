@@ -148,7 +148,10 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
+        if self.is_started:
+            raise XStartError(self, "Display was started twice.")
         self.is_started = True
+
         if self.has_displayfd:
             self._start1()
         else:
