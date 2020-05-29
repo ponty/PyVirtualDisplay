@@ -100,3 +100,7 @@ class Display(object):
         :rtype: int
         """
         return self._obj.pid
+
+    @property
+    def is_started(self):
+        return self._obj.is_started
