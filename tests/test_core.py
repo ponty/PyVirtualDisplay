@@ -91,6 +91,16 @@ def test_stop_nostart():
         Display().stop()
 
 
+def test_double_start():
+    vd = Display()
+    try:
+        vd.start()
+        with pytest.raises(XStartError):
+            vd.start()
+    finally:
+        vd.stop()
+
+
 def test_double_stop():
     vd = Display().start().stop()
     assert vd.return_code == 0
