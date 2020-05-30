@@ -81,6 +81,7 @@ class AbstractDisplay(object):
         self.stderr = None
         self.old_display_var = None
         self.subproc = None
+        self.display = None
         self.is_started = False
 
         helptext = get_helptext(program)
