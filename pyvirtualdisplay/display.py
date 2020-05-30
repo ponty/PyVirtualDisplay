@@ -28,6 +28,7 @@ class Display(object):
         # check_startup=False,
         randomizer=None,
         retries=10,
+        extra_args=[],
         **kwargs
     ):
         self.color_depth = color_depth
@@ -53,6 +54,7 @@ class Display(object):
             randomizer=randomizer,
             use_xauth=use_xauth,
             # check_startup=check_startup,
+            extra_args=extra_args,
             **kwargs
         )
 

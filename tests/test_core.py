@@ -195,3 +195,19 @@ def test_is_started2():
         #     assert d.is_started
         # assert d.is_started
 
+
+def test_extra_args():
+    # Unrecognized option
+    d = Display(extra_args=["willcrash"])
+    with pytest.raises(XStartError):
+        d.start()
+
+    with Display():
+        # -c                     turns off key-click
+        with Display(visible=True, extra_args=["-c"]) as d:
+            assert d.is_alive()
+        assert not d.is_alive()
+
+        with XephyrDisplay(extra_args=["-c"]) as d:
+            assert d.is_alive()
+        assert not d.is_alive()

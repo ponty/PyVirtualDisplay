@@ -72,7 +72,8 @@ class AbstractDisplay(object):
     Common parent for Xvfb and Xephyr
     """
 
-    def __init__(self, program, use_xauth, randomizer, retries):
+    def __init__(self, program, use_xauth, randomizer, retries, extra_args):
+        self.extra_args = extra_args
         self.retries = retries
         self.program = program
         self.randomizer = randomizer
@@ -186,7 +187,7 @@ class AbstractDisplay(object):
 
                 USED_DISPLAY_NR_LIST.append(self.display)
 
-        self.command = self._cmd()
+        self.command = self._cmd() + self.extra_args
         log.debug("command: %s", self.command)
 
         self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")

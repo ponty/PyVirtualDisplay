@@ -23,6 +23,7 @@ class XephyrDisplay(AbstractDisplay):
         # check_startup=False,
         randomizer=None,
         retries=10,
+        extra_args=[],
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -41,6 +42,7 @@ class XephyrDisplay(AbstractDisplay):
             # check_startup=check_startup,
             randomizer=randomizer,
             retries=retries,
+            extra_args=extra_args,
         )
 
     def _check_flags(self, helptext):
