@@ -178,19 +178,20 @@ def test_is_started():
 
 
 def test_is_started2():
+    with Display() as d:
+        assert d.is_started
+    assert d.is_started
+
+    with XvfbDisplay() as d:
+        assert d.is_started
+    assert d.is_started
+
     with Display():
-        with Display() as d:
-            assert d.is_started
-        assert d.is_started
-
-        with XvfbDisplay() as d:
-            assert d.is_started
-        assert d.is_started
-
         with XephyrDisplay() as d:
             assert d.is_started
         assert d.is_started
 
-        with XvncDisplay() as d:
-            assert d.is_started
-        assert d.is_started
+        # with XvncDisplay() as d:
+        #     assert d.is_started
+        # assert d.is_started
+
