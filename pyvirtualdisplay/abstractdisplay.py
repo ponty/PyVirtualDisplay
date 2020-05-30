@@ -69,7 +69,7 @@ def search_for_display(randomizer=None):
 
 class AbstractDisplay(object):
     """
-    Common parent for Xvfb and Xephyr
+    Common parent for X servers (Xvfb,Xephyr,Xvnc)
     """
 
     def __init__(self, program, use_xauth, randomizer, retries, extra_args):
