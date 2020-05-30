@@ -113,7 +113,7 @@ def test_double_stop():
 def test_stop_terminated():
     vd = Display().start()
     assert vd.is_alive()
-    vd._obj.subproc.terminate()
+    vd._obj._subproc.terminate()
     sleep(0.2)
     assert not vd.is_alive()
     vd.stop()

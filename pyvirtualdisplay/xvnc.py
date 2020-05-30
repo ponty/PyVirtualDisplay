@@ -31,13 +31,13 @@ class XvncDisplay(AbstractDisplay):
         :param rfbauth: Specifies the file containing the password used to authenticate viewers.
         """
         # self.screen = 0
-        self.size = size
-        self.color_depth = color_depth
+        self._size = size
+        self._color_depth = color_depth
         # self.process = None
-        self.bgcolor = bgcolor
+        self._bgcolor = bgcolor
         # self.display = None
-        self.rfbport = rfbport
-        self.rfbauth = rfbauth
+        self._rfbport = rfbport
+        self._rfbauth = rfbauth
 
         AbstractDisplay.__init__(
             self,
@@ -56,15 +56,15 @@ class XvncDisplay(AbstractDisplay):
         cmd = [
             PROGRAM,
             "-depth",
-            str(self.color_depth),
+            str(self._color_depth),
             "-geometry",
-            "%dx%d" % (self.size[0], self.size[1]),
+            "%dx%d" % (self._size[0], self._size[1]),
             "-rfbport",
-            str(self.rfbport),
+            str(self._rfbport),
         ]
 
-        if self.rfbauth:
-            cmd += ["-rfbauth", str(self.rfbauth)]
+        if self._rfbauth:
+            cmd += ["-rfbauth", str(self._rfbauth)]
             # default:
             # -SecurityTypes = VncAuth
         else:
@@ -77,8 +77,8 @@ class XvncDisplay(AbstractDisplay):
         # if self.check_startup:
         #     if self.has_displayfd:
         #         cmd += ["-displayfd", str(self.check_startup_fd)]
-        if self.has_displayfd:
-            cmd += ["-displayfd", str(self.pipe_wfd)]
+        if self._has_displayfd:
+            cmd += ["-displayfd", str(self._pipe_wfd)]
         else:
             cmd += [self.new_display_var]
         return cmd

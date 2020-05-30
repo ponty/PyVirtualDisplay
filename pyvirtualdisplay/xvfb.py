@@ -35,14 +35,14 @@ class XvfbDisplay(AbstractDisplay):
             to a file in the given directory ('-fbdir' option)
         :param dpi: screen resolution in dots per inch if not None
         """
-        self.screen = 0
-        self.size = size
-        self.color_depth = color_depth
+        self._screen = 0
+        self._size = size
+        self._color_depth = color_depth
         # self.process = None
-        self.bgcolor = bgcolor
+        self._bgcolor = bgcolor
         # self.display = None
-        self.fbdir = fbdir
-        self.dpi = dpi
+        self._fbdir = fbdir
+        self._dpi = dpi
 
         AbstractDisplay.__init__(
             self,
@@ -59,21 +59,21 @@ class XvfbDisplay(AbstractDisplay):
 
     def _cmd(self):
         cmd = [
-            dict(black="-br", white="-wr")[self.bgcolor],
+            dict(black="-br", white="-wr")[self._bgcolor],
             "-nolisten",
             "tcp",
             "-screen",
-            str(self.screen),
-            "x".join(map(str, list(self.size) + [self.color_depth])),
+            str(self._screen),
+            "x".join(map(str, list(self._size) + [self._color_depth])),
             # self.new_display_var,
         ]
-        if self.fbdir:
-            cmd += ["-fbdir", self.fbdir]
-        if self.dpi is not None:
-            cmd += ["-dpi", str(self.dpi)]
+        if self._fbdir:
+            cmd += ["-fbdir", self._fbdir]
+        if self._dpi is not None:
+            cmd += ["-dpi", str(self._dpi)]
         # if self.check_startup:
-        if self.has_displayfd:
-            cmd += ["-displayfd", str(self.pipe_wfd)]
+        if self._has_displayfd:
+            cmd += ["-displayfd", str(self._pipe_wfd)]
         else:
             cmd += [self.new_display_var]
         return [PROGRAM] + cmd

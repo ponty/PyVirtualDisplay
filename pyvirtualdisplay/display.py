@@ -2,7 +2,7 @@ from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
 
-class_map = {"xvfb": XvfbDisplay, "xvnc": XvncDisplay, "xephyr": XephyrDisplay}
+_class_map = {"xvfb": XvfbDisplay, "xvnc": XvncDisplay, "xephyr": XephyrDisplay}
 
 
 class Display(object):
@@ -31,21 +31,21 @@ class Display(object):
         extra_args=[],
         **kwargs
     ):
-        self.color_depth = color_depth
-        self.size = size
-        self.bgcolor = bgcolor
-        self.visible = visible
-        self.backend = backend
+        self._color_depth = color_depth
+        self._size = size
+        self._bgcolor = bgcolor
+        self._visible = visible
+        self._backend = backend
 
-        if not self.backend:
-            if self.visible:
-                self.backend = "xephyr"
+        if not self._backend:
+            if self._visible:
+                self._backend = "xephyr"
             else:
-                self.backend = "xvfb"
+                self._backend = "xvfb"
 
-        cls = class_map.get(self.backend)
+        cls = _class_map.get(self._backend)
         if not cls:
-            raise ValueError("unknown backend: %s" % self.backend)
+            raise ValueError("unknown backend: %s" % self._backend)
 
         self._obj = cls(
             size=size,

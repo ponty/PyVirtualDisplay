@@ -19,16 +19,16 @@ from pyvirtualdisplay.util import get_helptext, py2
 #     fcntl = None
 
 
-mutex = Lock()
+_mutex = Lock()
 
 log = logging.getLogger(__name__)
 
-MIN_DISPLAY_NR = 1000
-USED_DISPLAY_NR_LIST = []
+_MIN_DISPLAY_NR = 1000
+_USED_DISPLAY_NR_LIST = []
 
-X_START_TIMEOUT = 10
-X_START_TIME_STEP = 0.1
-X_START_WAIT = 0.1
+_X_START_TIMEOUT = 10
+_X_START_TIME_STEP = 0.1
+_X_START_WAIT = 0.1
 
 
 class XStartTimeoutError(Exception):
@@ -39,7 +39,7 @@ class XStartError(Exception):
     pass
 
 
-def lock_files():
+def _lock_files():
     tmpdir = "/tmp"
     try:
         ls = os.listdir(tmpdir)
@@ -53,13 +53,13 @@ def lock_files():
     return ls
 
 
-def search_for_display(randomizer=None):
+def _search_for_display(randomizer=None):
     # search for free display
-    ls = list(map(lambda x: int(x.split("X")[1].split("-")[0]), lock_files()))
+    ls = list(map(lambda x: int(x.split("X")[1].split("-")[0]), _lock_files()))
     if len(ls):
-        display = max(MIN_DISPLAY_NR, max(ls) + 3)
+        display = max(_MIN_DISPLAY_NR, max(ls) + 3)
     else:
-        display = MIN_DISPLAY_NR
+        display = _MIN_DISPLAY_NR
 
     if randomizer:
         display = randomizer.generate()
@@ -73,20 +73,20 @@ class AbstractDisplay(object):
     """
 
     def __init__(self, program, use_xauth, randomizer, retries, extra_args):
-        self.extra_args = extra_args
-        self.retries = retries
-        self.program = program
-        self.randomizer = randomizer
+        self._extra_args = extra_args
+        self._retries = retries
+        self._program = program
+        self._randomizer = randomizer
         self.stdout = None
         self.stderr = None
         self.old_display_var = None
-        self.subproc = None
+        self._subproc = None
         self.display = None
         self.is_started = False
 
         helptext = get_helptext(program)
-        self.has_displayfd = "-displayfd" in helptext
-        if not self.has_displayfd:
+        self._has_displayfd = "-displayfd" in helptext
+        if not self._has_displayfd:
             log.debug("-displayfd flag is missing.")
         # if check_startup and not has_displayfd:
         #     check_startup = False
@@ -99,7 +99,7 @@ class AbstractDisplay(object):
         if use_xauth and not xauth.is_installed():
             raise xauth.NotFoundError()
 
-        self.use_xauth = use_xauth
+        self._use_xauth = use_xauth
         self._old_xauth = None
         self._xauth_filename = None
         # self.check_startup = check_startup
@@ -125,7 +125,7 @@ class AbstractDisplay(object):
     def _cmd(self):
         raise NotImplementedError()
 
-    def redirect_display(self, on):
+    def _redirect_display(self, on):
         """
         on:
          * True -> set $DISPLAY to virtual screen
@@ -154,7 +154,7 @@ class AbstractDisplay(object):
             raise XStartError(self, "Display was started twice.")
         self.is_started = True
 
-        if self.has_displayfd:
+        if self._has_displayfd:
             self._start1()
         else:
             i = 0
@@ -166,58 +166,58 @@ class AbstractDisplay(object):
                     log.warning("start failed %s", i + 1)
                     time.sleep(0.05)
                     i += 1
-                    if i >= self.retries:
+                    if i >= self._retries:
                         raise XStartError(
                             "No success after %s retries. Last stderr: %s"
-                            % (self.retries, self.stderr)
+                            % (self._retries, self.stderr)
                         )
                 finally:
-                    self.redirect_display(False)
-        self.redirect_display(True)
+                    self._redirect_display(False)
+        self._redirect_display(True)
 
     def _start1(self):
-        if self.has_displayfd:
+        if self._has_displayfd:
             # stdout doesn't work on osx -> create own pipe
-            rfd, self.pipe_wfd = os.pipe()
+            rfd, self._pipe_wfd = os.pipe()
         else:
-            with mutex:
-                self.display = search_for_display(randomizer=self.randomizer)
-                while self.display in USED_DISPLAY_NR_LIST:
+            with _mutex:
+                self.display = _search_for_display(randomizer=self._randomizer)
+                while self.display in _USED_DISPLAY_NR_LIST:
                     self.display += 1
                 self.new_display_var = ":%s" % int(self.display)
 
-                USED_DISPLAY_NR_LIST.append(self.display)
+                _USED_DISPLAY_NR_LIST.append(self.display)
 
-        self.command = self._cmd() + self.extra_args
-        log.debug("command: %s", self.command)
+        self._command = self._cmd() + self._extra_args
+        log.debug("command: %s", self._command)
 
         self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
         self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
 
-        if py2() or not self.has_displayfd:
-            self.subproc = subprocess.Popen(
-                self.command,
+        if py2() or not self._has_displayfd:
+            self._subproc = subprocess.Popen(
+                self._command,
                 stdout=self._stdout_file,
                 stderr=self._stderr_file,
                 shell=False,
             )
         else:
-            if self.has_displayfd:
-                self.subproc = subprocess.Popen(
-                    self.command,
-                    pass_fds=[self.pipe_wfd],
+            if self._has_displayfd:
+                self._subproc = subprocess.Popen(
+                    self._command,
+                    pass_fds=[self._pipe_wfd],
                     stdout=self._stdout_file,
                     stderr=self._stderr_file,
                     shell=False,
                 )
-        if self.has_displayfd:
+        if self._has_displayfd:
             # rfd = self.subproc.stdout.fileno()
-            self.display = int(self.wait_for_pipe_text(rfd))
+            self.display = int(self._wait_for_pipe_text(rfd))
             os.close(rfd)
-            os.close(self.pipe_wfd)
+            os.close(self._pipe_wfd)
         self.new_display_var = ":%s" % int(self.display)
 
-        if self.use_xauth:
+        if self._use_xauth:
             self._setup_xauth()
 
         # https://github.com/ponty/PyVirtualDisplay/issues/2
@@ -229,7 +229,7 @@ class AbstractDisplay(object):
         # if self.check_startup:
         #     rp = self._check_startup_fd
         #     display_check = None
-        #     rlist, wlist, xlist = select.select((rp,), (), (), X_START_TIMEOUT)
+        #     rlist, wlist, xlist = select.select((rp,), (), (), _X_START_TIMEOUT)
         #     if rlist:
         #         display_check = os.read(rp, 10).rstrip()
         #     else:
@@ -244,8 +244,8 @@ class AbstractDisplay(object):
         #         )
         #         raise XStartTimeoutError(msg % self.display)
 
-        if not self.has_displayfd:
-            self.redirect_display(True)  # for xdpyinfo
+        if not self._has_displayfd:
+            self._redirect_display(True)  # for xdpyinfo
             d = self.new_display_var
             ok = False
             time.sleep(0.05)  # give time for early exit
@@ -262,7 +262,7 @@ class AbstractDisplay(object):
                     log.warning(
                         "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
                     )
-                    time.sleep(X_START_WAIT)  # old method
+                    time.sleep(_X_START_WAIT)  # old method
                     ok = True
                     break
 
@@ -273,9 +273,9 @@ class AbstractDisplay(object):
                     ok = True
                     break
 
-                if time.time() - start_time >= X_START_TIMEOUT:
+                if time.time() - start_time >= _X_START_TIMEOUT:
                     break
-                time.sleep(X_START_TIME_STEP)
+                time.sleep(_X_START_TIME_STEP)
             if not self.is_alive():
                 log.warning("process exited early. stderr:%s", self.stderr)
                 msg = "Failed to start process: %s"
@@ -286,7 +286,7 @@ class AbstractDisplay(object):
 
         return self
 
-    def wait_for_pipe_text(self, rfd):
+    def _wait_for_pipe_text(self, rfd):
         s = ""
         start_time = time.time()
         while True:
@@ -294,17 +294,17 @@ class AbstractDisplay(object):
             if not self.is_alive():
                 raise XStartError(
                     "%s program closed. command: %s stderr: %s"
-                    % (self.program, self.command, self.stderr)
+                    % (self._program, self._command, self.stderr)
                 )
             if rfd in rfd_changed_ls:
                 c = os.read(rfd, 1)
                 if c == b"\n":
                     break
                 s += c.decode("ascii")
-            if time.time() - start_time >= X_START_TIMEOUT:
+            if time.time() - start_time >= _X_START_TIMEOUT:
                 raise XStartTimeoutError(
                     "No reply from program %s. command:%s"
-                    % (self.program, self.command,)
+                    % (self._program, self._command,)
                 )
         return s
 
@@ -317,20 +317,20 @@ class AbstractDisplay(object):
         if not self.is_started:
             raise XStartError("stop() is called before start().")
 
-        self.redirect_display(False)
+        self._redirect_display(False)
 
         if self.is_alive():
             try:
                 try:
-                    self.subproc.terminate()
+                    self._subproc.terminate()
                 except AttributeError:
-                    os.kill(self.subproc.pid, signal.SIGKILL)
+                    os.kill(self._subproc.pid, signal.SIGKILL)
             except OSError as oserror:
                 log.debug("exception in terminate:%s", oserror)
 
-            self.subproc.wait()
+            self._subproc.wait()
             self._read_stdout_stderr()
-        if self.use_xauth:
+        if self._use_xauth:
             self._clear_xauth()
         return self
 
@@ -391,7 +391,7 @@ class AbstractDisplay(object):
 
     @property
     def return_code(self):
-        rc = self.subproc.poll()
+        rc = self._subproc.poll()
         if rc is not None:
             # proc exited
             self._read_stdout_stderr()
@@ -404,5 +404,5 @@ class AbstractDisplay(object):
 
         :rtype: int
         """
-        if self.subproc:
-            return self.subproc.pid
+        if self._subproc:
+            return self._subproc.pid

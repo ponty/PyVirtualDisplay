@@ -28,9 +28,9 @@ class XephyrDisplay(AbstractDisplay):
         """
         :param bgcolor: 'black' or 'white'
         """
-        self.color_depth = color_depth
-        self.size = size
-        self.bgcolor = bgcolor
+        self._color_depth = color_depth
+        self._size = size
+        self._bgcolor = bgcolor
         # self.screen = 0
         # self.process = None
         # self.display = None
@@ -46,22 +46,22 @@ class XephyrDisplay(AbstractDisplay):
         )
 
     def _check_flags(self, helptext):
-        self.has_resizeable = "-resizeable" in helptext
+        self._has_resizeable = "-resizeable" in helptext
 
     def _cmd(self):
         cmd = [
             PROGRAM,
-            dict(black="-br", white="-wr")[self.bgcolor],
+            dict(black="-br", white="-wr")[self._bgcolor],
             "-screen",
-            "x".join(map(str, list(self.size) + [self.color_depth])),
+            "x".join(map(str, list(self._size) + [self._color_depth])),
             # self.new_display_var,
         ]
         # if self.check_startup:
-        if self.has_displayfd:
-            cmd += ["-displayfd", str(self.pipe_wfd)]
+        if self._has_displayfd:
+            cmd += ["-displayfd", str(self._pipe_wfd)]
         else:
             cmd += [self.new_display_var]
 
-        if self.has_resizeable:
+        if self._has_resizeable:
             cmd += ["-resizeable"]
         return cmd

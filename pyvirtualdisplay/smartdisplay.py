@@ -28,7 +28,7 @@ class SmartDisplay(Display):
         """
         if im.mode != "RGB":
             im = im.convert("RGB")
-        bg = Image.new("RGB", im.size, self.bgcolor)
+        bg = Image.new("RGB", im.size, self._bgcolor)
         diff = ImageChops.difference(im, bg)
         bbox = diff.getbbox()
         if bbox:
