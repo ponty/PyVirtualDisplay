@@ -65,8 +65,6 @@ class Display(object):
         :rtype: self
         """
         self._obj.start()
-        self.display = self._obj.display
-        self.new_display_var = self._obj.new_display_var
         return self
 
     def stop(self):
@@ -106,3 +104,11 @@ class Display(object):
     @property
     def is_started(self):
         return self._obj.is_started
+
+    @property
+    def display(self):
+        return self._obj.display
+
+    @property
+    def new_display_var(self):
+        return self._obj.new_display_var
