@@ -211,3 +211,15 @@ def test_extra_args():
         with XephyrDisplay(extra_args=["-c"]) as d:
             assert d.is_alive()
         assert not d.is_alive()
+
+
+def test_display():
+    d = Display()
+    assert d.display is None
+    d.start()
+    assert d.display >= 0
+
+    d = XvfbDisplay()
+    assert d.display is None
+    d.start()
+    assert d.display >= 0
