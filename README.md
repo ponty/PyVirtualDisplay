@@ -95,8 +95,8 @@ Choosing display color depth:
 disp=Display(color_depth=24)
 ```
 
-headless
---------
+headless run
+------------
 
 The display is hidden.
 If `visible=True` then a nested Xephyr window opens and the GUI can be controlled.
@@ -110,7 +110,7 @@ from easyprocess import EasyProcess
 
 from pyvirtualdisplay import Display
 
-with Display(visible=False, size=(100, 60), rfbport=5904) as disp:
+with Display(visible=False, size=(100, 60)) as disp:
     with EasyProcess(["xmessage", "hello"]) as proc:
         proc.wait()
 
@@ -163,9 +163,10 @@ from easyprocess import EasyProcess
 from pyvirtualdisplay import Display
 
 # start Xephyr
-Display(visible=True, size=(320, 240)).start()
-# start Gnumeric
-EasyProcess(["gnumeric"]).start()
+with Display(visible=True, size=(320, 240)) as disp:
+    # start Gnumeric
+    with EasyProcess(["gnumeric"]) as proc:
+        proc.wait()
 
 ```
 
@@ -193,6 +194,8 @@ from pyvirtualdisplay.smartdisplay import SmartDisplay
 
 with SmartDisplay() as disp:
     with EasyProcess(["xmessage", "hello"]):
+        # wait until something is displayed on the virtual display (polling method)
+        # and then take a screenshot
         img = disp.waitgrab()
 img.save("xmessage.png")
 
@@ -220,14 +223,15 @@ from easyprocess import EasyProcess
 
 from pyvirtualdisplay import Display
 
-Display(visible=True, size=(220, 180), bgcolor="black").start()
-Display(visible=True, size=(200, 160), bgcolor="white").start()
-Display(visible=True, size=(180, 140), bgcolor="black").start()
-Display(visible=True, size=(160, 120), bgcolor="white").start()
-Display(visible=True, size=(140, 100), bgcolor="black").start()
-Display(visible=True, size=(120, 80), bgcolor="white").start()
-Display(visible=True, size=(100, 60), bgcolor="black").start()
-EasyProcess(["xmessage", "hello"]).start()
+with Display(visible=True, size=(220, 180), bgcolor="black"):
+    with Display(visible=True, size=(200, 160), bgcolor="white"):
+        with Display(visible=True, size=(180, 140), bgcolor="black"):
+            with Display(visible=True, size=(160, 120), bgcolor="white"):
+                with Display(visible=True, size=(140, 100), bgcolor="black"):
+                    with Display(visible=True, size=(120, 80), bgcolor="white"):
+                        with Display(visible=True, size=(100, 60), bgcolor="black"):
+                            with EasyProcess(["xmessage", "hello"]) as proc:
+                                proc.wait()
 
 ```
 

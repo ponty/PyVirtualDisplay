@@ -1,5 +1,6 @@
 import logging
 import os
+from time import sleep
 
 from easyprocess import EasyProcess
 from entrypoint2 import entrypoint
@@ -9,8 +10,8 @@ from pyvirtualdisplay.smartdisplay import SmartDisplay
 # (cmd,grab,background)
 commands = [
     ("python3 -m pyvirtualdisplay.examples.screenshot", False, False),
-    ("python3 -m pyvirtualdisplay.examples.lowres", True, False),
-    ("python3 -m pyvirtualdisplay.examples.nested", True, False),
+    ("python3 -m pyvirtualdisplay.examples.lowres", True, True),
+    ("python3 -m pyvirtualdisplay.examples.nested", True, True),
     ("python3 -m pyvirtualdisplay.examples.vncserver", False, True),
     ("vncviewer localhost:5904", True, True),
 ]
@@ -34,10 +35,10 @@ def main():
         os.chdir("gen")
         for cmd, grab, bg in commands:
             with SmartDisplay() as disp:
-                logging.info("cmd: %s", cmd)
+                logging.info("======== cmd: %s", cmd)
                 fname_base = cmd.replace(" ", "_")
                 fname = fname_base + ".txt"
-                logging.info("cmd: %s", cmd)
+                # logging.info("cmd: %s", cmd)
                 print("file name: %s" % fname)
                 with open(fname, "w") as f:
                     f.write("$ " + cmd)
@@ -50,7 +51,8 @@ def main():
                     pls += [p]
                 if grab:
                     png = fname_base + ".png"
-                    img = disp.waitgrab(timeout=3)
+                    sleep(1)
+                    img = disp.waitgrab(timeout=9)
                     logging.info("saving %s", png)
                     img.save(png)
     finally:
