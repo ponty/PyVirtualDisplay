@@ -41,14 +41,14 @@ $ python3 -m pip install pyvirtualdisplay pyscreenshot pillow
 Usage
 =====
 
-The display can be controlled with 2 methods:
-using `start()`/`stop()`
+The display can be controlled with 2 methods:`start()` and `stop()`
 
 ```py
 from pyvirtualdisplay import Display
 disp = Display().start()
 # display is active
 disp.stop()
+# display is stopped
 ```
 
 or using `with`
@@ -146,7 +146,6 @@ Check it with vncviewer:
 ```console
 $ vncviewer localhost:5904
 ```
-Image:
 
 ![](/doc/gen/vncviewer_localhost:5904.png)
 
