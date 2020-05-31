@@ -31,6 +31,7 @@ def run_box(options, vagrantfile, cmds):
     print(status)
 
     if options.destroy:
+        v.halt(force=True)
         v.destroy()
         return
 
@@ -57,10 +58,11 @@ def run_box(options, vagrantfile, cmds):
                     if options.recreate:
                         if "tox" in cmd:
                             cmd += " -r"
-                    conn.run(cmd)
+                    # hangs without pty=True
+                    conn.run(cmd, echo=True, pty=True)
     finally:
         if options.halt:
-            v.halt(force=True)
+            v.halt()
 
 
 config = {
