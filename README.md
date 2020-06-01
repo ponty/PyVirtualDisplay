@@ -41,7 +41,7 @@ $ python3 -m pip install pyvirtualdisplay pyscreenshot pillow
 Usage
 =====
 
-The display can be controlled with 2 methods:`start()` and `stop()`
+Controlling the display with `start()` and `stop()` methods:
 
 ```py
 from pyvirtualdisplay import Display
@@ -51,7 +51,8 @@ disp.stop()
 # display is stopped
 ```
 
-or using `with`
+Controlling the display with context manager:
+
 ```py
 from pyvirtualdisplay import Display
 with Display() as disp:
@@ -60,9 +61,8 @@ with Display() as disp:
 # display is stopped
 ```
 
-Choosing backend:
+Selecting Xvfb backend:
 
-Xvfb:
 ```py
 disp=Display()
 # or
@@ -71,25 +71,25 @@ disp=Display(visible=False)
 disp=Display(backend="xvfb")
 ```
 
-Xephyr:
+Selecting Xephyr backend:
 ```py
 disp=Display(visible=True)
 # or
 disp=Display(backend="xephyr")
 ```
 
-Xvnc:
+Selecting Xvnc backend:
 ```py
 disp=Display(backend="xvnc")
 ```
 
-Choosing display size:
+Setting display size:
 
 ```py
 disp=Display(size=(100, 60))
 ```
 
-Choosing display color depth:
+Setting display color depth:
 
 ```py
 disp=Display(color_depth=24)
@@ -186,15 +186,19 @@ Screenshot
 ```py
 # pyvirtualdisplay/examples/screenshot.py
 
-"Create screenshot of xmessage in background"
+"Create screenshot of xmessage in background using 'smartdisplay' submodule"
 from easyprocess import EasyProcess
 
 from pyvirtualdisplay.smartdisplay import SmartDisplay
 
+# 'SmartDisplay' instead of 'Display'
+# It has 'waitgrab()' method.
+# It has more dependencies than Display.
 with SmartDisplay() as disp:
     with EasyProcess(["xmessage", "hello"]):
         # wait until something is displayed on the virtual display (polling method)
-        # and then take a screenshot
+        # and then take a fullscreen screenshot
+        # and then crop it. Background is black.
         img = disp.waitgrab()
 img.save("xmessage.png")
 
