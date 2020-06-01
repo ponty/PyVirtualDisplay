@@ -16,11 +16,15 @@ python = sys.executable
 
 
 def test_screenshot():
+    owd = os.getcwd()
     with TemporaryDirectory(prefix="pyvirtualdisplay_") as tmpdirname:
-        os.chdir(tmpdirname)
-        p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.screenshot"])
-        p.call()
-        assert p.return_code == 0
+        try:
+            os.chdir(tmpdirname)
+            p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.screenshot"])
+            p.call()
+            assert p.return_code == 0
+        finally:
+            os.chdir(owd)
 
 
 def test_headless():
