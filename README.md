@@ -51,6 +51,11 @@ disp.stop()
 # display is stopped
 ```
 
+After Xvfb display is activated "DISPLAY" environment variable is set for Xvfb.
+(e.g. `os.environ["DISPLAY"] = :1`)
+After Xvfb display is stopped "DISPLAY" environment variable is restored to its original value.
+
+
 Controlling the display with context manager:
 
 ```py
