@@ -387,10 +387,14 @@ class AbstractDisplay(object):
         self.stop()
 
     def is_alive(self):
+        if not self._subproc:
+            return False
         return self.return_code is None
 
     @property
     def return_code(self):
+        if not self._subproc:
+            return None
         rc = self._subproc.poll()
         if rc is not None:
             # proc exited

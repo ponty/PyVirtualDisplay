@@ -12,6 +12,16 @@ from tutil import has_xvnc
 
 
 def test_virt():
+    vd = Display()
+    assert vd.return_code is None
+    assert not vd.is_alive()
+    vd.start()
+    assert vd.return_code is None
+    assert vd.is_alive()
+    vd.stop()
+    assert vd.return_code == 0
+    assert not vd.is_alive()
+
     vd = Display().start().stop()
     assert vd.return_code == 0
     assert not vd.is_alive()
