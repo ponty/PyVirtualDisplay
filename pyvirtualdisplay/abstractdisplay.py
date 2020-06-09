@@ -82,7 +82,7 @@ class AbstractDisplay(object):
         self.old_display_var = None
         self._subproc = None
         self.display = None
-        self.is_started = False
+        self._is_started = False
 
         helptext = get_helptext(program)
         self._has_displayfd = "-displayfd" in helptext
@@ -150,9 +150,9 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
-        if self.is_started:
+        if self._is_started:
             raise XStartError(self, "Display was started twice.")
-        self.is_started = True
+        self._is_started = True
 
         if self._has_displayfd:
             self._start1()
@@ -314,7 +314,7 @@ class AbstractDisplay(object):
 
         :rtype: self
         """
-        if not self.is_started:
+        if not self._is_started:
             raise XStartError("stop() is called before start().")
 
         self._redirect_display(False)

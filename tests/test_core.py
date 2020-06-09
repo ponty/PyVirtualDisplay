@@ -179,31 +179,29 @@ def test_bgcolor():
 
 
 def test_is_started():
-    d = Display()
-    assert not d.is_started
-    d.start()
-    assert d.is_started
-    d.stop()
-    assert d.is_started
+    #     d = Display()
+    #     assert not d._is_started
+    #     d.start()
+    #     assert d._is_started
+    #     d.stop()
+    #     assert d._is_started
 
-
-def test_is_started2():
-    with Display() as d:
-        assert d.is_started
-    assert d.is_started
+    # with Display() as d:
+    #     assert d._is_started
+    # assert d._is_started
 
     with XvfbDisplay() as d:
-        assert d.is_started
-    assert d.is_started
+        assert d._is_started
+    assert d._is_started
 
     with Display():
         with XephyrDisplay() as d:
-            assert d.is_started
-        assert d.is_started
+            assert d._is_started
+        assert d._is_started
 
         # with XvncDisplay() as d:
-        #     assert d.is_started
-        # assert d.is_started
+        #     assert d._is_started
+        # assert d._is_started
 
 
 def test_extra_args():

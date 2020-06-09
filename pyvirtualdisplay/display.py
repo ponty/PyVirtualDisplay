@@ -101,9 +101,9 @@ class Display(object):
         """
         return self._obj.pid
 
-    @property
-    def is_started(self):
-        return self._obj.is_started
+    # @property
+    # def is_started(self):
+    #     return self._obj.is_started
 
     @property
     def display(self):
