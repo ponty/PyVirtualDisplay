@@ -1,3 +1,4 @@
+import glob
 import logging
 import os
 from time import sleep
@@ -28,8 +29,17 @@ def screenshot(cmd, fname):
             img.save(fname)
 
 
+def empty_dir(dir):
+    files = glob.glob(os.path.join(dir, "*"))
+    for f in files:
+        os.remove(f)
+
+
 @entrypoint
 def main():
+    gendir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen")
+    logging.info("gendir: %s", gendir)
+    empty_dir(gendir)
     pls = []
     try:
         os.chdir("gen")
@@ -41,7 +51,7 @@ def main():
                 # logging.info("cmd: %s", cmd)
                 print("file name: %s" % fname)
                 with open(fname, "w") as f:
-                    f.write("$ " + cmd)
+                    f.write("$ " + cmd + "\n")
                     if bg:
                         p = EasyProcess(cmd).start()
                     else:
