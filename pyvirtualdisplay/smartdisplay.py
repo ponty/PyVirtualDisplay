@@ -18,22 +18,31 @@ class DisplayTimeoutError(Exception):
     pass
 
 
+def autocrop(im, bgcolor):
+    """Crop borders off an image.
+
+        :param im: Source image.
+        :param bgcolor: Background color, using either a color tuple.
+        :return: An image without borders, or None if there's no actual content in the image.
+    """
+    if im.mode != "RGB":
+        im = im.convert("RGB")
+    bg = Image.new("RGB", im.size, bgcolor)
+    diff = ImageChops.difference(im, bg)
+    bbox = diff.getbbox()
+    if bbox:
+        return im.crop(bbox)
+    return None  # no contents
+
+
 class SmartDisplay(Display):
     def autocrop(self, im):
         """Crop borders off an image.
 
         :param im: Source image.
-        :param bgcolor: Background color, using either a color tuple or a color name (1.1.4 only).
         :return: An image without borders, or None if there's no actual content in the image.
         """
-        if im.mode != "RGB":
-            im = im.convert("RGB")
-        bg = Image.new("RGB", im.size, self._bgcolor)
-        diff = ImageChops.difference(im, bg)
-        bbox = diff.getbbox()
-        if bbox:
-            return im.crop(bbox)
-        return None  # no contents
+        return autocrop(im, self._bgcolor)
 
     def grab(self, autocrop=True):
         img = grab()
