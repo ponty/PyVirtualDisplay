@@ -8,7 +8,7 @@ from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
-from tutil import has_xvnc
+from tutil import has_xvnc, rfbport
 
 
 def test_virt():
@@ -78,7 +78,7 @@ def test_repr_xvfb():
 if has_xvnc():
 
     def test_repr_xvnc():
-        display = Display(backend="xvnc")
+        display = Display(backend="xvnc", rfbport=rfbport())
         print(repr(display))
 
         display = XvncDisplay()
@@ -158,10 +158,15 @@ if has_xvnc():
 
     def test_color_xvnc():
         with pytest.raises(XStartError):
-            vd = Display(backend="xvnc", color_depth=99).start().stop()
-        vd = Display(backend="xvnc", color_depth=16).start().stop()
-        vd = Display(backend="xvnc", color_depth=24).start().stop()
-        vd = Display(backend="xvnc", color_depth=8).start().stop()
+            with Display(backend="xvnc", color_depth=99, rfbport=rfbport()):
+                pass
+        with Display(backend="xvnc", color_depth=16, rfbport=rfbport()):
+            pass
+        with Display(backend="xvnc", color_depth=24, rfbport=rfbport()):
+            pass
+        # tigervnc no longer works 8-bit pseudocolors, 18.04 is OK
+        # with Display(backend="xvnc", color_depth=8, rfbport=rfbport()):
+        #     pass
 
 
 def test_pid():

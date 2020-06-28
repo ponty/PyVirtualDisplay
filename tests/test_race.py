@@ -5,7 +5,7 @@ from easyprocess import EasyProcess
 from entrypoint2 import entrypoint
 
 from pyvirtualdisplay import Display
-from tutil import platform_is_osx
+from tutil import platform_is_osx, worker
 
 # ubuntu 14.04 no displayfd
 # ubuntu 16.04 displayfd
@@ -22,7 +22,8 @@ if not platform_is_osx():
         check_N(10, "xephyr")
 
     def test_race_10_xvnc():
-        check_N(10, "xvnc")
+        if worker() == 0:
+            check_N(10, "xvnc")
 
 
 def check_N(N, backend):
@@ -60,8 +61,11 @@ def check_N(N, backend):
 
 @entrypoint
 def main(i, backend):
-    # TODO: test all backends
-    d = Display(backend=backend).start()
+    kwargs = dict()
+    if backend == "xvnc":
+        kwargs["rfbport"] = 42000 + int(i)
+
+    d = Display(backend=backend, **kwargs).start()
     print("my index:%s  backend:%s disp:%s" % (i, backend, d.new_display_var))
     ok = d.is_alive()
     d.stop()

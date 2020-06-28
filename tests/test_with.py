@@ -1,5 +1,5 @@
 from pyvirtualdisplay import Display
-from tutil import has_xvnc
+from tutil import has_xvnc, rfbport
 
 
 def test_with_xvfb():
@@ -40,7 +40,7 @@ def test_with_xephyr():
 if has_xvnc():
 
     def test_with_xvnc():
-        with Display(backend="xvnc", size=(800, 600)) as vd:
+        with Display(backend="xvnc", size=(800, 600), rfbport=rfbport()) as vd:
             assert vd.is_alive()
             assert vd._backend == "xvnc"
         assert vd.return_code == 0
