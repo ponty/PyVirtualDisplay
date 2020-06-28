@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 
+import psutil
 from easyprocess import EasyProcess
 
 from pyvirtualdisplay.util import get_helptext
@@ -43,3 +44,10 @@ def rfbport():
     log.info("rfbport=%s", port)
     return port
 
+
+def kill_process_tree(ep):
+    parent_pid = ep.pid
+    parent = psutil.Process(parent_pid)
+    for child in parent.children(recursive=True):
+        child.kill()
+    parent.kill()

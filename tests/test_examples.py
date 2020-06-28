@@ -7,7 +7,7 @@ from easyprocess import EasyProcess
 from pyscreenshot.tempdir import TemporaryDirectory
 
 from pyvirtualdisplay import Display
-from tutil import has_xvnc, prog_check
+from tutil import has_xvnc, kill_process_tree, prog_check, worker
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +31,9 @@ def test_headless():
     p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.headless"]).start()
     sleep(1)
     assert p.is_alive()
-    p.stop()
+    # p.stop()
+    kill_process_tree(p)
+
 
 
 def test_nested():
@@ -39,16 +41,21 @@ def test_nested():
         p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.nested"]).start()
         sleep(1)
         assert p.is_alive()
-        p.stop()
+        # p.stop()
+        kill_process_tree(p)
 
 
 if has_xvnc():
 
     def test_vncserver():
-        p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.vncserver"]).start()
-        sleep(1)
-        assert p.is_alive()
-        p.stop()
+        if worker() == 0:
+            p = EasyProcess(
+                [python, "-m", "pyvirtualdisplay.examples.vncserver"]
+            ).start()
+            sleep(1)
+            assert p.is_alive()
+            # p.stop()
+            kill_process_tree(p)
 
 
 if prog_check(["gnumeric", "-help"]):
@@ -58,4 +65,5 @@ if prog_check(["gnumeric", "-help"]):
             p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.lowres"]).start()
             sleep(1)
             assert p.is_alive()
-            p.stop()
+            # p.stop()
+            kill_process_tree(p)
