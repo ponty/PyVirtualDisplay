@@ -39,6 +39,7 @@ def empty_dir(dir):
 def main():
     gendir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen")
     logging.info("gendir: %s", gendir)
+    os.makedirs(gendir, exist_ok=True)
     empty_dir(gendir)
     pls = []
     try:
