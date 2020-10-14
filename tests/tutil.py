@@ -49,5 +49,8 @@ def kill_process_tree(ep):
     parent_pid = ep.pid
     parent = psutil.Process(parent_pid)
     for child in parent.children(recursive=True):
-        child.kill()
+        try:
+            child.kill()
+        except psutil.NoSuchProcess:
+            log.warning("NoSuchProcess error in kill_process_tree")
     parent.kill()

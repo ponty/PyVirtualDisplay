@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -44,12 +44,12 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
    config.vm.provider "virtualbox" do |vb|
-    vb.name = "pyvirtualdisplay_1404"
-    #   # Display the VirtualBox GUI when booting the machine
+    vb.name = "pyvirtualdisplay_1804"
+  #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
      # Customize the amount of memory on the VM:
-     # vb.memory = "2048"
+  #   vb.memory = "2048"
    end
   #
   # View the documentation for the provider you are using for more
@@ -75,17 +75,17 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y python2.7-dev
   sudo apt-get install -y python3.6-dev
   sudo apt-get install -y python3.7-dev
-  # sudo apt-get install -y python3.8-dev
-  # sudo apt-get install -y python3-distutils
+  sudo apt-get install -y python3.8-dev
+  sudo apt-get install -y python3-distutils
 
 # tools
-  sudo apt-get install -y mc xvfb curl
+  sudo apt-get install -y mc python3-pip xvfb
 
 # for pillow source install
 #  sudo apt-get install -y libjpeg-dev zlib1g-dev
 
 # project dependencies
-  sudo apt-get install -y xvfb xserver-xephyr vnc4server
+  sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server
   
 # as py27 pyscreenshot backend
   sudo apt-get install -y scrot
@@ -94,21 +94,21 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y gnumeric 
   sudo apt-get install -y x11-utils #   for: xmessage
   sudo apt-get install -y x11-apps  #   for: xlogo
-  sudo curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
-  sudo python3.6 /tmp/get-pip.py
-  sudo python3.6 -m pip install tox
+  sudo pip3 install tox
   
 # doc dependencies
-#  sudo apt-get install -y imagemagick graphviz
+  sudo apt-get install -y npm xtightvncviewer
+  sudo npm install -g npx
 #  sudo pip install -r /vagrant/requirements-doc.txt
   
   "
       config.vm.provision "shell", inline: $script
-          
+
       config.ssh.extra_args = ["-t", "cd /vagrant; bash --login"]       
+          
        
 end
      
 
-# export VAGRANT_VAGRANTFILE=Vagrantfile.14.04.rb;export VAGRANT_DOTFILE_PATH=.vagrant_${VAGRANT_VAGRANTFILE}
+# export VAGRANT_VAGRANTFILE=Vagrantfile.18.04.rb;export VAGRANT_DOTFILE_PATH=.vagrant_${VAGRANT_VAGRANTFILE}
 # vagrant up && vagrant ssh

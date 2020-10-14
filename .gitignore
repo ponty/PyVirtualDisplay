@@ -39,4 +39,5 @@ MANIFEST
 
 *.log
 
-Vagrantfile.*
+Vagrantfile.osx.*
+Vagrantfile.win.*

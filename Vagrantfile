@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/focal64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -44,13 +44,18 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
    config.vm.provider "virtualbox" do |vb|
-    vb.name = "pyvirtualdisplay_1804"
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-     # Customize the amount of memory on the VM:
-     vb.memory = "2048"
-   end
+    # Display the VirtualBox GUI when booting the machine
+    #vb.gui = true
+ 
+    # Customize the amount of memory on the VM:
+    # vb.memory = "2048"
+
+    vb.name = "pyvirtualdisplay_2004"
+
+    # 	https://bugs.launchpad.net/cloud-images/+bug/1829625
+    vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+    vb.customize ["modifyvm", :id, "--uartmode1", "file", "./ttyS0.log"]
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -85,7 +90,7 @@ Vagrant.configure(2) do |config|
 #  sudo apt-get install -y libjpeg-dev zlib1g-dev
 
 # project dependencies
-  sudo apt-get install -y xvfb xserver-xephyr vnc4server
+  sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server
   
 # as py27 pyscreenshot backend
   sudo apt-get install -y scrot

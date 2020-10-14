@@ -66,8 +66,12 @@ def run_box(options, vagrantfile, cmds):
 
 
 config = {
-    "server": ("Vagrantfile", ["tox"],),
-    "server1404": ("Vagrantfile.14.04.rb", ["tox -e py27", "tox -e py36"],),
+    "server2004": ("Vagrantfile", ["tox"],),
+    "server1804": ("Vagrantfile.18.04.rb", ["tox"],),
+    "server1404": (
+        "Vagrantfile.14.04.rb",
+        ["tox -e py36"],  # "tox -e py27" -> SSL error
+    ),
     "osx": ("Vagrantfile.osx.rb", ["bash --login -c 'python3 -m tox -e py3-osx'"],),
 }
 
