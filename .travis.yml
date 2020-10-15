@@ -1,46 +1,107 @@
 language: python
 
+addons:
+  apt:
+    packages: &ubu_deps
+      - xvfb
+      - xserver-xephyr
+      - scrot
+      - gnumeric
+      - x11-utils
+      - x11-apps
+      - xfonts-base
+
 matrix:
   include:
     - name: 2.7_trusty
       python: 2.7
       dist: trusty
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 3.6_trusty
       python: 3.6
       dist: trusty
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 2.7_xenial
       python: 2.7
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 3.6_xenial
       python: 3.6
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 3.7_xenial
       python: 3.7
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 3.8_xenial
       python: 3.8
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - vnc4server
 
     - name: 2.7_bionic
       python: 2.7
       dist: bionic
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - tigervnc-standalone-server
 
     - name: 3.7_bionic
       python: 3.7
       dist: bionic
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - tigervnc-standalone-server
 
     - name: 3.8_bionic
       python: 3.8
       dist: bionic
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - tigervnc-standalone-server
 
     - name: 3.8_focal
       python: 3.8
       dist: focal
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - tigervnc-standalone-server
 
     - name: "Python 3.7 on macOS"
       os: osx
@@ -56,17 +117,7 @@ matrix:
     #     - python -m pip install --upgrade pip
     #   env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 
-addons:
-  apt:
-    packages:
-      - xvfb
-      - xserver-xephyr
-      - scrot
-      - gnumeric
-      - x11-utils
-      - x11-apps
-      - vnc4server
-      - xfonts-base
+
 
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PYTHON=python; else PYTHON=python3; fi

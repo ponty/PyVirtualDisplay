@@ -31,10 +31,10 @@ optional: [pyscreenshot][pyscreenshot] and [Pillow][pillow] should be installed 
 $ python3 -m pip install pyscreenshot pillow
 ```
 
-on Ubuntu:
+on Ubuntu 20.04:
 
 ```console
-$ sudo apt-get install xvfb xserver-xephyr vnc4server xfonts-base
+$ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server xfonts-base
 $ python3 -m pip install pyvirtualdisplay pyscreenshot pillow
 ```
 
