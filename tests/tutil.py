@@ -12,7 +12,11 @@ log = logging.getLogger(__name__)
 
 def prog_check(cmd):
     try:
-        return EasyProcess(cmd).call().return_code == 0
+        p = EasyProcess(cmd)
+        p.enable_stdout_log = False
+        p.enable_stderr_log = False
+        p.call()
+        return p.return_code == 0
     except Exception:
         return False
 
