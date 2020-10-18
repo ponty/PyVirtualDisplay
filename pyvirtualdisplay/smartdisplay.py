@@ -45,7 +45,6 @@ class SmartDisplay(Display):
         return autocrop(im, self._bgcolor)
 
     def grab(self, autocrop=True):
-        img = grab()
         if sys.platform == "darwin" or sys.platform == "win32":
             img = grab(xdisplay=self.new_display_var)
         else:
@@ -74,8 +73,11 @@ class SmartDisplay(Display):
             log.debug("sleeping %s secs" % str(sleep_time))
             time.sleep(sleep_time)
             t += sleep_time
-            img = self.grab(autocrop=autocrop)
-            if img:
+            img = self.grab(autocrop=False)
+            img_crop = self.autocrop(img)
+            if autocrop:
+                img = img_crop
+            if img_crop:
                 if not cb_imgcheck:
                     break
                 if cb_imgcheck(img):
