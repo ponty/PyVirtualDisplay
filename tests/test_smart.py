@@ -40,6 +40,16 @@ def test_slowshot_with():
     assert img is not None
 
 
+def test_slowshot_nocrop():
+    disp = SmartDisplay(visible=False)
+    py = Path(__file__).parent / ("slowgui.py")
+    proc = EasyProcess([python, py])
+    with disp:
+        with proc:
+            img = disp.waitgrab(autocrop=False)
+    assert img is not None
+
+
 def test_empty():
     disp = SmartDisplay(visible=False)
     proc = EasyProcess([python])
@@ -47,6 +57,15 @@ def test_empty():
         with proc:
             with pytest.raises(Exception):
                 disp.waitgrab()
+
+
+def test_empty_nocrop():
+    disp = SmartDisplay(visible=False)
+    proc = EasyProcess([python])
+    with disp:
+        with proc:
+            with pytest.raises(Exception):
+                disp.waitgrab(autocrop=False)
 
 
 def test_slowshot_timeout():
@@ -57,3 +76,13 @@ def test_slowshot_timeout():
         with proc:
             with pytest.raises(DisplayTimeoutError):
                 img = disp.waitgrab(timeout=1)
+
+
+def test_slowshot_timeout_nocrop():
+    disp = SmartDisplay(visible=False)
+    py = Path(__file__).parent / ("slowgui.py")
+    proc = EasyProcess([python, py])
+    with disp:
+        with proc:
+            with pytest.raises(DisplayTimeoutError):
+                img = disp.waitgrab(timeout=1, autocrop=False)
