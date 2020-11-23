@@ -82,6 +82,8 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y python3.7-dev
   sudo apt-get install -y python3.8-dev
   sudo apt-get install -y python3-distutils
+  sudo apt-get install -y python3.9-dev
+  sudo apt-get install -y python3.9-distutils
 
 # tools
   sudo apt-get install -y mc python3-pip xvfb

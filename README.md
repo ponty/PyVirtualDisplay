@@ -8,7 +8,7 @@ Links:
 
 Features:
  - python wrapper
- - supported python versions: 2.7, 3.6, 3.7, 3.8
+ - supported python versions: 2.7, 3.6, 3.7, 3.8, 3.9
  - back-ends:  [Xvfb][1], [Xephyr][2] and [Xvnc][3]
 
 Possible applications:

@@ -103,6 +103,15 @@ matrix:
             - *ubu_deps
             - tigervnc-standalone-server
 
+    - name: 3.9_focal
+      python: 3.9
+      dist: focal
+      addons:
+        apt:
+          packages:
+            - *ubu_deps
+            - tigervnc-standalone-server
+
     - name: "Python 3.7 on macOS"
       os: osx
       osx_image: xcode11.2 # Python 3.7.4 running on macOS 10.14.4
