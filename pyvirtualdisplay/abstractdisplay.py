@@ -144,6 +144,11 @@ class AbstractDisplay(object):
             log.debug("$DISPLAY=%s", d)
             os.environ["DISPLAY"] = d
 
+    def _env(self):
+        env = os.environ.copy()
+        env["DISPLAY"] = self.new_display_var
+        return env
+
     def start(self):
         """
         start display
@@ -171,8 +176,8 @@ class AbstractDisplay(object):
                             "No success after %s retries. Last stderr: %s"
                             % (self._retries, self.stderr)
                         )
-                finally:
-                    self._redirect_display(False)
+                # finally:
+                #     self._redirect_display(False)
         self._redirect_display(True)
 
     def _popen(self, use_pass_fds):
@@ -265,7 +270,7 @@ class AbstractDisplay(object):
         #         )
         #         raise XStartTimeoutError(msg % self.display)
 
-        self._redirect_display(True)  # for xdpyinfo
+        # self._redirect_display(True)  # for xdpyinfo
         d = self.new_display_var
         ok = False
         time.sleep(0.05)  # give time for early exit
@@ -274,7 +279,7 @@ class AbstractDisplay(object):
                 break
 
             try:
-                xdpyinfo = EasyProcess(["xdpyinfo"])
+                xdpyinfo = EasyProcess(["xdpyinfo"], env=self._env())
                 xdpyinfo.enable_stdout_log = False
                 xdpyinfo.enable_stderr_log = False
                 exit_code = xdpyinfo.call().return_code
