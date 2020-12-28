@@ -155,7 +155,7 @@ class AbstractDisplay(object):
         self._is_started = True
 
         if self._has_displayfd:
-            self._start1()
+            self._start1_has_displayfd()
         else:
             i = 0
             while True:
@@ -175,18 +175,28 @@ class AbstractDisplay(object):
                     self._redirect_display(False)
         self._redirect_display(True)
 
-    def _start1(self):
-        if self._has_displayfd:
-            # stdout doesn't work on osx -> create own pipe
-            rfd, self._pipe_wfd = os.pipe()
+    def _popen(self, use_pass_fds):
+        if py2():
+            use_pass_fds = False
+        if use_pass_fds:
+            self._subproc = subprocess.Popen(
+                self._command,
+                pass_fds=[self._pipe_wfd],
+                stdout=self._stdout_file,
+                stderr=self._stderr_file,
+                shell=False,
+            )
         else:
-            with _mutex:
-                self.display = _search_for_display(randomizer=self._randomizer)
-                while self.display in _USED_DISPLAY_NR_LIST:
-                    self.display += 1
-                self.new_display_var = ":%s" % int(self.display)
+            self._subproc = subprocess.Popen(
+                self._command,
+                stdout=self._stdout_file,
+                stderr=self._stderr_file,
+                shell=False,
+            )
 
-                _USED_DISPLAY_NR_LIST.append(self.display)
+    def _start1_has_displayfd(self):
+        # stdout doesn't work on osx -> create own pipe
+        rfd, self._pipe_wfd = os.pipe()
 
         self._command = self._cmd() + self._extra_args
         log.debug("command: %s", self._command)
@@ -194,27 +204,38 @@ class AbstractDisplay(object):
         self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
         self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
 
-        if py2() or not self._has_displayfd:
-            self._subproc = subprocess.Popen(
-                self._command,
-                stdout=self._stdout_file,
-                stderr=self._stderr_file,
-                shell=False,
-            )
-        else:
-            if self._has_displayfd:
-                self._subproc = subprocess.Popen(
-                    self._command,
-                    pass_fds=[self._pipe_wfd],
-                    stdout=self._stdout_file,
-                    stderr=self._stderr_file,
-                    shell=False,
-                )
-        if self._has_displayfd:
-            # rfd = self.subproc.stdout.fileno()
-            self.display = int(self._wait_for_pipe_text(rfd))
-            os.close(rfd)
-            os.close(self._pipe_wfd)
+        self._popen(use_pass_fds=True)
+
+        self.display = int(self._wait_for_pipe_text(rfd))
+        os.close(rfd)
+        os.close(self._pipe_wfd)
+
+        self.new_display_var = ":%s" % int(self.display)
+
+        if self._use_xauth:
+            self._setup_xauth()
+
+        # https://github.com/ponty/PyVirtualDisplay/issues/2
+        # https://github.com/ponty/PyVirtualDisplay/issues/14
+        self.old_display_var = os.environ.get("DISPLAY", None)
+
+    def _start1(self):
+        with _mutex:
+            self.display = _search_for_display(randomizer=self._randomizer)
+            while self.display in _USED_DISPLAY_NR_LIST:
+                self.display += 1
+            self.new_display_var = ":%s" % int(self.display)
+
+            _USED_DISPLAY_NR_LIST.append(self.display)
+
+        self._command = self._cmd() + self._extra_args
+        log.debug("command: %s", self._command)
+
+        self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
+        self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
+
+        self._popen(use_pass_fds=False)
+
         self.new_display_var = ":%s" % int(self.display)
 
         if self._use_xauth:
@@ -244,47 +265,44 @@ class AbstractDisplay(object):
         #         )
         #         raise XStartTimeoutError(msg % self.display)
 
-        if not self._has_displayfd:
-            self._redirect_display(True)  # for xdpyinfo
-            d = self.new_display_var
-            ok = False
-            time.sleep(0.05)  # give time for early exit
-            while True:
-                if not self.is_alive():
-                    break
-
-                try:
-                    xdpyinfo = EasyProcess(["xdpyinfo"])
-                    xdpyinfo.enable_stdout_log = False
-                    xdpyinfo.enable_stderr_log = False
-                    exit_code = xdpyinfo.call().return_code
-                except EasyProcessError:
-                    log.warning(
-                        "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
-                    )
-                    time.sleep(_X_START_WAIT)  # old method
-                    ok = True
-                    break
-
-                if exit_code != 0:
-                    pass
-                else:
-                    log.info('Successfully started X with display "%s".', d)
-                    ok = True
-                    break
-
-                if time.time() - start_time >= _X_START_TIMEOUT:
-                    break
-                time.sleep(_X_START_TIME_STEP)
+        self._redirect_display(True)  # for xdpyinfo
+        d = self.new_display_var
+        ok = False
+        time.sleep(0.05)  # give time for early exit
+        while True:
             if not self.is_alive():
-                log.warning("process exited early. stderr:%s", self.stderr)
-                msg = "Failed to start process: %s"
-                raise XStartError(msg % self)
-            if not ok:
-                msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
-                raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
+                break
 
-        return self
+            try:
+                xdpyinfo = EasyProcess(["xdpyinfo"])
+                xdpyinfo.enable_stdout_log = False
+                xdpyinfo.enable_stderr_log = False
+                exit_code = xdpyinfo.call().return_code
+            except EasyProcessError:
+                log.warning(
+                    "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
+                )
+                time.sleep(_X_START_WAIT)  # old method
+                ok = True
+                break
+
+            if exit_code != 0:
+                pass
+            else:
+                log.info('Successfully started X with display "%s".', d)
+                ok = True
+                break
+
+            if time.time() - start_time >= _X_START_TIMEOUT:
+                break
+            time.sleep(_X_START_TIME_STEP)
+        if not self.is_alive():
+            log.warning("process exited early. stderr:%s", self.stderr)
+            msg = "Failed to start process: %s"
+            raise XStartError(msg % self)
+        if not ok:
+            msg = 'Failed to start X on display "%s" (xdpyinfo check failed, stderr:[%s]).'
+            raise XStartTimeoutError(msg % (d, xdpyinfo.stderr))
 
     def _wait_for_pipe_text(self, rfd):
         s = ""
