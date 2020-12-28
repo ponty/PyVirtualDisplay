@@ -18,7 +18,7 @@ echo  "@reboot /bin/sh -c 'mkdir /tmp/.X11-unix;sudo chmod 1777 /tmp/.X11-unix;s
 sudo crontab mycron
 
 brew install python3 mc pidof
-brew cask install xquartz
+brew install --cask xquartz
 python3 -m pip install --user pillow  pytest path.py tox
 
 #   su - vagrant -c 'brew cask install xquartz'
