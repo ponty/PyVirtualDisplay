@@ -93,6 +93,10 @@ class AbstractDisplay(object):
         self._has_displayfd = "-displayfd" in helptext
         if not self._has_displayfd:
             log.debug("-displayfd flag is missing.")
+        if os.environ.get("PYVIRTUALDISPLAY_NO_DISPLAYFD"):
+            log.debug("PYVIRTUALDISPLAY_NO_DISPLAYFD is set -> displayfd = False")
+            self._has_displayfd = False
+
         # if check_startup and not has_displayfd:
         #     check_startup = False
         #     log.warning(
