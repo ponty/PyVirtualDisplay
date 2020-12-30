@@ -25,17 +25,17 @@ install the program:
 $ python3 -m pip install pyvirtualdisplay
 ```
 
-optional: [pyscreenshot][pyscreenshot] and [Pillow][pillow] should be installed for ``smartdisplay`` submodule:
+optional: [Pillow][pillow] should be installed for ``smartdisplay`` submodule:
 
 ```console
-$ python3 -m pip install pyscreenshot pillow
+$ python3 -m pip install pillow
 ```
 
 on Ubuntu 20.04:
 
 ```console
 $ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server xfonts-base
-$ python3 -m pip install pyvirtualdisplay pyscreenshot pillow
+$ python3 -m pip install pyvirtualdisplay pillow
 ```
 
 Usage
@@ -324,5 +324,4 @@ Hierarchy
 [2]: http://en.wikipedia.org/wiki/Xephyr
 [3]: https://tigervnc.org/
 [pillow]: https://pillow.readthedocs.io
-[pyscreenshot]: https://github.com/ponty/pyscreenshot
 [environ]: https://docs.python.org/3/library/os.html#os.environ

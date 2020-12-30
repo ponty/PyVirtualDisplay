@@ -86,9 +86,6 @@ Vagrant.configure(2) do |config|
 # project dependencies
   sudo apt-get install -y xvfb xserver-xephyr vnc4server
   
-# as py27 pyscreenshot backend
-#  sudo apt-get install -y scrot
-
 # test dependencies
   sudo apt-get install -y gnumeric 
   sudo apt-get install -y x11-utils #   for: xmessage

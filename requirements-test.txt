@@ -1,5 +1,4 @@
 pytest
-pyscreenshot
 pillow
 entrypoint2
 vncdotool==0.13.0

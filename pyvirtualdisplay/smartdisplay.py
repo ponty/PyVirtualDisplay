@@ -1,15 +1,10 @@
 import logging
-import sys
 import time
 
 from PIL import Image, ImageChops
+from PIL.ImageGrab import grab
 
 from pyvirtualdisplay import Display
-
-if sys.platform == "darwin" or sys.platform == "win32":
-    from PIL.ImageGrab import grab
-else:
-    from pyscreenshot import grab
 
 log = logging.getLogger(__name__)
 
@@ -45,10 +40,7 @@ class SmartDisplay(Display):
         return autocrop(im, self._bgcolor)
 
     def grab(self, autocrop=True):
-        if sys.platform == "darwin" or sys.platform == "win32":
-            img = grab(xdisplay=self.new_display_var)
-        else:
-            img = grab()
+        img = grab(xdisplay=self.new_display_var)
 
         if autocrop:
             img = self.autocrop(img)

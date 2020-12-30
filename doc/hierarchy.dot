@@ -27,7 +27,6 @@ digraph G {
     application -> Display;
     application -> SmartDisplay;
 
-	SmartDisplay -> pyscreenshot;
-	SmartDisplay -> PIL;
+	SmartDisplay -> Pillow;
 	
 }

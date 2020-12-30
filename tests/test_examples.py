@@ -1,10 +1,10 @@
 import logging
 import os
 import sys
+from tempfile import TemporaryDirectory
 from time import sleep
 
 from easyprocess import EasyProcess
-from pyscreenshot.tempdir import TemporaryDirectory
 
 from pyvirtualdisplay import Display
 from tutil import has_xvnc, kill_process_tree, prog_check, worker
