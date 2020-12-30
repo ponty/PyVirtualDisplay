@@ -76,7 +76,13 @@ config = {
         "Vagrantfile.14.04.rb",
         ["tox -e py36"],  # "tox -e py27" -> SSL error
     ),
-    "osx": ("Vagrantfile.osx.rb", ["bash --login -c 'python3 -m tox -e py3-osx'"],),
+    "osx": (
+        "Vagrantfile.osx.rb",
+        [
+            "bash --login -c 'python3 -m tox -e py3-osx'",
+            "bash --login -c 'PYVIRTUALDISPLAY_NO_DISPLAYFD=1 python3 -m tox -e py3-osx'",
+        ],
+    ),
 }
 
 
