@@ -88,6 +88,7 @@ class AbstractDisplay(object):
         self._is_started = False
         self._manage_global_env = manage_global_env
         self._reset_global_env = False
+        self._pipe_wfd = None
 
         helptext = get_helptext(program)
         self._has_displayfd = "-displayfd" in helptext
