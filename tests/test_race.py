@@ -13,7 +13,7 @@ from tutil import platform_is_osx, worker
 
 
 # TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
-if not platform_is_osx():
+if 0 and not platform_is_osx():
 
     def test_race_10_xvfb():
         check_N(10, "xvfb")

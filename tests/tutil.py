@@ -34,7 +34,6 @@ def has_xvnc():
 
 
 def worker():
-    PYTEST_XDIST_WORKER = os.environ.get("PYTEST_XDIST_WORKER")
     w = 0
     PYTEST_XDIST_WORKER = os.environ.get("PYTEST_XDIST_WORKER")
     if PYTEST_XDIST_WORKER:
