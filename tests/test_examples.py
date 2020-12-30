@@ -35,7 +35,6 @@ def test_headless():
     kill_process_tree(p)
 
 
-
 def test_nested():
     with Display():
         p = EasyProcess([python, "-m", "pyvirtualdisplay.examples.nested"]).start()

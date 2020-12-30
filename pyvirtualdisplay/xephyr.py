@@ -24,6 +24,7 @@ class XephyrDisplay(AbstractDisplay):
         randomizer=None,
         retries=10,
         extra_args=[],
+        manage_global_env=True,
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -43,6 +44,7 @@ class XephyrDisplay(AbstractDisplay):
             randomizer=randomizer,
             retries=retries,
             extra_args=extra_args,
+            manage_global_env=manage_global_env,
         )
 
     def _check_flags(self, helptext):

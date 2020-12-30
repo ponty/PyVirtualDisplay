@@ -100,11 +100,10 @@ Setting display color depth:
 disp=Display(color_depth=24)
 ```
 
-headless run
+Headless run
 ------------
 
 The display is hidden.
-If `visible=True` then a nested Xephyr window opens and the GUI can be controlled.
 
 ```py
 # pyvirtualdisplay/examples/headless.py
@@ -120,6 +119,8 @@ with Display(visible=False, size=(100, 60)) as disp:
         proc.wait()
 
 ```
+
+If `visible=True` then a nested Xephyr window opens and the GUI can be controlled.
 
 vncserver
 ---------
@@ -268,9 +269,51 @@ Concurrency
 _"Recent X servers as of version 1.13 (Xvfb, too) support the -displayfd command line option: It will make the X server choose the display itself"_
 https://stackoverflow.com/questions/2520704/find-a-free-x11-display-number/
 
+Version 1.13 was released in 2012: https://www.x.org/releases/individual/xserver/
+
 First help text is checked (e.g. `Xvfb -help`) to find if `-displayfd` flag is available.
-If `-displayfd` flag is available then it is used, if not then there are 10 retries by default which should be enough for starting 10 concurrent X servers.
-The `retries` parameter can be increased if necessary.
+If `-displayfd` flag is available then it is used to choose the display number, 
+if not then a free display number is generated.
+
+
+Thread safety
+=============
+
+All previous examples are not thread-safe, because `pyvirtualdisplay` replaces `$DISPLAY` environment variable in global [`os.environ`][environ] in `start()` and sets back to original value in `stop()`.
+To make it thread-safe you have to manage the `$DISPLAY` variable.
+Set `manage_global_env` to `False` in constructor.
+
+```py
+# pyvirtualdisplay/examples/threadsafe.py
+
+"Start Xvfb server. Open xmessage window. Thread safe."
+
+from easyprocess import EasyProcess
+
+from pyvirtualdisplay import Display
+
+# manage_global_env=False is thread safe
+with Display(manage_global_env=False) as disp:
+    # disp.new_display_var should be used for new processes
+    print("disp.new_display_var=" + disp.new_display_var)
+
+    # disp.env() copies global os.environ and adds disp.new_display_var
+    print("disp.env()['DISPLAY']=" + disp.env()["DISPLAY"])
+
+    # set $DISPLAY for subprocesses
+    with EasyProcess(["xmessage", "-timeout", "1", "hello"], env=disp.env()) as proc:
+        proc.wait()
+
+```
+
+<!-- embedme doc/gen/python3_-m_pyvirtualdisplay.examples.threadsafe.txt -->
+Run it:
+```console
+$ python3 -m pyvirtualdisplay.examples.threadsafe
+disp.new_display_var=:2
+disp.env()['DISPLAY']=:2
+```
+
 
 Hierarchy
 =========
@@ -282,4 +325,4 @@ Hierarchy
 [3]: https://tigervnc.org/
 [pillow]: https://pillow.readthedocs.io
 [pyscreenshot]: https://github.com/ponty/pyscreenshot
-
+[environ]: https://docs.python.org/3/library/os.html#os.environ

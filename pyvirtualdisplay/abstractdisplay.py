@@ -13,15 +13,16 @@ from easyprocess import EasyProcess, EasyProcessError
 from pyvirtualdisplay import xauth
 from pyvirtualdisplay.util import get_helptext, py2
 
+log = logging.getLogger(__name__)
+
 # try:
 #     import fcntl
 # except ImportError:
 #     fcntl = None
 
-
 _mutex = Lock()
+_mutex_popen = Lock()
 
-log = logging.getLogger(__name__)
 
 _MIN_DISPLAY_NR = 1000
 _USED_DISPLAY_NR_LIST = []
@@ -72,7 +73,9 @@ class AbstractDisplay(object):
     Common parent for X servers (Xvfb,Xephyr,Xvnc)
     """
 
-    def __init__(self, program, use_xauth, randomizer, retries, extra_args):
+    def __init__(
+        self, program, use_xauth, randomizer, retries, extra_args, manage_global_env
+    ):
         self._extra_args = extra_args
         self._retries = retries
         self._program = program
@@ -83,6 +86,8 @@ class AbstractDisplay(object):
         self._subproc = None
         self.display = None
         self._is_started = False
+        self._manage_global_env = manage_global_env
+        self._reset_global_env = False
 
         helptext = get_helptext(program)
         self._has_displayfd = "-displayfd" in helptext
@@ -178,26 +183,29 @@ class AbstractDisplay(object):
                         )
                 # finally:
                 #     self._redirect_display(False)
-        self._redirect_display(True)
+        if self._manage_global_env:
+            self._redirect_display(True)
+            self._reset_global_env = True
 
     def _popen(self, use_pass_fds):
-        if py2():
-            use_pass_fds = False
-        if use_pass_fds:
-            self._subproc = subprocess.Popen(
-                self._command,
-                pass_fds=[self._pipe_wfd],
-                stdout=self._stdout_file,
-                stderr=self._stderr_file,
-                shell=False,
-            )
-        else:
-            self._subproc = subprocess.Popen(
-                self._command,
-                stdout=self._stdout_file,
-                stderr=self._stderr_file,
-                shell=False,
-            )
+        with _mutex_popen:
+            if py2():
+                use_pass_fds = False
+            if use_pass_fds:
+                self._subproc = subprocess.Popen(
+                    self._command,
+                    pass_fds=[self._pipe_wfd],
+                    stdout=self._stdout_file,
+                    stderr=self._stderr_file,
+                    shell=False,
+                )
+            else:
+                self._subproc = subprocess.Popen(
+                    self._command,
+                    stdout=self._stdout_file,
+                    stderr=self._stderr_file,
+                    shell=False,
+                )
 
     def _start1_has_displayfd(self):
         # stdout doesn't work on osx -> create own pipe
@@ -340,7 +348,8 @@ class AbstractDisplay(object):
         if not self._is_started:
             raise XStartError("stop() is called before start().")
 
-        self._redirect_display(False)
+        if self._reset_global_env:
+            self._redirect_display(False)
 
         if self.is_alive():
             try:

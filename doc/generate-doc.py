@@ -10,6 +10,7 @@ from pyvirtualdisplay.smartdisplay import SmartDisplay
 
 # (cmd,grab,background)
 commands = [
+    ("python3 -m pyvirtualdisplay.examples.threadsafe", False, False),
     ("python3 -m pyvirtualdisplay.examples.screenshot", False, False),
     ("python3 -m pyvirtualdisplay.examples.lowres", True, True),
     ("python3 -m pyvirtualdisplay.examples.nested", True, True),
