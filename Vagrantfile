@@ -48,7 +48,7 @@ Vagrant.configure(2) do |config|
     #vb.gui = true
  
     # Customize the amount of memory on the VM:
-    # vb.memory = "2048"
+    vb.memory = "2048"
 
     vb.name = "pyvirtualdisplay_2004"
 
