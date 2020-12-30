@@ -11,7 +11,7 @@ from threading import Lock
 from easyprocess import EasyProcess, EasyProcessError
 
 from pyvirtualdisplay import xauth
-from pyvirtualdisplay.util import get_helptext, py2
+from pyvirtualdisplay.util import get_helptext
 
 log = logging.getLogger(__name__)
 
@@ -194,8 +194,6 @@ class AbstractDisplay(object):
 
     def _popen(self, use_pass_fds):
         with _mutex_popen:
-            if py2():
-                use_pass_fds = False
             if use_pass_fds:
                 self._subproc = subprocess.Popen(
                     self._command,

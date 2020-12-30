@@ -1,5 +1,3 @@
-import sys
-
 from easyprocess import EasyProcess
 
 
@@ -10,7 +8,3 @@ def get_helptext(program):
     p.call()
     helptext = p.stderr
     return helptext
-
-
-def py2():
-    return sys.version_info[0] == 2

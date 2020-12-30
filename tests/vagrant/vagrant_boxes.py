@@ -74,7 +74,7 @@ config = {
     ),
     "server1404": (
         "Vagrantfile.14.04.rb",
-        ["tox -e py36"],  # "tox -e py27" -> SSL error
+        ["tox -e py36"],
     ),
     "osx": (
         "Vagrantfile.osx.rb",

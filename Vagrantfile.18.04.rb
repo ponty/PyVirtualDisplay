@@ -72,7 +72,6 @@ Vagrant.configure(2) do |config|
 # install python versions
   sudo add-apt-repository --yes  ppa:deadsnakes/ppa
   sudo apt-get update
-  sudo apt-get install -y python2.7-dev
   sudo apt-get install -y python3.6-dev
   sudo apt-get install -y python3.7-dev
   sudo apt-get install -y python3.8-dev
@@ -90,7 +89,7 @@ Vagrant.configure(2) do |config|
   sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server
   
 # as py27 pyscreenshot backend
-  sudo apt-get install -y scrot
+#  sudo apt-get install -y scrot
 
 # test dependencies
   sudo apt-get install -y gnumeric 
