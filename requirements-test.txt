@@ -8,3 +8,4 @@ backports.tempfile
 psutil
 # for travis xenial
 attrs
+pytest-xdist
