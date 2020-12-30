@@ -1,8 +1,8 @@
 import sys
+from pathlib import Path
 
 import pytest
 from easyprocess import EasyProcess
-from path import Path
 
 from pyvirtualdisplay import Display
 from pyvirtualdisplay.smartdisplay import DisplayTimeoutError, SmartDisplay

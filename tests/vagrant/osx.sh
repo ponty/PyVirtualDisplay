@@ -19,9 +19,9 @@ sudo crontab mycron
 
 brew install python3 mc pidof
 brew install --cask xquartz
-python3 -m pip install --user pillow  pytest path.py tox
+python3 -m pip install --user pillow  pytest tox
 
 #   su - vagrant -c 'brew cask install xquartz'
-#   su - vagrant -c 'python3 -m pip install --user pygame==2.0.0.dev6 pillow qtpy wxpython pyobjc-framework-Quartz pyobjc-framework-LaunchServices nose path.py'
+#   su - vagrant -c 'python3 -m pip install --user pygame==2.0.0.dev6 pillow qtpy wxpython pyobjc-framework-Quartz pyobjc-framework-LaunchServices nose'
 
 sudo chown -R vagrant /vagrant

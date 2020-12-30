@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import os
+from pathlib import Path
 from time import sleep
 
 import fabric
 import vagrant
 from entrypoint2 import entrypoint
-from path import Path
 
 # pip3 install fabric vncdotool python-vagrant entrypoint2
 
@@ -20,9 +20,9 @@ class Options:
 
 def run_box(options, vagrantfile, cmds):
     env = os.environ
-    env["VAGRANT_VAGRANTFILE"] = DIR / vagrantfile
+    env["VAGRANT_VAGRANTFILE"] = str(DIR / vagrantfile)
     if vagrantfile != "Vagrantfile":
-        env["VAGRANT_DOTFILE_PATH"] = DIR / ".vagrant_" + vagrantfile
+        env["VAGRANT_DOTFILE_PATH"] = str(DIR / (".vagrant_" + vagrantfile))
     else:
         env["VAGRANT_DOTFILE_PATH"] = ""
 
@@ -53,7 +53,11 @@ def run_box(options, vagrantfile, cmds):
         ) as conn:
             with conn.cd("c:/vagrant" if options.win else "/vagrant"):
                 if not options.win:
-                    cmds = ["env | sort"] + cmds
+                    if options.osx:
+                        freecmd = "top -l 1 -s 0 | grep PhysMem"
+                    else:  # linux
+                        freecmd = "free -h"
+                    cmds = [freecmd, "env | sort"] + cmds + [freecmd]
                 sleep(1)
                 for cmd in cmds:
                     if options.recreate:
@@ -72,10 +76,7 @@ config = {
         "Vagrantfile.18.04.rb",
         ["tox", "PYVIRTUALDISPLAY_NO_DISPLAYFD=1 tox"],
     ),
-    "server1404": (
-        "Vagrantfile.14.04.rb",
-        ["tox -e py36"],
-    ),
+    "server1404": ("Vagrantfile.14.04.rb", ["tox -e py36"],),
     "osx": (
         "Vagrantfile.osx.rb",
         [
@@ -100,5 +101,6 @@ def main(boxes="all", fast=False, destroy=False):
     for k, v in config.items():
         if k in boxes:
             options.win = k == "win"
+            options.osx = k == "osx"
             print("-----> %s %s %s" % (k, v[0], v[1]))
             run_box(options, v[0], v[1])
