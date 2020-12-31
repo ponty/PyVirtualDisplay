@@ -56,7 +56,7 @@ def test_empty():
     with disp:
         with proc:
             with pytest.raises(Exception):
-                disp.waitgrab()
+                disp.waitgrab(timeout=10)
 
 
 def test_empty_nocrop():
@@ -65,7 +65,7 @@ def test_empty_nocrop():
     with disp:
         with proc:
             with pytest.raises(Exception):
-                disp.waitgrab(autocrop=False)
+                disp.waitgrab(autocrop=False,timeout=10)
 
 
 def test_slowshot_timeout():
