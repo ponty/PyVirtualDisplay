@@ -20,7 +20,6 @@ class XephyrDisplay(AbstractDisplay):
         color_depth=24,
         bgcolor="black",
         use_xauth=False,
-        # check_startup=False,
         retries=10,
         extra_args=[],
         manage_global_env=True,
@@ -31,15 +30,11 @@ class XephyrDisplay(AbstractDisplay):
         self._color_depth = color_depth
         self._size = size
         self._bgcolor = bgcolor
-        # self.screen = 0
-        # self.process = None
-        # self.display = None
 
         AbstractDisplay.__init__(
             self,
             PROGRAM,
             use_xauth=use_xauth,
-            # check_startup=check_startup,
             retries=retries,
             extra_args=extra_args,
             manage_global_env=manage_global_env,
@@ -54,9 +49,7 @@ class XephyrDisplay(AbstractDisplay):
             dict(black="-br", white="-wr")[self._bgcolor],
             "-screen",
             "x".join(map(str, list(self._size) + [self._color_depth])),
-            # self.new_display_var,
         ]
-        # if self.check_startup:
         if self._has_displayfd:
             cmd += ["-displayfd", str(self._pipe_wfd)]
         else:

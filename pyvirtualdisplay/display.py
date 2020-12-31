@@ -104,10 +104,6 @@ class Display(object):
         """
         return self._obj.pid
 
-    # @property
-    # def is_started(self):
-    #     return self._obj.is_started
-
     @property
     def display(self):
         """The new $DISPLAY variable as int.  Example 1 if $DISPLAY=':1'  """

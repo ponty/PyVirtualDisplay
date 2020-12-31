@@ -22,7 +22,6 @@ class XvfbDisplay(AbstractDisplay):
         color_depth=24,
         bgcolor="black",
         use_xauth=False,
-        # check_startup=False,
         fbdir=None,
         dpi=None,
         retries=10,
@@ -38,9 +37,7 @@ class XvfbDisplay(AbstractDisplay):
         self._screen = 0
         self._size = size
         self._color_depth = color_depth
-        # self.process = None
         self._bgcolor = bgcolor
-        # self.display = None
         self._fbdir = fbdir
         self._dpi = dpi
 
@@ -48,7 +45,6 @@ class XvfbDisplay(AbstractDisplay):
             self,
             PROGRAM,
             use_xauth=use_xauth,
-            # check_startup=check_startup,
             retries=retries,
             extra_args=extra_args,
             manage_global_env=manage_global_env,
@@ -65,13 +61,11 @@ class XvfbDisplay(AbstractDisplay):
             "-screen",
             str(self._screen),
             "x".join(map(str, list(self._size) + [self._color_depth])),
-            # self.new_display_var,
         ]
         if self._fbdir:
             cmd += ["-fbdir", self._fbdir]
         if self._dpi is not None:
             cmd += ["-dpi", str(self._dpi)]
-        # if self.check_startup:
         if self._has_displayfd:
             cmd += ["-displayfd", str(self._pipe_wfd)]
         else:

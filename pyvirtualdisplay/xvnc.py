@@ -18,7 +18,6 @@ class XvncDisplay(AbstractDisplay):
         color_depth=24,
         bgcolor="black",
         use_xauth=False,
-        # check_startup=False,
         rfbport=5900,
         rfbauth=None,
         retries=10,
@@ -30,12 +29,9 @@ class XvncDisplay(AbstractDisplay):
         :param rfbport: Specifies the TCP port on which Xvnc listens for connections from viewers (the protocol used in VNC is called RFB - "remote framebuffer"). The default is 5900 plus the display number.
         :param rfbauth: Specifies the file containing the password used to authenticate viewers.
         """
-        # self.screen = 0
         self._size = size
         self._color_depth = color_depth
-        # self.process = None
         self._bgcolor = bgcolor
-        # self.display = None
         self._rfbport = rfbport
         self._rfbauth = rfbauth
 
@@ -43,7 +39,6 @@ class XvncDisplay(AbstractDisplay):
             self,
             PROGRAM,
             use_xauth=use_xauth,
-            # check_startup=check_startup,
             retries=retries,
             extra_args=extra_args,
             manage_global_env=manage_global_env,
@@ -70,13 +65,6 @@ class XvncDisplay(AbstractDisplay):
         else:
             cmd += ["-SecurityTypes", "None"]
 
-        # cmd += [
-        #     self.new_display_var,
-        # ]
-
-        # if self.check_startup:
-        #     if self.has_displayfd:
-        #         cmd += ["-displayfd", str(self.check_startup_fd)]
         if self._has_displayfd:
             cmd += ["-displayfd", str(self._pipe_wfd)]
         else:

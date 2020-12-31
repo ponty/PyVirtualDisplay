@@ -99,12 +99,6 @@ class AbstractDisplay(object):
             if platform_is_osx():
                 self._has_displayfd = False
 
-        # if check_startup and not has_displayfd:
-        #     check_startup = False
-        #     log.warning(
-        #         program
-        #         + " -displayfd flag is not supported, 'check_startup' parameter has been disabled"
-        #     )
         self._check_flags(helptext)
 
         if use_xauth and not xauth.is_installed():
@@ -113,22 +107,6 @@ class AbstractDisplay(object):
         self._use_xauth = use_xauth
         self._old_xauth = None
         self._xauth_filename = None
-        # self.check_startup = check_startup
-        # if check_startup and not fcntl:
-        #     self.check_startup = False
-        #     log.warning(
-        #         "fcntl module can't be imported, 'check_startup' parameter has been disabled"
-        #     )
-        #     log.warning("fnctl module does not exist on Windows")
-        # if self.check_startup:
-        #     rp, wp = os.pipe()
-        #     fcntl.fcntl(rp, fcntl.F_SETFD, fcntl.FD_CLOEXEC)
-        #     # TODO: to properly allow to inherit fds to subprocess on
-        #     # python 3.2+ the easyprocess needs small fix..
-        #     fcntl.fcntl(wp, fcntl.F_SETFD, 0)
-        #     self.check_startup_fd = wp
-        #     self._check_startup_fd = rp
-        # self.proc = EasyProcess(self._cmd())
 
     def _check_flags(self, helptext):
         pass
@@ -188,8 +166,6 @@ class AbstractDisplay(object):
                             "No success after %s retries. Last stderr: %s"
                             % (self._retries, self.stderr)
                         )
-                # finally:
-                #     self._redirect_display(False)
         if self._manage_global_env:
             self._redirect_display(True)
             self._reset_global_env = True
@@ -265,25 +241,7 @@ class AbstractDisplay(object):
 
         # wait until X server is active
         start_time = time.time()
-        # if self.check_startup:
-        #     rp = self._check_startup_fd
-        #     display_check = None
-        #     rlist, wlist, xlist = select.select((rp,), (), (), _X_START_TIMEOUT)
-        #     if rlist:
-        #         display_check = os.read(rp, 10).rstrip()
-        #     else:
-        #         msg = "No display number returned by X server"
-        #         raise XStartTimeoutError(msg)
-        #     dnbs = str(self.display)
-        #     if bytes != str:
-        #         dnbs = bytes(dnbs, "ascii")
-        #     if display_check != dnbs:
-        #         msg = 'Display number "%s" not returned by X server' + str(
-        #             display_check
-        #         )
-        #         raise XStartTimeoutError(msg % self.display)
 
-        # self._redirect_display(True)  # for xdpyinfo
         d = self.new_display_var
         ok = False
         time.sleep(0.05)  # give time for early exit
