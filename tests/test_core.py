@@ -4,7 +4,6 @@ import pytest
 
 from pyvirtualdisplay import Display
 from pyvirtualdisplay.abstractdisplay import XStartError
-from pyvirtualdisplay.randomize import Randomizer
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
@@ -24,14 +23,6 @@ def test_virt():
 
     vd = Display().start().stop()
     assert vd.return_code == 0
-    assert not vd.is_alive()
-
-
-def test_random():
-    r = Randomizer()
-    vd = Display(randomizer=r).start().stop()
-    assert vd.return_code == 0
-    # assert r.min <= vd.display <= r.min + r.delta # can be auto nr
     assert not vd.is_alive()
 
 

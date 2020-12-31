@@ -54,16 +54,13 @@ def _lock_files():
     return ls
 
 
-def _search_for_display(randomizer=None):
+def _search_for_display():
     # search for free display
     ls = list(map(lambda x: int(x.split("X")[1].split("-")[0]), _lock_files()))
     if len(ls):
         display = max(_MIN_DISPLAY_NR, max(ls) + 3)
     else:
         display = _MIN_DISPLAY_NR
-
-    if randomizer:
-        display = randomizer.generate()
 
     return display
 
@@ -73,13 +70,10 @@ class AbstractDisplay(object):
     Common parent for X servers (Xvfb,Xephyr,Xvnc)
     """
 
-    def __init__(
-        self, program, use_xauth, randomizer, retries, extra_args, manage_global_env
-    ):
+    def __init__(self, program, use_xauth, retries, extra_args, manage_global_env):
         self._extra_args = extra_args
         self._retries = retries
         self._program = program
-        self._randomizer = randomizer
         self.stdout = None
         self.stderr = None
         self.old_display_var = None
@@ -245,7 +239,7 @@ class AbstractDisplay(object):
 
     def _start1(self):
         with _mutex:
-            self.display = _search_for_display(randomizer=self._randomizer)
+            self.display = _search_for_display()
             while self.display in _USED_DISPLAY_NR_LIST:
                 self.display += 1
             self.new_display_var = ":%s" % int(self.display)
