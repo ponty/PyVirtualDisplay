@@ -55,21 +55,21 @@ def test_disp_var():
 
 
 def func2(results):
-    with SmartDisplay() as disp:
-        with EasyProcess(["xmessage", "hello"]):
-            sleep(1)
+    with SmartDisplay(manage_global_env=False) as disp:
+        with EasyProcess(["xmessage", "hello2"], env=disp.env()):
+            sleep(2)
             im = disp.waitgrab(timeout=1)
             results[0] = im
 
 
-def _smart():
+def test_smart():
     results = [None]
     t = Thread(target=func2, args=(results,))
     t.start()
-    sleep(0.5)
-    with SmartDisplay() as disp:
-        with EasyProcess(["xmessage", "hello"]):
-            sleep(1)
+    sleep(1)
+    with SmartDisplay(manage_global_env=False) as disp:
+        with EasyProcess(["xmessage", "hello"], env=disp.env()):
+            sleep(2)
             im0 = disp.waitgrab(timeout=1)
             assert im0
     t.join()

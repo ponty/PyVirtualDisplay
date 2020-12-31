@@ -151,7 +151,7 @@ class AbstractDisplay(object):
             except KeyError:
                 log.warning("$DISPLAY was already unset.")
         else:
-            log.debug("$DISPLAY=%s", d)
+            log.debug("set $DISPLAY=%s", d)
             os.environ["DISPLAY"] = d
 
     def _env(self):
