@@ -266,15 +266,19 @@ feature needs ``xauth`` installed, otherwise a
 Concurrency
 ===========
 
+If more X servers are started at the same time then there is race for free display numbers.
+
 _"Recent X servers as of version 1.13 (Xvfb, too) support the -displayfd command line option: It will make the X server choose the display itself"_
 https://stackoverflow.com/questions/2520704/find-a-free-x11-display-number/
 
 Version 1.13 was released in 2012: https://www.x.org/releases/individual/xserver/
 
 First help text is checked (e.g. `Xvfb -help`) to find if `-displayfd` flag is available.
-If `-displayfd` flag is available then it is used to choose the display number, 
-if not then a free display number is generated.
+If `-displayfd` flag is available then it is used to choose the display number.
+If not then a free display number is generated and there are 10 retries by default 
+which should be enough for starting 10 X servers at the same time.
 
+`displayfd` usage is disabled on macOS because it doesn't work with XQuartz-2.7.11, always 0 is returned.
 
 Thread safety
 =============
