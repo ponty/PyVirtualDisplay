@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from backports import tempfile
+import tempfile
 from vncdotool import api
 
 from pyvirtualdisplay import Display
