@@ -89,6 +89,7 @@ class AbstractDisplay(object):
         self._manage_global_env = manage_global_env
         self._reset_global_env = False
         self._pipe_wfd = None
+        self._retries_current = 0
 
         helptext = get_helptext(program)
         self._has_displayfd = "-displayfd" in helptext
@@ -180,6 +181,7 @@ class AbstractDisplay(object):
         else:
             i = 0
             while True:
+                self._retries_current = i + 1
                 try:
                     self._start1()
                     break

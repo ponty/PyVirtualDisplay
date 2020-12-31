@@ -55,6 +55,7 @@ class Display(object):
             color_depth=color_depth,
             bgcolor=bgcolor,
             randomizer=randomizer,
+            retries=retries,
             use_xauth=use_xauth,
             # check_startup=check_startup,
             extra_args=extra_args,
