@@ -5,37 +5,38 @@ from easyprocess import EasyProcess
 from entrypoint2 import entrypoint
 
 from pyvirtualdisplay import Display
-from tutil import worker
+from tutil import has_xvnc, worker
 
 # ubuntu 14.04 no displayfd
 # ubuntu 16.04 displayfd
-# ubuntu 18.04 displayfd
 
 
-# TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
-if 0:  # TODO: and not platform_is_osx():
+def test_race_100_xvfb():
+    check_n(100, "xvfb")
 
-    def test_race_10_xvfb():
-        check_N(10, "xvfb")
 
-    def test_race_10_xephyr():
-        check_N(10, "xephyr")
+def test_race_100_xephyr():
+    check_n(100, "xephyr")
 
-    def test_race_10_xvnc():
+
+if has_xvnc():
+
+    def test_race_100_xvnc():
         if worker() == 0:
-            check_N(10, "xvnc")
+            check_n(100, "xvnc")
 
 
-def check_N(N, backend):
+def check_n(n, backend):
     with Display():
         ls = []
         try:
-            for i in range(N):
+            for i in range(n):
                 cmd = [
                     sys.executable,
                     __file__.rsplit(".", 1)[0] + ".py",
                     str(i),
                     backend,
+                    str(n),
                     "--debug",
                 ]
                 p = EasyProcess(cmd)
@@ -56,17 +57,21 @@ def check_N(N, backend):
                 p.stop()
         print(rc_ls)
         print(good_count)
-        assert good_count == N
+        assert good_count == n
 
 
 @entrypoint
-def main(i, backend):
+def main(i, backend, retries):
+    retries = int(retries)
     kwargs = dict()
     if backend == "xvnc":
         kwargs["rfbport"] = 42000 + int(i)
 
-    d = Display(backend=backend, **kwargs).start()
-    print("my index:%s  backend:%s disp:%s" % (i, backend, d.new_display_var))
+    d = Display(backend=backend, retries=retries, **kwargs).start()
+    print(
+        "my index:%s  backend:%s disp:%s retries:%s"
+        % (i, backend, d.new_display_var, d._obj._retries_current)
+    )
     ok = d.is_alive()
     d.stop()
     assert ok
