@@ -1,89 +1,38 @@
 language: python
 
-addons:
-  apt:
-    packages: &ubu_deps
-      - xvfb
-      - xserver-xephyr
-      - scrot
-      - gnumeric
-      - x11-utils
-      - x11-apps
-      - xfonts-base
-
 matrix:
   include:
     - name: 3.6_trusty
       python: 3.6
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - vnc4server
 
     - name: 3.6_xenial
       python: 3.6
       dist: xenial
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - vnc4server
 
     - name: 3.7_xenial
       python: 3.7
       dist: xenial
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - vnc4server
 
     - name: 3.8_xenial
       python: 3.8
       dist: xenial
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - vnc4server
 
     - name: 3.7_bionic
       python: 3.7
       dist: bionic
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - tigervnc-standalone-server
 
     - name: 3.8_bionic
       python: 3.8
       dist: bionic
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - tigervnc-standalone-server
 
     - name: 3.8_focal
       python: 3.8
       dist: focal
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - tigervnc-standalone-server
 
     - name: 3.9_focal
       python: 3.9
       dist: focal
-      addons:
-        apt:
-          packages:
-            - *ubu_deps
-            - tigervnc-standalone-server
 
     - name: "Python 3.7 on macOS"
       os: osx
@@ -99,9 +48,21 @@ matrix:
     #     - python -m pip install --upgrade pip
     #   env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 
+addons:
+  apt:
+    packages:
+      - xvfb
+      - xserver-xephyr
+      - scrot
+      - gnumeric
+      - x11-utils
+      - x11-apps
+      - xfonts-base
 
-
+# vnc4server is later renamed to tigervnc-standalone-server
 install:
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then sudo apt-get install -y vnc4server || true; fi
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then sudo apt-get install -y tigervnc-standalone-server || true; fi
   - PYTHON=python3
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then PYTHON=python; fi
   - $PYTHON -m pip install $PIPUSER --upgrade -r requirements-test.txt
