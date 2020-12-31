@@ -11,7 +11,7 @@ from threading import Lock
 from easyprocess import EasyProcess, EasyProcessError
 
 from pyvirtualdisplay import xauth
-from pyvirtualdisplay.util import get_helptext
+from pyvirtualdisplay.util import get_helptext, platform_is_osx
 
 log = logging.getLogger(__name__)
 
@@ -94,9 +94,15 @@ class AbstractDisplay(object):
         self._has_displayfd = "-displayfd" in helptext
         if not self._has_displayfd:
             log.debug("-displayfd flag is missing.")
-        if os.environ.get("PYVIRTUALDISPLAY_NO_DISPLAYFD"):
-            log.debug("PYVIRTUALDISPLAY_NO_DISPLAYFD is set -> displayfd = False")
-            self._has_displayfd = False
+        PYVIRTUALDISPLAY_DISPLAYFD = os.environ.get("PYVIRTUALDISPLAY_DISPLAYFD")
+        if PYVIRTUALDISPLAY_DISPLAYFD:
+            log.debug("PYVIRTUALDISPLAY_DISPLAYFD=%s", PYVIRTUALDISPLAY_DISPLAYFD)
+            # '0'->false, '1'->true
+            self._has_displayfd = bool(int(PYVIRTUALDISPLAY_DISPLAYFD))
+        else:
+            # TODO: macos: displayfd is available on XQuartz-2.7.11 but it doesn't work, always 0 is returned
+            if platform_is_osx():
+                self._has_displayfd = False
 
         # if check_startup and not has_displayfd:
         #     check_startup = False

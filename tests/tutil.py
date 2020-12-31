@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 
 import psutil
 from easyprocess import EasyProcess
@@ -21,8 +20,8 @@ def prog_check(cmd):
         return False
 
 
-def platform_is_osx():
-    return sys.platform == "darwin"
+# def platform_is_osx():
+#     return sys.platform == "darwin"
 
 
 def has_displayfd():

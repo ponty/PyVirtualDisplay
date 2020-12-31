@@ -1,3 +1,5 @@
+import sys
+
 from easyprocess import EasyProcess
 
 
@@ -8,3 +10,7 @@ def get_helptext(program):
     p.call()
     helptext = p.stderr
     return helptext
+
+
+def platform_is_osx():
+    return sys.platform == "darwin"

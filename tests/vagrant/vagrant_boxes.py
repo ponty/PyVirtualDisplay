@@ -71,17 +71,17 @@ def run_box(options, vagrantfile, cmds):
 
 
 config = {
-    "server2004": ("Vagrantfile", ["tox", "PYVIRTUALDISPLAY_NO_DISPLAYFD=1 tox"],),
+    "server2004": ("Vagrantfile", ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],),
     "server1804": (
         "Vagrantfile.18.04.rb",
-        ["tox", "PYVIRTUALDISPLAY_NO_DISPLAYFD=1 tox"],
+        ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
     ),
     "server1404": ("Vagrantfile.14.04.rb", ["tox -e py36"],),
     "osx": (
         "Vagrantfile.osx.rb",
         [
             "bash --login -c 'python3 -m tox -e py3-osx'",
-            "bash --login -c 'PYVIRTUALDISPLAY_NO_DISPLAYFD=1 python3 -m tox -e py3-osx'",
+            # TODO: "bash --login -c 'PYVIRTUALDISPLAY_DISPLAYFD=0 python3 -m tox -e py3-osx'",
         ],
     ),
 }

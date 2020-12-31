@@ -5,7 +5,7 @@ from easyprocess import EasyProcess
 from entrypoint2 import entrypoint
 
 from pyvirtualdisplay import Display
-from tutil import platform_is_osx, worker
+from tutil import worker
 
 # ubuntu 14.04 no displayfd
 # ubuntu 16.04 displayfd
@@ -13,7 +13,7 @@ from tutil import platform_is_osx, worker
 
 
 # TODO: osx error:            Cannot open "/tmp/server-0.xkm" to write keyboard description
-if 0 and not platform_is_osx():
+if 0:  # TODO: and not platform_is_osx():
 
     def test_race_10_xvfb():
         check_N(10, "xvfb")
