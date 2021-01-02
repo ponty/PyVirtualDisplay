@@ -153,7 +153,7 @@ Check it with vncviewer:
 $ vncviewer localhost:5904
 ```
 
-![](/doc/gen/vncviewer_localhost:5904.png)
+![](doc/gen/vncviewer_localhost:5904.png)
 
 
 GUI Test
@@ -183,7 +183,7 @@ $ python3 -m pyvirtualdisplay.examples.lowres
 
 Image:
 
-![](/doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.png)
+![](doc/gen/python3_-m_pyvirtualdisplay.examples.lowres.png)
 
 
 Screenshot
@@ -218,7 +218,7 @@ $ python3 -m pyvirtualdisplay.examples.screenshot
 
 Image:
 
-![](/doc/gen/xmessage.png)
+![](doc/gen/xmessage.png)
 
 
 Nested Xephyr
@@ -252,7 +252,7 @@ $ python3 -m pyvirtualdisplay.examples.nested
 
 Image:
 
-![](/doc/gen/python3_-m_pyvirtualdisplay.examples.nested.png)
+![](doc/gen/python3_-m_pyvirtualdisplay.examples.nested.png)
 
 xauth
 =====
