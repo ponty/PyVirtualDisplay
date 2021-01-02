@@ -176,15 +176,15 @@ class AbstractDisplay(object):
                 self._subproc = subprocess.Popen(
                     self._command,
                     pass_fds=[self._pipe_wfd],
-                    stdout=self._stdout_file,
-                    stderr=self._stderr_file,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     shell=False,
                 )
             else:
                 self._subproc = subprocess.Popen(
                     self._command,
-                    stdout=self._stdout_file,
-                    stderr=self._stderr_file,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     shell=False,
                 )
 
@@ -194,9 +194,6 @@ class AbstractDisplay(object):
 
         self._command = self._cmd() + self._extra_args
         log.debug("command: %s", self._command)
-
-        self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
-        self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
 
         self._popen(use_pass_fds=True)
 
@@ -224,9 +221,6 @@ class AbstractDisplay(object):
 
         self._command = self._cmd() + self._extra_args
         log.debug("command: %s", self._command)
-
-        self._stdout_file = tempfile.TemporaryFile(prefix="stdout_")
-        self._stderr_file = tempfile.TemporaryFile(prefix="stderr_")
 
         self._popen(use_pass_fds=False)
 
@@ -331,13 +325,7 @@ class AbstractDisplay(object):
 
     def _read_stdout_stderr(self):
         if self.stdout is None:
-            self._stdout_file.seek(0)
-            self._stderr_file.seek(0)
-            self.stdout = self._stdout_file.read()
-            self.stderr = self._stderr_file.read()
-
-            self._stdout_file.close()
-            self._stderr_file.close()
+            (self.stdout, self.stderr) = self._subproc.communicate()
 
             log.debug("stdout=%s", self.stdout)
             log.debug("stderr=%s", self.stderr)
