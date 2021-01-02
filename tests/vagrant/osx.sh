@@ -19,6 +19,7 @@ sudo crontab mycron
 
 brew install python3 mc pidof
 brew install --cask xquartz
+# TODO: xvnc install
 python3 -m pip install --user pillow  pytest tox
 
 #   su - vagrant -c 'brew cask install xquartz'

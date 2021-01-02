@@ -40,6 +40,7 @@ class SmartDisplay(Display):
         return autocrop(im, self._bgcolor)
 
     def grab(self, autocrop=True):
+        # TODO: use Xvfb fbdir option for screenshot
         img = grab(xdisplay=self.new_display_var)
 
         if autocrop:
