@@ -124,25 +124,25 @@ def test_stop_terminated():
 
 def test_no_backend():
     with pytest.raises(ValueError):
-        vd = Display(backend="unknown")
+         Display(backend="unknown")
 
 
 def test_color_xvfb():
     with pytest.raises(XStartError):
-        vd = Display(color_depth=99).start().stop()
-    vd = Display(color_depth=16).start().stop()
-    vd = Display(color_depth=24).start().stop()
-    vd = Display(color_depth=8).start().stop()
+        Display(color_depth=99).start().stop()
+    Display(color_depth=16).start().stop()
+    Display(color_depth=24).start().stop()
+    Display(color_depth=8).start().stop()
 
 
 def test_color_xephyr():
     with Display():
         # requested screen depth not supported, setting to match hosts
-        vd = Display(backend="xephyr", color_depth=99).start().stop()
+        Display(backend="xephyr", color_depth=99).start().stop()
 
-        vd = Display(backend="xephyr", color_depth=16).start().stop()
-        vd = Display(backend="xephyr", color_depth=24).start().stop()
-        vd = Display(backend="xephyr", color_depth=8).start().stop()
+        Display(backend="xephyr", color_depth=16).start().stop()
+        Display(backend="xephyr", color_depth=24).start().stop()
+        Display(backend="xephyr", color_depth=8).start().stop()
 
 
 if has_xvnc():
