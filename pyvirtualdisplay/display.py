@@ -1,3 +1,5 @@
+from typing import Dict, List, Optional, Tuple
+
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
@@ -21,16 +23,16 @@ class Display(object):
 
     def __init__(
         self,
-        backend=None,
-        visible=False,
-        size=(1024, 768),
-        color_depth=24,
-        bgcolor="black",
-        use_xauth=False,
+        backend: Optional[str] = None,
+        visible: bool = False,
+        size: Tuple[int, int] = (1024, 768),
+        color_depth: int = 24,
+        bgcolor: str = "black",
+        use_xauth: bool = False,
         # check_startup=False,
-        retries=10,
-        extra_args=[],
-        manage_global_env=True,
+        retries: int = 10,
+        extra_args: List[str] = [],
+        manage_global_env: bool = True,
         **kwargs
     ):
         self._color_depth = color_depth
@@ -61,7 +63,7 @@ class Display(object):
             **kwargs
         )
 
-    def start(self):
+    def start(self) -> "Display":
         """
         start display
 
@@ -70,7 +72,7 @@ class Display(object):
         self._obj.start()
         return self
 
-    def stop(self):
+    def stop(self) -> "Display":
         """
         stop display
 
@@ -88,7 +90,7 @@ class Display(object):
         """used by the :keyword:`with` statement"""
         self.stop()
 
-    def is_alive(self):
+    def is_alive(self) -> bool:
         return self._obj.is_alive()
 
     @property
@@ -96,7 +98,7 @@ class Display(object):
         return self._obj.return_code
 
     @property
-    def pid(self):
+    def pid(self) -> int:
         """
         PID (:attr:`subprocess.Popen.pid`)
 
@@ -105,15 +107,15 @@ class Display(object):
         return self._obj.pid
 
     @property
-    def display(self):
+    def display(self) -> int:
         """The new $DISPLAY variable as int.  Example 1 if $DISPLAY=':1'  """
         return self._obj.display
 
     @property
-    def new_display_var(self):
+    def new_display_var(self) -> str:
         """The new $DISPLAY variable like ':1'  """
         return self._obj.new_display_var
 
-    def env(self):
+    def env(self) -> Dict[str, str]:
         """env() copies global os.environ and adds disp.new_display_var"""
         return self._obj._env()
