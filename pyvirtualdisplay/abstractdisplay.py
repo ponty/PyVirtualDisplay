@@ -276,7 +276,7 @@ class AbstractDisplay(object):
 
     def _wait_for_pipe_text(self, rfd):
         s = ""
-        start_time = time.time()
+        #start_time = time.time()
         while True:
             (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
             if not self.is_alive():
@@ -289,11 +289,11 @@ class AbstractDisplay(object):
                 if c == b"\n":
                     break
                 s += c.decode("ascii")
-            if time.time() - start_time >= _X_START_TIMEOUT:
-                raise XStartTimeoutError(
-                    "No reply from program %s. command:%s"
-                    % (self._program, self._command,)
-                )
+            # if time.time() - start_time >= _X_START_TIMEOUT:
+            #     raise XStartTimeoutError(
+            #         "No reply from program %s. command:%s"
+            #         % (self._program, self._command,)
+            #     )
         return s
 
     def stop(self):
