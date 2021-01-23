@@ -22,11 +22,6 @@ PACKAGES = [
 ]
 
 
-# extra = {}
-# if sys.version_info >= (3,):
-#     extra['use_2to3'] = True
-#     extra['use_2to3_exclude_fixers'] = ['lib2to3.fixes.fix_import']
-
 classifiers = [
     # Get more strings from
     # http://www.python.org/pypi?%3Aaction=list_classifiers
