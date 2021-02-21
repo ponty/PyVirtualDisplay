@@ -31,6 +31,11 @@ optional: [Pillow][pillow] should be installed for ``smartdisplay`` submodule:
 $ python3 -m pip install pillow
 ```
 
+If you get this error message on Linux then your Pillow version is old.
+```
+ImportError: ImageGrab is macOS and Windows only
+```
+
 on Ubuntu 20.04:
 
 ```console
