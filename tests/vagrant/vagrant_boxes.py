@@ -72,10 +72,7 @@ def run_box(options, vagrantfile, cmds):
 
 config = {
     "server2004": ("Vagrantfile", ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],),
-    # "server1804": (
-    #     "Vagrantfile.18.04.rb",
-    #     ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
-    # ),
+    "server1804": ("Vagrantfile.18.04.rb", ["tox"],),
     "server1404": ("Vagrantfile.14.04.rb", ["tox -e py36"],),
     "osx": (
         "Vagrantfile.osx.rb",
