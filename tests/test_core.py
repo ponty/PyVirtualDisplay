@@ -124,7 +124,7 @@ def test_stop_terminated():
 
 def test_no_backend():
     with pytest.raises(ValueError):
-         Display(backend="unknown")
+        Display(backend="unknown")
 
 
 def test_color_xvfb():
