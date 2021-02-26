@@ -48,7 +48,7 @@ class XephyrDisplay(AbstractDisplay):
     def _cmd(self):
         cmd = [
             PROGRAM,
-        ] + ["-parent", self._parent] if self._parent else [] + [
+        ] + (["-parent", self._parent] if self._parent else []) + [
             dict(black="-br", white="-wr")[self._bgcolor],
             "-screen",
             "x".join(map(str, list(self._size) + [self._color_depth])),
