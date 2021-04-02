@@ -50,7 +50,8 @@ Controlling the display with `start()` and `stop()` methods:
 
 ```py
 from pyvirtualdisplay import Display
-disp = Display().start()
+disp = Display()
+disp.start()
 # display is active
 disp.stop()
 # display is stopped
