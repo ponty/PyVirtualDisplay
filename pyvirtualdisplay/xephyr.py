@@ -23,6 +23,7 @@ class XephyrDisplay(AbstractDisplay):
         retries=10,
         extra_args=[],
         manage_global_env=True,
+        parent=None,
     ):
         """
         :param bgcolor: 'black' or 'white'
@@ -30,6 +31,7 @@ class XephyrDisplay(AbstractDisplay):
         self._color_depth = color_depth
         self._size = size
         self._bgcolor = bgcolor
+        self._parent = parent
 
         AbstractDisplay.__init__(
             self,
@@ -46,6 +48,7 @@ class XephyrDisplay(AbstractDisplay):
     def _cmd(self):
         cmd = [
             PROGRAM,
+        ] + (["-parent", self._parent] if self._parent else []) + [
             dict(black="-br", white="-wr")[self._bgcolor],
             "-screen",
             "x".join(map(str, list(self._size) + [self._color_depth])),
