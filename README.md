@@ -4,7 +4,7 @@ Links:
  * home: https://github.com/ponty/pyvirtualdisplay
  * PYPI: https://pypi.python.org/pypi/pyvirtualdisplay
 
-[![Build Status](https://travis-ci.org/ponty/pyvirtualdisplay.svg?branch=master)](https://travis-ci.org/ponty/pyvirtualdisplay)
+![workflow](https://github.com/ponty/pyvirtualdisplay/actions/workflows/main.yml/badge.svg)
 
 Features:
  - python wrapper
