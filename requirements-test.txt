@@ -6,3 +6,5 @@ psutil
 # for travis xenial
 attrs
 pytest-xdist
+mypy
+flake8
