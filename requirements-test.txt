@@ -1,5 +1,6 @@
 pytest
 pillow
+types-pillow
 entrypoint2
 vncdotool==0.13.0
 psutil

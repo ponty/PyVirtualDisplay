@@ -75,7 +75,7 @@ def test_slowshot_timeout():
     with disp:
         with proc:
             with pytest.raises(DisplayTimeoutError):
-                img = disp.waitgrab(timeout=1)
+                disp.waitgrab(timeout=1)
 
 
 def test_slowshot_timeout_nocrop():
@@ -85,4 +85,4 @@ def test_slowshot_timeout_nocrop():
     with disp:
         with proc:
             with pytest.raises(DisplayTimeoutError):
-                img = disp.waitgrab(timeout=1, autocrop=False)
+                disp.waitgrab(timeout=1, autocrop=False)

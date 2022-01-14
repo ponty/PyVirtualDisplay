@@ -26,7 +26,9 @@ class XvncDisplay(AbstractDisplay):
     ):
         """
         :param bgcolor: 'black' or 'white'
-        :param rfbport: Specifies the TCP port on which Xvnc listens for connections from viewers (the protocol used in VNC is called RFB - "remote framebuffer"). The default is 5900 plus the display number.
+        :param rfbport: Specifies the TCP port on which Xvnc listens for connections from viewers
+        (the protocol used in VNC is called RFB - "remote framebuffer").
+        The default is 5900 plus the display number.
         :param rfbauth: Specifies the file containing the password used to authenticate viewers.
         """
         self._size = size
