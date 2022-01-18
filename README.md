@@ -320,8 +320,8 @@ with Display(manage_global_env=False) as disp:
 Run it:
 ```console
 $ python3 -m pyvirtualdisplay.examples.threadsafe
-disp.new_display_var=:2
-disp.env()['DISPLAY']=:2
+disp.new_display_var=:12
+disp.env()['DISPLAY']=:12
 ```
 
 
