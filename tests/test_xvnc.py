@@ -1,11 +1,11 @@
 import tempfile
 from pathlib import Path
 
+from tutil import has_xvnc, rfbport, worker
 from vncdotool import api
 
 from pyvirtualdisplay import Display
 from pyvirtualdisplay.xvnc import XvncDisplay
-from tutil import has_xvnc, rfbport, worker
 
 if has_xvnc():
 

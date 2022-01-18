@@ -17,7 +17,7 @@ class Display(object):
     :param visible: True -> Xephyr, False -> Xvfb
     :param backend: 'xvfb', 'xvnc' or 'xephyr', ignores ``visible``
     :param xauth: If a Xauthority file should be created.
-    :param manage_global_env: if True then $DISPLAY is set in os.environ 
+    :param manage_global_env: if True then $DISPLAY is set in os.environ
         which is not thread-safe. Use False to make it thread-safe.
     """
 
@@ -108,12 +108,12 @@ class Display(object):
 
     @property
     def display(self) -> int:
-        """The new $DISPLAY variable as int.  Example 1 if $DISPLAY=':1'  """
+        """The new $DISPLAY variable as int.  Example 1 if $DISPLAY=':1'"""
         return self._obj.display
 
     @property
     def new_display_var(self) -> str:
-        """The new $DISPLAY variable like ':1'  """
+        """The new $DISPLAY variable like ':1'"""
         return self._obj.new_display_var
 
     def env(self) -> Dict[str, str]:

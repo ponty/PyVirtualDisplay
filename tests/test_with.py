@@ -1,5 +1,6 @@
-from pyvirtualdisplay import Display
 from tutil import has_xvnc, rfbport
+
+from pyvirtualdisplay import Display
 
 
 def test_with_xvfb():

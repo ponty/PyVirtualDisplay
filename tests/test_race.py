@@ -3,9 +3,9 @@ from time import sleep
 
 from easyprocess import EasyProcess
 from entrypoint2 import entrypoint
+from tutil import has_xvnc, worker
 
 from pyvirtualdisplay import Display
-from tutil import has_xvnc, worker
 
 # ubuntu 14.04 no displayfd
 # ubuntu 16.04 displayfd
@@ -24,7 +24,6 @@ def test_race_100_xvfb():
 # def test_race_500_100_xephyr():
 #     for _ in range(500):
 #         check_n(100, "xephyr")
-
 
 
 if has_xvnc():
@@ -77,7 +76,12 @@ def main(i, backend, retries):
     d = Display(backend=backend, retries=retries, **kwargs).start()
     print(
         "my index:%s  backend:%s disp:%s retries:%s"
-        % (i, backend, d.new_display_var, d._obj._retries_current,)
+        % (
+            i,
+            backend,
+            d.new_display_var,
+            d._obj._retries_current,
+        )
     )
     ok = d.is_alive()
     d.stop()

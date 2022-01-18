@@ -4,8 +4,9 @@ from pathlib import Path
 from time import sleep
 
 import fabric
-import vagrant
 from entrypoint2 import entrypoint
+
+import vagrant
 
 # pip3 install fabric vncdotool python-vagrant entrypoint2
 
@@ -49,7 +50,10 @@ def run_box(options, vagrantfile, cmds):
         v.up()
 
         with fabric.Connection(
-            v.user_hostname_port(), connect_kwargs={"key_filename": v.keyfile(),},
+            v.user_hostname_port(),
+            connect_kwargs={
+                "key_filename": v.keyfile(),
+            },
         ) as conn:
             with conn.cd("c:/vagrant" if options.win else "/vagrant"):
                 if not options.win:
@@ -71,9 +75,18 @@ def run_box(options, vagrantfile, cmds):
 
 
 config = {
-    "server2004": ("Vagrantfile", ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],),
-    "server1804": ("Vagrantfile.18.04.rb", ["tox"],),
-    "server1404": ("Vagrantfile.14.04.rb", ["tox -e py36"],),
+    "server2004": (
+        "Vagrantfile",
+        ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
+    ),
+    "server1804": (
+        "Vagrantfile.18.04.rb",
+        ["tox"],
+    ),
+    "server1404": (
+        "Vagrantfile.14.04.rb",
+        ["tox -e py36"],
+    ),
     "osx": (
         "Vagrantfile.osx.rb",
         [

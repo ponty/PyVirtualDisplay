@@ -1,13 +1,13 @@
 from time import sleep
 
 import pytest
+from tutil import has_xvnc, rfbport
 
 from pyvirtualdisplay import Display
 from pyvirtualdisplay.abstractdisplay import XStartError
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
-from tutil import has_xvnc, rfbport
 
 
 def test_virt():

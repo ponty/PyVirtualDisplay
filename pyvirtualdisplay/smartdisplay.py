@@ -16,9 +16,9 @@ class DisplayTimeoutError(Exception):
 def autocrop(im, bgcolor):
     """Crop borders off an image.
 
-        :param im: Source image.
-        :param bgcolor: Background color, using either a color tuple.
-        :return: An image without borders, or None if there's no actual content in the image.
+    :param im: Source image.
+    :param bgcolor: Background color, using either a color tuple.
+    :return: An image without borders, or None if there's no actual content in the image.
     """
     if im.mode != "RGB":
         im = im.convert("RGB")

@@ -46,13 +46,17 @@ class XephyrDisplay(AbstractDisplay):
         self._has_resizeable = "-resizeable" in helptext
 
     def _cmd(self):
-        cmd = [
-            PROGRAM,
-        ] + (["-parent", self._parent] if self._parent else []) + [
-            dict(black="-br", white="-wr")[self._bgcolor],
-            "-screen",
-            "x".join(map(str, list(self._size) + [self._color_depth])),
-        ]
+        cmd = (
+            [
+                PROGRAM,
+            ]
+            + (["-parent", self._parent] if self._parent else [])
+            + [
+                dict(black="-br", white="-wr")[self._bgcolor],
+                "-screen",
+                "x".join(map(str, list(self._size) + [self._color_depth])),
+            ]
+        )
         if self._has_displayfd:
             cmd += ["-displayfd", str(self._pipe_wfd)]
         else:

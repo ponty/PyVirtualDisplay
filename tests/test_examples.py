@@ -5,9 +5,9 @@ from tempfile import TemporaryDirectory
 from time import sleep
 
 from easyprocess import EasyProcess
+from tutil import has_xvnc, kill_process_tree, prog_check, worker
 
 from pyvirtualdisplay import Display
-from tutil import has_xvnc, kill_process_tree, prog_check, worker
 
 log = logging.getLogger(__name__)
 
