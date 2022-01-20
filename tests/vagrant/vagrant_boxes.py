@@ -81,19 +81,15 @@ config = {
     ),
     "server1804": (
         "Vagrantfile.18.04.rb",
-        ["tox"],
-    ),
-    "server1404": (
-        "Vagrantfile.14.04.rb",
         ["tox -e py36"],
     ),
-    "osx": (
-        "Vagrantfile.osx.rb",
-        [
-            "bash --login -c 'python3 -m tox -e py3-osx'",
-            # TODO: "bash --login -c 'PYVIRTUALDISPLAY_DISPLAYFD=0 python3 -m tox -e py3-osx'",
-        ],
-    ),
+    # "osx": (
+    #     "Vagrantfile.osx.rb",
+    #     [
+    #         "bash --login -c 'python3 -m tox -e py3-osx'",
+    #         # TODO: "bash --login -c 'PYVIRTUALDISPLAY_DISPLAYFD=0 python3 -m tox -e py3-osx'",
+    #     ],
+    # ),
 }
 
 
@@ -108,9 +104,23 @@ def main(boxes="all", fast=False, destroy=False):
         boxes = list(config.keys())
     else:
         boxes = boxes.split(",")
+
     for k, v in config.items():
-        if k in boxes:
-            options.win = k == "win"
-            options.osx = k == "osx"
-            print("-----> %s %s %s" % (k, v[0], v[1]))
-            run_box(options, v[0], v[1])
+        name = k
+        vagrantfile, cmds = v[0], v[1]
+        if name in boxes:
+            options.win = k.startswith("win")
+            options.osx = k.startswith("osx")
+            print("----->")
+            print("----->")
+            print("-----> %s %s %s" % (name, vagrantfile, cmds))
+            print("----->")
+            print("----->")
+            try:
+                run_box(options, vagrantfile, cmds)
+            finally:
+                print("<-----")
+                print("<-----")
+                print("<----- %s %s %s" % (name, vagrantfile, cmds))
+                print("<-----")
+                print("<-----")
