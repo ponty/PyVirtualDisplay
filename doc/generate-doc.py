@@ -38,6 +38,7 @@ def empty_dir(dir):
 
 @entrypoint
 def main():
+    EasyProcess("killall Xvnc").call()
     gendir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen")
     logging.info("gendir: %s", gendir)
     os.makedirs(gendir, exist_ok=True)
@@ -46,6 +47,8 @@ def main():
     try:
         os.chdir("gen")
         for cmd, grab, bg in commands:
+            sleep(1)
+
             with SmartDisplay() as disp:
                 logging.info("======== cmd: %s", cmd)
                 fname_base = cmd.replace(" ", "_")
@@ -64,13 +67,14 @@ def main():
                 if grab:
                     png = fname_base + ".png"
                     sleep(1)
-                    img = disp.waitgrab(timeout=9)
+                    img = disp.waitgrab()
                     logging.info("saving %s", png)
                     img.save(png)
     finally:
         os.chdir("..")
-        for p in pls:
+        for p in reversed(pls):
             p.stop()
+        EasyProcess("killall Xvnc").call()
     embedme = EasyProcess(["npx", "embedme", "../README.md"])
     embedme.call()
     print(embedme.stdout)

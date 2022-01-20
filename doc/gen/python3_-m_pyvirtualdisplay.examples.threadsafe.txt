@@ -1,3 +1,1 @@
 $ python3 -m pyvirtualdisplay.examples.threadsafe
-disp.new_display_var=:12
-disp.env()['DISPLAY']=:12
