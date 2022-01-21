@@ -38,7 +38,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 
-install_requires = ["EasyProcess"]
 
 setup(
     name=PYPI_NAME,
@@ -53,7 +52,7 @@ setup(
     url=URL,
     license="BSD",
     packages=PACKAGES,
-    install_requires=install_requires,
+    # install_requires=install_requires,
     package_data={
         NAME: ["py.typed"],
     },

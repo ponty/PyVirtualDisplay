@@ -311,7 +311,7 @@ def thread_function(index):
         cmd = ["xmessage", str(index)]
         # disp.new_display_var should be used for new processes
         # disp.env() copies global os.environ and adds disp.new_display_var
-        with EasyProcess(cmd, env=disp.env()) as proc:
+        with EasyProcess(cmd, env=disp.env()):
             img = disp.waitgrab()
             img.save("xmessage{}.png".format(index))
 

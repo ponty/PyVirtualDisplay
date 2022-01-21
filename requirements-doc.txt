@@ -10,3 +10,4 @@ vncdotool==0.13.0
 # for travis xenial
 # attrs
 # pytest-xdist
+EasyProcess

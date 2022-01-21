@@ -1,14 +1,24 @@
+import subprocess
 import sys
-
-from easyprocess import EasyProcess
 
 
 def get_helptext(program):
-    p = EasyProcess([program, "-help"])
-    p.enable_stdout_log = False
-    p.enable_stderr_log = False
-    p.call()
-    helptext = p.stderr
+    cmd = [program, "-help"]
+
+    # py3.7+
+    # p = subprocess.run(cmd, capture_output=True)
+    # stderr = p.stderr
+
+    # py3.6 also
+    p = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=False,
+    )
+    _, stderr = p.communicate()
+
+    helptext = stderr.decode("utf-8", "ignore")
     return helptext
 
 

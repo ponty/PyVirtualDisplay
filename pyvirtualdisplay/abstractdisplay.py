@@ -8,8 +8,6 @@ import tempfile
 import time
 from threading import Lock
 
-from easyprocess import EasyProcess, EasyProcessError
-
 from pyvirtualdisplay import xauth
 from pyvirtualdisplay.util import get_helptext, platform_is_osx
 
@@ -244,17 +242,34 @@ class AbstractDisplay(object):
                 break
 
             try:
-                xdpyinfo = EasyProcess(["xdpyinfo"], env=self._env())
-                xdpyinfo.enable_stdout_log = False
-                xdpyinfo.enable_stderr_log = False
-                exit_code = xdpyinfo.call().return_code
-            except EasyProcessError:
+                xdpyinfo = subprocess.Popen(
+                    ["xdpyinfo"],
+                    env=self._env(),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    shell=False,
+                )
+                _, _ = xdpyinfo.communicate()
+                exit_code = xdpyinfo.returncode
+            except FileNotFoundError:
                 log.warning(
                     "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
                 )
                 time.sleep(_X_START_WAIT)  # old method
                 ok = True
                 break
+            # try:
+            #     xdpyinfo = EasyProcess(["xdpyinfo"], env=self._env())
+            #     xdpyinfo.enable_stdout_log = False
+            #     xdpyinfo.enable_stderr_log = False
+            #     exit_code = xdpyinfo.call().return_code
+            # except EasyProcessError:
+            #     log.warning(
+            #         "xdpyinfo was not found, X start can not be checked! Please install xdpyinfo!"
+            #     )
+            #     time.sleep(_X_START_WAIT)  # old method
+            #     ok = True
+            #     break
 
             if exit_code != 0:
                 pass

@@ -9,3 +9,4 @@ attrs
 pytest-xdist
 mypy
 flake8
+EasyProcess
