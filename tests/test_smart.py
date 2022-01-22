@@ -14,10 +14,12 @@ def test_disp():
     with Display():
 
         d = SmartDisplay(visible=True).start().stop()
-        assert d.return_code == 0
+        # assert d.return_code == 0
+        assert not d.is_alive()
 
         d = SmartDisplay(visible=False).start().stop()
-        assert d.return_code == 0
+        # assert d.return_code == 0
+        assert not d.is_alive()
 
 
 def test_slowshot():

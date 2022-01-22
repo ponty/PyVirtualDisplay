@@ -93,9 +93,9 @@ class Display(object):
     def is_alive(self) -> bool:
         return self._obj.is_alive()
 
-    @property
-    def return_code(self):
-        return self._obj.return_code
+    # @property
+    # def return_code(self):
+    #     return self._obj.return_code
 
     @property
     def pid(self) -> int:

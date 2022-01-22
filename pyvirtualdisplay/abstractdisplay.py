@@ -387,17 +387,22 @@ class AbstractDisplay(object):
     def is_alive(self):
         if not self._subproc:
             return False
-        return self.return_code is None
-
-    @property
-    def return_code(self):
-        if not self._subproc:
-            return None
+        # return self.return_code is None
         rc = self._subproc.poll()
         if rc is not None:
             # proc exited
             self._read_stdout_stderr()
-        return rc
+        return rc is None
+
+    # @property
+    # def return_code(self):
+    #     if not self._subproc:
+    #         return None
+    #     rc = self._subproc.poll()
+    #     if rc is not None:
+    #         # proc exited
+    #         self._read_stdout_stderr()
+    #     return rc
 
     @property
     def pid(self):
