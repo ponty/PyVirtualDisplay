@@ -326,7 +326,7 @@ class AbstractDisplay(object):
         if self.is_alive():
             try:
                 try:
-                    self._subproc.terminate()
+                    self._subproc.kill()
                 except AttributeError:
                     os.kill(self._subproc.pid, signal.SIGKILL)
             except OSError as oserror:
