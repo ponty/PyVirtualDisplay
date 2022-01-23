@@ -1,8 +1,7 @@
 """Utility functions for xauth."""
 import hashlib
 import os
-
-from easyprocess import EasyProcess
+import subprocess
 
 
 class NotFoundError(Exception):
@@ -14,11 +13,18 @@ def is_installed():
     Return whether or not xauth is installed.
     """
     try:
-        p = EasyProcess(["xauth", "-V"])
-        p.enable_stdout_log = False
-        p.enable_stderr_log = False
-        p.call()
-    except Exception:
+        xauth = subprocess.Popen(
+            ["xauth", "-V"],
+            # env=self._env(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        _, _ = xauth.communicate()
+        # p = EasyProcess(["xauth", "-V"])
+        # p.enable_stdout_log = False
+        # p.enable_stderr_log = False
+        # p.call()
+    except FileNotFoundError:
         return False
     else:
         return True
@@ -36,4 +42,11 @@ def call(*args):
     """
     Call xauth with the given args.
     """
-    EasyProcess(["xauth"] + list(args)).call()
+    xauth = subprocess.Popen(
+        ["xauth"] + list(args),
+        # env=self._env(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    _, _ = xauth.communicate()
+    # EasyProcess(["xauth"] + list(args)).call()
