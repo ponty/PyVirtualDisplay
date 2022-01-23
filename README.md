@@ -31,6 +31,12 @@ optional: [Pillow][pillow] should be installed for ``smartdisplay`` submodule:
 $ python3 -m pip install pillow
 ```
 
+optional: [EasyProcess][EasyProcess] should be installed for some examples:
+
+```console
+$ python3 -m pip install EasyProcess
+```
+
 If you get this error message on Linux then your Pillow version is old.
 ```
 ImportError: ImageGrab is macOS and Windows only
@@ -40,7 +46,7 @@ on Ubuntu 20.04:
 
 ```console
 $ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server xfonts-base
-$ python3 -m pip install pyvirtualdisplay pillow
+$ python3 -m pip install pyvirtualdisplay pillow EasyProcess
 ```
 
 Usage
@@ -59,7 +65,7 @@ disp.stop()
 
 After Xvfb display is activated "DISPLAY" environment variable is set for Xvfb.
 (e.g. `os.environ["DISPLAY"] = :1`)
-After Xvfb display is stopped "DISPLAY" environment variable is restored to its original value.
+After Xvfb display is stopped `start()` and `stop()` are not allowed to be called again, "DISPLAY" environment variable is restored to its original value. 
 
 
 Controlling the display with context manager:
@@ -109,7 +115,7 @@ disp=Display(color_depth=24)
 Headless run
 ------------
 
-The display is hidden.
+A messagebox is displayed on a hidden display. 
 
 ```py
 # pyvirtualdisplay/examples/headless.py
@@ -124,6 +130,10 @@ with Display(visible=False, size=(100, 60)) as disp:
     with EasyProcess(["xmessage", "hello"]) as proc:
         proc.wait()
 
+```
+Run it:
+```console
+$ python3 -m pyvirtualdisplay.examples.headless
 ```
 
 If `visible=True` then a nested Xephyr window opens and the GUI can be controlled.
@@ -347,3 +357,4 @@ Hierarchy
 [3]: https://tigervnc.org/
 [pillow]: https://pillow.readthedocs.io
 [environ]: https://docs.python.org/3/library/os.html#os.environ
+[EasyProcess]: https://github.com/ponty/EasyProcess
