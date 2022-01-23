@@ -27,7 +27,7 @@ sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server
 # test dependencies
 sudo apt-get install -y gnumeric
 sudo apt-get install -y x11-utils #   for: xmessage
-sudo apt-get install -y x11-apps  #   for: xlogo
+# sudo apt-get install -y x11-apps  #   for: xlogo
 sudo pip3 install tox
 
 # doc dependencies

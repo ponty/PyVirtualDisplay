@@ -10,7 +10,7 @@ import vagrant
 
 # pip3 install fabric vncdotool python-vagrant entrypoint2
 
-DIR = Path(__file__).parent.parent.parent
+DIR = Path(__file__).parent
 
 
 class Options:
@@ -21,11 +21,12 @@ class Options:
 
 def run_box(options, vagrantfile, cmds):
     env = os.environ
-    env["VAGRANT_VAGRANTFILE"] = str(DIR / vagrantfile)
-    if vagrantfile != "Vagrantfile":
-        env["VAGRANT_DOTFILE_PATH"] = str(DIR / (".vagrant_" + vagrantfile))
-    else:
+    if vagrantfile == "Vagrantfile":
+        env["VAGRANT_VAGRANTFILE"] = str(DIR.parent.parent / vagrantfile)
         env["VAGRANT_DOTFILE_PATH"] = ""
+    else:
+        env["VAGRANT_VAGRANTFILE"] = str(DIR / vagrantfile)
+        env["VAGRANT_DOTFILE_PATH"] = str(DIR / (".vagrant_" + vagrantfile))
 
     v = vagrant.Vagrant(env=env, quiet_stdout=False, quiet_stderr=False)
     status = v.status()
@@ -75,12 +76,24 @@ def run_box(options, vagrantfile, cmds):
 
 
 config = {
-    "server2004": (
+    "debian10": (
+        "Vagrantfile.debian10.rb",
+        ["tox -e py37"],
+    ),
+    "debian11": (
+        "Vagrantfile.debian11.rb",
+        ["tox -e py39"],
+    ),
+    "ubuntu2204": (
+        "Vagrantfile.ubuntu2204.rb",
+        ["tox -e py39"],
+    ),
+    "ubuntu2004": (
         "Vagrantfile",
         ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
     ),
-    "server1804": (
-        "Vagrantfile.18.04.rb",
+    "ubuntu1804": (
+        "Vagrantfile.ubuntu1804.rb",
         ["tox -e py36"],
     ),
     # "osx": (
