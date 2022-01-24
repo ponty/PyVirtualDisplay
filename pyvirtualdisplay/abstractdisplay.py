@@ -2,7 +2,6 @@ import fnmatch
 import logging
 import os
 import select
-import signal
 import subprocess
 import tempfile
 import time
@@ -330,10 +329,7 @@ class AbstractDisplay(object):
 
         if self.is_alive():
             try:
-                try:
-                    self._subproc.kill()
-                except AttributeError:
-                    os.kill(self._subproc.pid, signal.SIGKILL)
+                self._subproc.kill()
             except OSError as oserror:
                 log.debug("exception in terminate:%s", oserror)
 
