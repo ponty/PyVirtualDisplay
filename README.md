@@ -36,16 +36,22 @@ optional: [EasyProcess][EasyProcess] should be installed for some examples:
 ```console
 $ python3 -m pip install EasyProcess
 ```
+optional: xmessage and gnumeric should be installed for some examples.
+
+On Ubuntu 20.04:
+```console
+$ sudo apt install x11-utils gnumeric
+```
 
 If you get this error message on Linux then your Pillow version is old.
 ```
 ImportError: ImageGrab is macOS and Windows only
 ```
 
-on Ubuntu 20.04:
+Install all dependencies and backends on Ubuntu 20.04:
 
 ```console
-$ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server xfonts-base
+$ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gnumeric
 $ python3 -m pip install pyvirtualdisplay pillow EasyProcess
 ```
 
