@@ -62,6 +62,22 @@ def _search_for_display():
     return display
 
 
+def _env_bool(key, default_val):
+    # '0'->false, '1'->true
+
+    val = os.environ.get(key)
+    if val:
+        log.debug("%s=%s", key, val)
+        return bool(int(val))
+    else:
+        return default_val
+
+
+def _env_displayfd(default_val):
+    key = "PYVIRTUALDISPLAY_DISPLAYFD"
+    return _env_bool(key, default_val)
+
+
 class AbstractDisplay(object):
     """
     Common parent for X servers (Xvfb,Xephyr,Xvnc)
@@ -86,15 +102,11 @@ class AbstractDisplay(object):
         self._has_displayfd = "-displayfd" in helptext
         if not self._has_displayfd:
             log.debug("-displayfd flag is missing.")
-        PYVIRTUALDISPLAY_DISPLAYFD = os.environ.get("PYVIRTUALDISPLAY_DISPLAYFD")
-        if PYVIRTUALDISPLAY_DISPLAYFD:
-            log.debug("PYVIRTUALDISPLAY_DISPLAYFD=%s", PYVIRTUALDISPLAY_DISPLAYFD)
-            # '0'->false, '1'->true
-            self._has_displayfd = bool(int(PYVIRTUALDISPLAY_DISPLAYFD))
-        else:
-            # TODO: macos: displayfd is available on XQuartz-2.7.11 but it doesn't work, always 0 is returned
-            if platform_is_osx():
-                self._has_displayfd = False
+
+        # TODO: macos: displayfd is available on XQuartz-2.7.11 but it doesn't work, always 0 is returned
+        if platform_is_osx():
+            self._has_displayfd = False
+        self._has_displayfd = _env_displayfd(self._has_displayfd)
 
         self._check_flags(helptext)
 
@@ -315,6 +327,16 @@ class AbstractDisplay(object):
                 )
         return s
 
+    def _kill_subproc(self):
+        if self.is_alive():
+            try:
+                self._subproc.kill()
+            except OSError as oserror:
+                log.debug("exception in kill:%s", oserror)
+
+            self._subproc.wait()
+            self._read_stdout_stderr()
+
     def stop(self):
         """
         stop display
@@ -327,14 +349,8 @@ class AbstractDisplay(object):
         if self._reset_global_env:
             self._redirect_display(False)
 
-        if self.is_alive():
-            try:
-                self._subproc.kill()
-            except OSError as oserror:
-                log.debug("exception in terminate:%s", oserror)
+        self._kill_subproc()
 
-            self._subproc.wait()
-            self._read_stdout_stderr()
         if self._use_xauth:
             self._clear_xauth()
         return self
