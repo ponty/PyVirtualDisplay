@@ -159,24 +159,25 @@ class AbstractDisplay(object):
             raise XStartError(self, "Display was started twice.")
         self._is_started = True
 
-        if self._has_displayfd:
-            self._start1_has_displayfd()
-        else:
-            i = 0
-            while True:
-                self._retries_current = i + 1
-                try:
+        i = 0
+        while True:
+            self._retries_current = i + 1
+            try:
+                if self._has_displayfd:
+                    self._start1_has_displayfd()
+                else:
                     self._start1()
-                    break
-                except XStartError:
-                    log.warning("start failed %s", i + 1)
-                    time.sleep(0.05)
-                    i += 1
-                    if i >= self._retries:
-                        raise XStartError(
-                            "No success after %s retries. Last stderr: %s"
-                            % (self._retries, self.stderr)
-                        )
+                break
+            except (XStartError, XStartTimeoutError):
+                log.warning("start failed %s", i + 1)
+                time.sleep(0.05)
+                i += 1
+                self._kill_subproc()
+                if self._retries and i >= self._retries:
+                    raise XStartError(
+                        "No success after %s retries. Last stderr: %s"
+                        % (self._retries, self.stderr)
+                    )
         if self._manage_global_env:
             self._redirect_display(True)
             self._reset_global_env = True
