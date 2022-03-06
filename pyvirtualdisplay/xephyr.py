@@ -21,6 +21,7 @@ class XephyrDisplay(AbstractDisplay):
         bgcolor="black",
         use_xauth=False,
         retries=10,
+        timeout=600,
         extra_args=[],
         manage_global_env=True,
         parent=None,
@@ -38,6 +39,7 @@ class XephyrDisplay(AbstractDisplay):
             PROGRAM,
             use_xauth=use_xauth,
             retries=retries,
+            timeout=timeout,
             extra_args=extra_args,
             manage_global_env=manage_global_env,
         )

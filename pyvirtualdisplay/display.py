@@ -29,8 +29,8 @@ class Display(object):
         color_depth: int = 24,
         bgcolor: str = "black",
         use_xauth: bool = False,
-        # check_startup=False,
-        retries: int = 10,
+        retries: int = 10,  # zero: no limit
+        timeout: int = 10 * 60,  # seconds
         extra_args: List[str] = [],
         manage_global_env: bool = True,
         **kwargs
@@ -56,8 +56,8 @@ class Display(object):
             color_depth=color_depth,
             bgcolor=bgcolor,
             retries=retries,
+            timeout=timeout,
             use_xauth=use_xauth,
-            # check_startup=check_startup,
             extra_args=extra_args,
             manage_global_env=manage_global_env,
             **kwargs

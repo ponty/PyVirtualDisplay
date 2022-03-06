@@ -24,7 +24,6 @@ _mutex_popen = Lock()
 _MIN_DISPLAY_NR = 1000
 _USED_DISPLAY_NR_LIST = []
 
-_X_START_TIMEOUT = 10
 _X_START_TIME_STEP = 0.1
 _X_START_WAIT = 0.1
 
@@ -83,9 +82,12 @@ class AbstractDisplay(object):
     Common parent for X servers (Xvfb,Xephyr,Xvnc)
     """
 
-    def __init__(self, program, use_xauth, retries, extra_args, manage_global_env):
+    def __init__(
+        self, program, use_xauth, retries, timeout, extra_args, manage_global_env
+    ):
         self._extra_args = extra_args
         self._retries = retries
+        self._timeout = timeout
         self._program = program
         self.stdout = None
         self.stderr = None
@@ -289,7 +291,7 @@ class AbstractDisplay(object):
                 ok = True
                 break
 
-            if time.time() - start_time >= _X_START_TIMEOUT:
+            if time.time() - start_time >= self._timeout:
                 break
             time.sleep(_X_START_TIME_STEP)
         if not self.is_alive():
@@ -317,7 +319,7 @@ class AbstractDisplay(object):
                 s += c.decode("ascii")
 
             # this timeout is for "eternal" hang. see #62
-            if time.time() - start_time >= 600:  # = 10 minutes
+            if time.time() - start_time >= self._timeout:
                 raise XStartTimeoutError(
                     "No reply from program %s. command:%s"
                     % (
