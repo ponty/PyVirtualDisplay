@@ -58,7 +58,18 @@ $ python3 -m pip install pyvirtualdisplay pillow EasyProcess
 Usage
 =====
 
-Controlling the display with `start()` and `stop()` methods:
+Controlling the display with context manager:
+
+```py
+from pyvirtualdisplay import Display
+with Display() as disp:
+    # display is active
+    print(disp.is_alive()) # True
+# display is stopped
+print(disp.is_alive()) # False
+```
+
+Controlling the display with `start()` and `stop()` methods (not recommended):
 
 ```py
 from pyvirtualdisplay import Display
@@ -73,16 +84,6 @@ After Xvfb display is activated "DISPLAY" environment variable is set for Xvfb.
 (e.g. `os.environ["DISPLAY"] = :1`)
 After Xvfb display is stopped `start()` and `stop()` are not allowed to be called again, "DISPLAY" environment variable is restored to its original value. 
 
-
-Controlling the display with context manager:
-
-```py
-from pyvirtualdisplay import Display
-with Display() as disp:
-    # display is active
-    pass
-# display is stopped
-```
 
 Selecting Xvfb backend:
 
