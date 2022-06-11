@@ -75,7 +75,7 @@ def main():
         for p in reversed(pls):
             p.stop()
         EasyProcess("killall Xvnc").call()
-    embedme = EasyProcess(["npx", "embedme", "../README.md"])
+    embedme = EasyProcess(["embedme", "../README.md"])
     embedme.call()
     print(embedme.stdout)
     assert embedme.return_code == 0

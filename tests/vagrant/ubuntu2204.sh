@@ -32,5 +32,5 @@ sudo pip3 install tox
 
 # doc dependencies
 sudo apt-get install -y npm xtightvncviewer
-sudo npm install -g npx
+sudo npm install --global embedme
 #  sudo pip install -r /vagrant/requirements-doc.txt
