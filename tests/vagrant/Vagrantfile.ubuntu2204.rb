@@ -1,6 +1,5 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/jammy64"
-  config.vm.box_version = "20220104.0.0"
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = "pyvirtualdisplay_ubuntu2204"

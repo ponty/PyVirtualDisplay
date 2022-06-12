@@ -76,25 +76,25 @@ def run_box(options, vagrantfile, cmds):
 
 
 config = {
-    "debian10": (
-        "Vagrantfile.debian10.rb",
-        ["tox -e py37"],
+    "ubuntu2204": (
+        "Vagrantfile.ubuntu2204.rb",
+        ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
+    ),
+    "ubuntu2004": (
+        "Vagrantfile.ubuntu2004.rb",
+        ["tox -e py38"],
+    ),
+    "ubuntu1804": (
+        "Vagrantfile.ubuntu1804.rb",
+        ["tox -e py36"],
     ),
     "debian11": (
         "Vagrantfile.debian11.rb",
         ["tox -e py39"],
     ),
-    "ubuntu2204": (
-        "Vagrantfile.ubuntu2204.rb",
-        ["tox -e py39"],
-    ),
-    "ubuntu2004": (
-        "Vagrantfile",
-        ["tox", "PYVIRTUALDISPLAY_DISPLAYFD=0 tox"],
-    ),
-    "ubuntu1804": (
-        "Vagrantfile.ubuntu1804.rb",
-        ["tox -e py36"],
+    "debian10": (
+        "Vagrantfile.debian10.rb",
+        ["tox -e py37"],
     ),
     # "osx": (
     #     "Vagrantfile.osx.rb",
