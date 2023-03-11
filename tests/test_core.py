@@ -232,18 +232,19 @@ def test_display():
 
 
 def test_USED_DISPLAY_NR_LIST():
+    n = len(_USED_DISPLAY_NR_LIST)
     vd = Display()
     vd._obj._has_displayfd = False
     vd.start()
-    assert len(_USED_DISPLAY_NR_LIST) == 1
+    assert len(_USED_DISPLAY_NR_LIST) == n + 1
 
     vd2 = Display()
     vd2._obj._has_displayfd = False
     vd2.start()
-    assert len(_USED_DISPLAY_NR_LIST) == 2
+    assert len(_USED_DISPLAY_NR_LIST) == n + 2
 
     vd2.stop()
-    assert len(_USED_DISPLAY_NR_LIST) == 1
+    assert len(_USED_DISPLAY_NR_LIST) == n + 1
 
     vd.stop()
-    assert len(_USED_DISPLAY_NR_LIST) == 0
+    assert len(_USED_DISPLAY_NR_LIST) == n + 0
