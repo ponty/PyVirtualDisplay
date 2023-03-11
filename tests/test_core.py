@@ -4,7 +4,7 @@ import pytest
 from tutil import has_xvnc, rfbport
 
 from pyvirtualdisplay import Display
-from pyvirtualdisplay.abstractdisplay import XStartError
+from pyvirtualdisplay.abstractdisplay import _USED_DISPLAY_NR_LIST, XStartError
 from pyvirtualdisplay.xephyr import XephyrDisplay
 from pyvirtualdisplay.xvfb import XvfbDisplay
 from pyvirtualdisplay.xvnc import XvncDisplay
@@ -229,3 +229,21 @@ def test_display():
     assert d.display is None
     d.start()
     assert d.display >= 0
+
+
+def test_USED_DISPLAY_NR_LIST():
+    vd = Display()
+    vd._obj._has_displayfd = False
+    vd.start()
+    assert len(_USED_DISPLAY_NR_LIST) == 1
+
+    vd2 = Display()
+    vd2._obj._has_displayfd = False
+    vd2.start()
+    assert len(_USED_DISPLAY_NR_LIST) == 2
+
+    vd2.stop()
+    assert len(_USED_DISPLAY_NR_LIST) == 1
+
+    vd.stop()
+    assert len(_USED_DISPLAY_NR_LIST) == 0
