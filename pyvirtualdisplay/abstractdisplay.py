@@ -357,8 +357,9 @@ class AbstractDisplay(object):
         if self._use_xauth:
             self._clear_xauth()
 
-        with _mutex:
-            _USED_DISPLAY_NR_LIST.remove(self.display)
+        if not self._has_displayfd:
+            with _mutex:
+                _USED_DISPLAY_NR_LIST.remove(self.display)
 
         return self
 
