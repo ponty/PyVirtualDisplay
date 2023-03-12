@@ -248,3 +248,22 @@ def test_USED_DISPLAY_NR_LIST():
 
     vd.stop()
     assert len(_USED_DISPLAY_NR_LIST) == n + 0
+
+
+def test_USED_DISPLAY_NR_LIST_has_displayfd():
+    n = len(_USED_DISPLAY_NR_LIST)
+    vd = Display()
+    if not vd._obj._has_displayfd:
+        return
+    vd.start()
+    assert len(_USED_DISPLAY_NR_LIST) == n
+
+    vd2 = Display()
+    vd2.start()
+    assert len(_USED_DISPLAY_NR_LIST) == n
+
+    vd2.stop()
+    assert len(_USED_DISPLAY_NR_LIST) == n
+
+    vd.stop()
+    assert len(_USED_DISPLAY_NR_LIST) == n
