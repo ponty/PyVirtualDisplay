@@ -99,6 +99,7 @@ class AbstractDisplay(object):
         self._reset_global_env = False
         self._pipe_wfd = None
         self._retries_current = 0
+        self._display_to_rm = None
 
         helptext = get_helptext(program)
         self._has_displayfd = "-displayfd" in helptext
@@ -230,6 +231,7 @@ class AbstractDisplay(object):
             self.new_display_var = ":%s" % int(self.display)
 
             _USED_DISPLAY_NR_LIST.append(self.display)
+            self._display_to_rm = self.display
 
         self._command = self._cmd() + self._extra_args
         log.debug("command: %s", self._command)
@@ -356,6 +358,11 @@ class AbstractDisplay(object):
 
         if self._use_xauth:
             self._clear_xauth()
+
+        if self._display_to_rm:
+            with _mutex:
+                _USED_DISPLAY_NR_LIST.remove(self._display_to_rm)
+                self._display_to_rm = None
         return self
 
     def _read_stdout_stderr(self):
