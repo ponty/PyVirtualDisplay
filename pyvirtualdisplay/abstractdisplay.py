@@ -362,7 +362,7 @@ class AbstractDisplay(object):
         if self._display_to_rm:
             with _mutex:
                 _USED_DISPLAY_NR_LIST.remove(self._display_to_rm)
-
+                self._display_to_rm = None
         return self
 
     def _read_stdout_stderr(self):
