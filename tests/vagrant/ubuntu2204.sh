@@ -29,7 +29,7 @@ sudo apt-get install -y mc python3-pip xvfb
 #  sudo apt-get install -y libjpeg-dev zlib1g-dev
 
 # project dependencies
-sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server
+sudo apt-get install -y xvfb xserver-xephyr tigervnc-standalone-server tightvncserver
 
 # test dependencies
 sudo apt-get install -y gnumeric

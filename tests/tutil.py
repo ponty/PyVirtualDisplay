@@ -31,6 +31,12 @@ def has_displayfd():
 def has_xvnc():
     return prog_check(["Xvnc", "-help"])
 
+def has_xtightvnc():
+    return prog_check(["Xtightvnc", "-version"])
+
+def has_xtigervnc():
+    return prog_check(["Xtigervnc", "-help"])
+
 
 def worker():
     w = 0

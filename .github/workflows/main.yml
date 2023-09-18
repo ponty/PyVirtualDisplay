@@ -46,7 +46,7 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update
-        sudo apt-get install -y tigervnc-standalone-server xserver-xephyr gnumeric x11-utils
+        sudo apt-get install -y tigervnc-standalone-server tightvncserver xserver-xephyr gnumeric x11-utils
     - name: Install MacOS dependencies
       if: startsWith(matrix.os, 'macos')
       run: |
