@@ -37,7 +37,6 @@ class XvncDisplay(AbstractDisplay):
         self._bgcolor = bgcolor
         self._rfbport = rfbport
         self._rfbauth = rfbauth
-        self._has_SecurityTypes = True
 
         AbstractDisplay.__init__(
             self,
@@ -50,7 +49,7 @@ class XvncDisplay(AbstractDisplay):
         )
 
     def _check_flags(self, helptext):
-        self._has_SecurityTypes = "SecurityTypes" in helptext
+        pass
 
     def _cmd(self):
         cmd = [
@@ -68,8 +67,7 @@ class XvncDisplay(AbstractDisplay):
             # default:
             # -SecurityTypes = VncAuth
         else:
-            if self._has_SecurityTypes:
-                cmd += ["-SecurityTypes", "None"]
+            cmd += ["-SecurityTypes", "None"]
 
         if self._has_displayfd:
             cmd += ["-displayfd", str(self._pipe_wfd)]
