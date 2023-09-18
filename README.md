@@ -1,4 +1,7 @@
-pyvirtualdisplay is a python wrapper for [Xvfb][1], [Xephyr][2] and [Xvnc][3]
+pyvirtualdisplay is a python wrapper for [Xvfb][1], [Xephyr][2] and [Xvnc][3] programs.
+They all use the X Window System (not Windows, not macOS)
+The selected program should be installed first so that it can be started without a path,
+otherwise pyvirtualdisplay will not find the program.
 
 Links:
  * home: https://github.com/ponty/pyvirtualdisplay
@@ -38,7 +41,7 @@ $ python3 -m pip install EasyProcess
 ```
 optional: xmessage and gnumeric should be installed for some examples.
 
-On Ubuntu 20.04:
+On Ubuntu 22.04:
 ```console
 $ sudo apt install x11-utils gnumeric
 ```
@@ -48,7 +51,7 @@ If you get this error message on Linux then your Pillow version is old.
 ImportError: ImageGrab is macOS and Windows only
 ```
 
-Install all dependencies and backends on Ubuntu 20.04:
+Install all dependencies and backends on Ubuntu 22.04:
 
 ```console
 $ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gnumeric
@@ -285,6 +288,22 @@ generate one and set the appropriate environment variables if you pass
 ``use_xauth=True`` to the ``Display`` constructor. Note however that this
 feature needs ``xauth`` installed, otherwise a
 ``pyvirtualdisplay.xauth.NotFoundError`` is raised.
+
+Mouse cursor
+============
+
+The cursor can be disabled in Xvfb using an extra argument which is passed directly to Xvfb:
+```py
+with Display(backend="xvfb", extra_args=["-nocursor"]):
+    ...
+```
+
+Based on Xvfb help:
+```
+...
+-nocursor              disable the cursor
+...
+```
 
 Concurrency
 ===========
