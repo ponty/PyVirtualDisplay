@@ -19,6 +19,7 @@ jobs:
           - "ubuntu-22.04"
           - "macos-11"
           - "macos-12"
+          - "macos-13"
         python-version: 
           - "3.9"
           - "3.10"
