@@ -22,6 +22,9 @@ sudo apt-get install -y python3.10-distutils
 sudo apt-get install -y python3.11-dev
 sudo apt-get install -y python3.11-distutils
 
+sudo apt-get install -y python3.12-dev
+sudo apt-get install -y python3.12-distutils
+
 # tools
 sudo apt-get install -y mc python3-pip xvfb
 
