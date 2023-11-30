@@ -307,22 +307,31 @@ class AbstractDisplay(object):
 
     def _wait_for_pipe_text(self, rfd):
         s = ""
+        # To avoid the limitation of the function select.select
+        # which can only accept file descriptors below 1024,
+        # we use select.poll.
+        poll = select.poll()
+        poll.register(rfd, select.POLLIN)
+
         start_time = time.time()
         while True:
-            (rfd_changed_ls, _, _) = select.select([rfd], [], [], 0.1)
+            rfd_changed_ls = poll.poll(0.1)
             if not self.is_alive():
+                poll.unregister(rfd)
                 raise XStartError(
                     "%s program closed. command: %s stderr: %s"
                     % (self._program, self._command, self.stderr)
                 )
-            if rfd in rfd_changed_ls:
-                c = os.read(rfd, 1)
-                if c == b"\n":
-                    break
-                s += c.decode("ascii")
+            if rfd_changed_ls:
+                if rfd in rfd_changed_ls[0]:
+                    c = os.read(rfd, 1)
+                    if c == b"\n":
+                        break
+                    s += c.decode("ascii")
 
             # this timeout is for "eternal" hang. see #62
             if time.time() - start_time >= self._timeout:
+                poll.unregister(rfd)
                 raise XStartTimeoutError(
                     "No reply from program %s. command:%s"
                     % (
@@ -330,6 +339,8 @@ class AbstractDisplay(object):
                         self._command,
                     )
                 )
+
+        poll.unregister(rfd)
         return s
 
     def _kill_subproc(self):
