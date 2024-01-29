@@ -189,15 +189,15 @@ class AbstractDisplay(object):
                 self._subproc = subprocess.Popen(
                     self._command,
                     pass_fds=[self._pipe_wfd],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
                     shell=False,
                 )
             else:
                 self._subproc = subprocess.Popen(
                     self._command,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
                     shell=False,
                 )
 
@@ -340,7 +340,6 @@ class AbstractDisplay(object):
                 log.debug("exception in kill:%s", oserror)
 
             self._subproc.wait()
-            self._read_stdout_stderr()
 
     def stop(self):
         """
@@ -364,13 +363,6 @@ class AbstractDisplay(object):
                 _USED_DISPLAY_NR_LIST.remove(self._display_to_rm)
                 self._display_to_rm = None
         return self
-
-    def _read_stdout_stderr(self):
-        if self.stdout is None:
-            (self.stdout, self.stderr) = self._subproc.communicate()
-
-            log.debug("stdout=%s", self.stdout)
-            log.debug("stderr=%s", self.stderr)
 
     def _setup_xauth(self):
         """
@@ -416,9 +408,6 @@ class AbstractDisplay(object):
             return False
         # return self.return_code is None
         rc = self._subproc.poll()
-        if rc is not None:
-            # proc exited
-            self._read_stdout_stderr()
         return rc is None
 
     # @property
