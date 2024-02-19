@@ -183,21 +183,30 @@ class AbstractDisplay(object):
             self._redirect_display(True)
             self._reset_global_env = True
 
+    def _proc_log_enabled(self):
+        # process log is enabled only for logging.DEBUG
+        return log.isEnabledFor(logging.DEBUG)
+
     def _popen(self, use_pass_fds):
+        if self._proc_log_enabled():
+            stdout_stderr = subprocess.PIPE
+        else:
+            stdout_stderr = subprocess.DEVNULL
+
         with _mutex_popen:
             if use_pass_fds:
                 self._subproc = subprocess.Popen(
                     self._command,
                     pass_fds=[self._pipe_wfd],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+                    stdout=stdout_stderr,
+                    stderr=stdout_stderr,
                     shell=False,
                 )
             else:
                 self._subproc = subprocess.Popen(
                     self._command,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+                    stdout=stdout_stderr,
+                    stderr=stdout_stderr,
                     shell=False,
                 )
 
@@ -366,11 +375,12 @@ class AbstractDisplay(object):
         return self
 
     def _read_stdout_stderr(self):
-        if self.stdout is None:
-            (self.stdout, self.stderr) = self._subproc.communicate()
+        if self._proc_log_enabled():
+            if self.stdout is None:
+                (self.stdout, self.stderr) = self._subproc.communicate()
 
-            log.debug("stdout=%s", self.stdout)
-            log.debug("stderr=%s", self.stderr)
+                log.debug("stdout=%s", self.stdout)
+                log.debug("stderr=%s", self.stderr)
 
     def _setup_xauth(self):
         """
